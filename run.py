@@ -6,17 +6,50 @@ import random
 
 path = 'p'
 wall = 'w'
+open = "O"
 
 
 def create_maze():
+    '''
+    build a random maze
+    '''
     maze = create_blank_maze()
     starting_maze_generation_position_h = starting_maze_generation_position(10)
     starting_maze_generation_position_w = starting_maze_generation_position(10)
     print(f"test = {starting_maze_generation_position_h} - {starting_maze_generation_position_w}")
+    maze[starting_maze_generation_position_h][starting_maze_generation_position_w] = path
+    walls = []
+    walls = get_starting_walls(walls,starting_maze_generation_position_h,starting_maze_generation_position_w)
+    maze = set_starting_walls(maze,starting_maze_generation_position_h,starting_maze_generation_position_w)
+    return maze
+
+
+def get_starting_walls(walls, start_h, start_w):
+    '''
+    This will add the walls surrounding the starting path to the walls array
+    '''
+    walls.append([start_h-1, start_w])
+    walls.append([start_h, start_w-1])
+    walls.append([start_h, start_w+1])
+    walls.append([start_h+1, start_w])
+    return walls
+
+
+def set_starting_walls(maze, start_h, start_w):
+    '''
+    This will set the display of the maze to show the walls
+    '''
+    maze[start_h-1][start_w] = wall
+    maze[start_h][start_w-1] = wall
+    maze[start_h][start_w+1] = wall
+    maze[start_h+1][start_w] = wall
     return maze
 
 
 def starting_maze_generation_position(max_number):
+    '''
+    Get the starting posiiton for maze creation but stays away from the edge of the maze"
+    '''
     starting_pos = int(random.random() * max_number)
     if starting_pos == 0:
         starting_pos += 1
@@ -35,9 +68,10 @@ def create_blank_maze():
     for h in range(0,height):
         row = []
         for w in range(0,width):
-            row.append(path)
+            row.append(open)
         maze.append(row)
     return maze
+
 
 def draw_maze(maze):
     '''
@@ -47,6 +81,7 @@ def draw_maze(maze):
         for w in range(0,10):
             print(f"{maze[h][w]} ",end="")
         print()
+
 
 def show_menu():
     print("--- Menu ---")
