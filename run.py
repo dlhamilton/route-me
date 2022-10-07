@@ -4,6 +4,7 @@
 from pprint import pprint
 import random
 from colorama import init, Fore, Back, Style
+init(autoreset=True)
 
 
 class Game_maze:
@@ -27,6 +28,8 @@ class Game_maze:
         self.get_starting_walls(starting_maze_generation_position_h, starting_maze_generation_position_w)
         self.set_starting_walls(starting_maze_generation_position_h, starting_maze_generation_position_w)
         self.make_maze_walls(maze_size, maze_size)
+        self.fill_open_maze_walls()
+        self.create_ins_and_outs()
         
     def create_blank_maze(self):
         """
@@ -238,7 +241,10 @@ class Game_maze:
         '''
         for h in range(0, self.maze_size):
             for w in range(0, self.maze_size):
-                print(f"{self.maze[h][w]} ", end="")
+                if (self.maze[h][w] == self.path):
+                    print(Fore.BLACK + f"{self.maze[h][w]} ", end="")    
+                else:
+                    print(Fore.WHITE + Back.WHITE + f"{self.maze[h][w]} ", end="")
             print()
 
     def surroundingCells(self, maze, rand_wall):
@@ -255,6 +261,29 @@ class Game_maze:
         if maze[rand_wall[0]][rand_wall[1]+1] == self.path:
             s_cells += 1
         return s_cells
+
+    def fill_open_maze_walls(self):
+        '''
+        Fills the open maze items will the wall icons
+        '''
+        for h in range(0, self.maze_size):
+            for w in range(0, self.maze_size):
+                if self.maze[h][w] == self.open:
+                    self.maze[h][w] = self.wall
+
+    def create_ins_and_outs(self):
+        '''
+        Set the entrance and exit of the maze
+        '''
+        for w in range(0, self.maze_size):
+	        if (self.maze[1][w] == self.path):
+		        self.maze[0][w] = self.path
+		        break
+
+        for w in range(self.maze_size-1, 0, -1):
+	        if (self.maze[self.maze_size-2][w] == self.path):
+		        self.maze[self.maze_size-1][w] = self.path
+		        break
 
 
 def show_menu():
@@ -276,5 +305,5 @@ def main():
 
 
 main()
-TheMaze = Game_maze(20)
+TheMaze = Game_maze(10)
 TheMaze.draw_maze()
