@@ -22,11 +22,11 @@ class Game_maze:
         # instance attribute
         self.maze_size = maze_size
         self.create_blank_maze()
-        starting_maze_generation_position_h = self.starting_maze_generation_position(self.maze_size)
-        starting_maze_generation_position_w = self.starting_maze_generation_position(self.maze_size)
-        self.maze[starting_maze_generation_position_h][starting_maze_generation_position_w] = self.path
-        self.get_starting_walls(starting_maze_generation_position_h, starting_maze_generation_position_w)
-        self.set_starting_walls(starting_maze_generation_position_h, starting_maze_generation_position_w)
+        start_pos_h = self.starting_maze_generation_position(self.maze_size)
+        start_pos_w = self.starting_maze_generation_position(self.maze_size)
+        self.maze[start_pos_h][start_pos_w] = self.path
+        self.get_starting_walls(start_pos_h, start_pos_w)
+        self.set_starting_walls(start_pos_h, start_pos_w)
         self.make_maze_walls(maze_size, maze_size)
         self.fill_open_maze_walls()
         self.create_ins_and_outs()
@@ -45,7 +45,8 @@ class Game_maze:
 
     def starting_maze_generation_position(self, max_number):
         '''
-        Get the starting posiiton for maze creation but stays away from the edge of the maze"
+        Get the starting posiiton for maze creation but stays away 
+        from the edge of the maze"
         '''
         starting_pos = int(random.random() * max_number)
         if starting_pos == 0:
@@ -76,7 +77,8 @@ class Game_maze:
         '''
         Prims Algorithm 
         While there are walls in the list:
-        Pick a random wall from the list. If only one of the two cells that the wall divides is visited, then:
+        Pick a random wall from the list. If only one of the two cells that 
+        the wall divides is visited, then:
         Make the wall a passage and mark the unvisited cell as part of the maze
         Add the neighboring walls of the cell to the wall list.
         Remove the wall from the list
@@ -88,9 +90,11 @@ class Game_maze:
 
             # Check if it is a left wall
             if rand_wall[1] != 0:
-                if self.maze[rand_wall[0]][rand_wall[1]-1] == self.open and self.maze[rand_wall[0]][rand_wall[1]+1] == self.path:
+                if self.maze[rand_wall[0]][rand_wall[1]-1] == self.open and \
+                      self.maze[rand_wall[0]][rand_wall[1]+1] == self.path:
 
-                    surrounding_cell_count = self.surroundingCells(self.maze, rand_wall)
+                    surrounding_cell_count = \
+                        self.surroundingCells(self.maze, rand_wall)
                     if surrounding_cell_count < 2:
 
                         self.maze[rand_wall[0]][rand_wall[1]] = self.path
@@ -98,9 +102,11 @@ class Game_maze:
                         # Make the walls
                         # The top wall
                         if rand_wall[0] != 0:
-                            if self.maze[rand_wall[0]-1][rand_wall[1]] != self.path:
-                                self.maze[rand_wall[0]-1][rand_wall[1]] = self.wall
-                            if ([rand_wall[0]-1, rand_wall[1]] not in self.walls):
+                            if self.maze[rand_wall[0]-1][rand_wall[1]] != \
+                                   self.path:
+                                self.maze[rand_wall[0]-1][rand_wall[1]] = \
+                                    self.wall
+                            if [rand_wall[0]-1, rand_wall[1]] not in self.walls:
                                 self.walls.append([rand_wall[0]-1, rand_wall[1]])
 
                         # Bottom wall
@@ -224,14 +230,19 @@ class Game_maze:
 
                         # top wall
                         if rand_wall[0] != 0:	
-                            if self.maze[rand_wall[0]-1][rand_wall[1]] != self.path:
-                                self.maze[rand_wall[0]-1][rand_wall[1]] = self.wall
-                            if [rand_wall[0]-1, rand_wall[1]] not in self.walls:
-                                self.walls.append([rand_wall[0]-1, rand_wall[1]])
+                            if self.maze[rand_wall[0]-1][rand_wall[1]] != \
+                                 self.path:
+                                self.maze[rand_wall[0]-1][rand_wall[1]] = \
+                                    self.wall
+                            if ([rand_wall[0]-1, rand_wall[1]] not in
+                                    self.walls):
+                                self.walls.\
+                                    append([rand_wall[0]-1, rand_wall[1]])
 
             # Delete wall
             for single_wall in self.walls:
-                if (single_wall[0] == rand_wall[0] and single_wall[1] == rand_wall[1]):
+                if (single_wall[0] == rand_wall[0] and
+                   single_wall[1] == rand_wall[1]):
                     self.walls.remove(single_wall)
             continue
 
@@ -241,10 +252,11 @@ class Game_maze:
         '''
         for h in range(0, self.maze_size):
             for w in range(0, self.maze_size):
-                if (self.maze[h][w] == self.path):
-                    print(Fore.BLACK + f"{self.maze[h][w]} ", end="")    
+                if self.maze[h][w] == self.path:
+                    print(Fore.BLACK + f"{self.maze[h][w]} ", end="")
                 else:
-                    print(Fore.WHITE + Back.WHITE + f"{self.maze[h][w]} ", end="")
+                    print(Fore.WHITE + Back.WHITE + f"{self.maze[h][w]} ",
+                                                    end="")
             print()
 
     def surroundingCells(self, maze, rand_wall):
@@ -276,14 +288,14 @@ class Game_maze:
         Set the entrance and exit of the maze
         '''
         for w in range(0, self.maze_size):
-	        if (self.maze[1][w] == self.path):
-		        self.maze[0][w] = self.path
-		        break
+            if self.maze[1][w] == self.path:
+                self.maze[0][w] = self.path
+                break
 
         for w in range(self.maze_size-1, 0, -1):
-	        if (self.maze[self.maze_size-2][w] == self.path):
-		        self.maze[self.maze_size-1][w] = self.path
-		        break
+            if self.maze[self.maze_size-2][w] == self.path:
+                self.maze[self.maze_size-1][w] = self.path
+                break
 
 
 def show_menu():
