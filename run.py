@@ -366,8 +366,30 @@ def main():
     print("----------")
     print("Welcome to Route me the best way to find the quickest route.\n")
     show_menu()
+    menu_option = get_menu_option()  
+    if menu_option == 1:
+        TheMaze = Game_maze(10)
+        TheMaze.draw_maze()
+
+
+def get_menu_option():
+    invalid_option = True
+    while invalid_option:
+        try:
+            invalid_option = True
+            menu_option = int(input("Please enter your menu choice:\n"))
+        except ValueError:
+            print("Not a valid number - Please enter a number between 1 and 6")
+        except Exception:
+            print('Another error has occurred - \
+                Please enter a number between 1 and 6')
+        else:
+            if menu_option > 0 and menu_option <= 6:
+                invalid_option = False
+            else:
+                print("Number option not avaliable - \
+                    Please enter a number between 1 and 6")
+    return menu_option
 
 
 main()
-TheMaze = Game_maze(10)
-TheMaze.draw_maze()
