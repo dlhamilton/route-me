@@ -20,6 +20,8 @@ class Game_maze:
 
     def __init__(self, maze_size):
         # instance attribute
+        self.walls = []
+        self.maze = []
         self.maze_size = maze_size
         self.create_blank_maze()
         start_pos_h = \
@@ -366,29 +368,36 @@ def main():
     print("----------")
     print("Welcome to Route me the best way to find the quickest route.\n")
     show_menu()
-    menu_option = get_menu_option()  
-    if menu_option == 1:
-        TheMaze = Game_maze(10)
-        TheMaze.draw_maze()
+    menu_option = get_number_option("menu", 1, 6)
+    while menu_option != 6:
+        if menu_option == 1:
+            menu_option_1()
+        show_menu()
+        menu_option = get_number_option("menu", 1, 6)
 
 
-def get_menu_option():
+def menu_option_1():
+    TheMaze = None
+    maze_size = get_number_option("maze size", 10, 100)
+    TheMaze = Game_maze(maze_size)
+    TheMaze.draw_maze()
+
+
+def get_number_option(name, start, end):
     invalid_option = True
     while invalid_option:
         try:
             invalid_option = True
-            menu_option = int(input("Please enter your menu choice:\n"))
+            menu_option = int(input(f"Please enter your {name} choice ({start} - {end}):\n"))
         except ValueError:
-            print("Not a valid number - Please enter a number between 1 and 6")
+            print(f"Not a valid number - Please enter a number between {start} and {end}")
         except Exception:
-            print('Another error has occurred - \
-                Please enter a number between 1 and 6')
+            print(f'Another error has occurred - Please enter a number between {start} and {end}')
         else:
-            if menu_option > 0 and menu_option <= 6:
+            if menu_option >= start and menu_option <= end:
                 invalid_option = False
             else:
-                print("Number option not avaliable - \
-                    Please enter a number between 1 and 6")
+                print(f'Number option not avaliable - Please enter a number between {start} and {end}')
     return menu_option
 
 
