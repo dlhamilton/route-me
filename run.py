@@ -22,15 +22,17 @@ class Game_maze:
         # instance attribute
         self.maze_size = maze_size
         self.create_blank_maze()
-        start_pos_h = self.starting_maze_generation_position(self.maze_size)
-        start_pos_w = self.starting_maze_generation_position(self.maze_size)
+        start_pos_h = \
+            self.starting_maze_generation_position(self.maze_size)
+        start_pos_w = \
+            self.starting_maze_generation_position(self.maze_size)
         self.maze[start_pos_h][start_pos_w] = self.path
         self.get_starting_walls(start_pos_h, start_pos_w)
         self.set_starting_walls(start_pos_h, start_pos_w)
         self.make_maze_walls(maze_size, maze_size)
         self.fill_open_maze_walls()
         self.create_ins_and_outs()
-        
+
     def create_blank_maze(self):
         """
         creates a 2d array which stores the width and height of the maze
@@ -45,7 +47,7 @@ class Game_maze:
 
     def starting_maze_generation_position(self, max_number):
         '''
-        Get the starting posiiton for maze creation but stays away 
+        Get the starting posiiton for maze creation but stays away
         from the edge of the maze"
         '''
         starting_pos = int(random.random() * max_number)
@@ -75,9 +77,9 @@ class Game_maze:
 
     def make_maze_walls(self, height, width):
         '''
-        Prims Algorithm 
+        Prims Algorithm
         While there are walls in the list:
-        Pick a random wall from the list. If only one of the two cells that 
+        Pick a random wall from the list. If only one of the two cells that
         the wall divides is visited, then:
         Make the wall a passage and mark the unvisited cell as part of the maze
         Add the neighboring walls of the cell to the wall list.
@@ -106,34 +108,47 @@ class Game_maze:
                                    self.path:
                                 self.maze[rand_wall[0]-1][rand_wall[1]] = \
                                     self.wall
-                            if [rand_wall[0]-1, rand_wall[1]] not in self.walls:
-                                self.walls.append([rand_wall[0]-1, rand_wall[1]])
+                            if [rand_wall[0]-1, rand_wall[1]] \
+                                    not in self.walls:
+                                self.walls.\
+                                    append([rand_wall[0]-1, rand_wall[1]])
 
                         # Bottom wall
                         if (rand_wall[0] != height-1):
-                            if (self.maze[rand_wall[0]+1][rand_wall[1]] != self.path):
-                                self.maze[rand_wall[0]+1][rand_wall[1]] = self.wall
-                            if ([rand_wall[0]+1, rand_wall[1]] not in self.walls):
-                                self.walls.append([rand_wall[0]+1, rand_wall[1]])
+                            if (self.maze[rand_wall[0]+1][rand_wall[1]] !=
+                                    self.path):
+                                self.maze[rand_wall[0]+1][rand_wall[1]] = \
+                                    self.wall
+                            if ([rand_wall[0]+1, rand_wall[1]] not in
+                                    self.walls):
+                                self.walls.\
+                                    append([rand_wall[0]+1, rand_wall[1]])
 
                         # left wall
-                        if (rand_wall[1] != 0):	
-                            if (self.maze[rand_wall[0]][rand_wall[1]-1] != self.path):
-                                self.maze[rand_wall[0]][rand_wall[1]-1] = self.wall
-                            if ([rand_wall[0], rand_wall[1]-1] not in self.walls):
-                                self.walls.append([rand_wall[0], rand_wall[1]-1])
+                        if (rand_wall[1] != 0):
+                            if (self.maze[rand_wall[0]][rand_wall[1]-1] !=
+                                    self.path):
+                                self.maze[rand_wall[0]][rand_wall[1]-1] = \
+                                    self.wall
+                            if ([rand_wall[0], rand_wall[1]-1] not in
+                                    self.walls):
+                                self.walls.\
+                                    append([rand_wall[0], rand_wall[1]-1])
 
                     # Delete wall
                     for single_wall in self.walls:
-                        if (single_wall[0] == rand_wall[0] and single_wall[1] == rand_wall[1]):
+                        if (single_wall[0] == rand_wall[0] and single_wall[1]
+                                == rand_wall[1]):
                             self.walls.remove(single_wall)
                     continue
 
             # Check if it is a top wall
             if rand_wall[0] != 0:
-                if self.maze[rand_wall[0]-1][rand_wall[1]] == self.open and self.maze[rand_wall[0]+1][rand_wall[1]] == self.path:
+                if self.maze[rand_wall[0]-1][rand_wall[1]] == self.open and \
+                        self.maze[rand_wall[0]+1][rand_wall[1]] == self.path:
 
-                    surrounding_cell_count = self.surroundingCells(self.maze, rand_wall)
+                    surrounding_cell_count = \
+                        self.surroundingCells(self.maze, rand_wall)
                     if surrounding_cell_count < 2:
 
                         self.maze[rand_wall[0]][rand_wall[1]] = self.path
@@ -141,36 +156,51 @@ class Game_maze:
                         # Make the walls
                         # top wall
                         if (rand_wall[0] != 0):
-                            if (self.maze[rand_wall[0]-1][rand_wall[1]] != self.path):
-                                self.maze[rand_wall[0]-1][rand_wall[1]] = self.wall
-                            if ([rand_wall[0]-1, rand_wall[1]] not in self.walls):
-                                self.walls.append([rand_wall[0]-1, rand_wall[1]])
+                            if (self.maze[rand_wall[0]-1][rand_wall[1]] !=
+                                    self.path):
+                                self.maze[rand_wall[0]-1][rand_wall[1]] = \
+                                    self.wall
+                            if ([rand_wall[0]-1, rand_wall[1]] not in
+                                    self.walls):
+                                self.walls.\
+                                    append([rand_wall[0]-1, rand_wall[1]])
 
                         # left wall
                         if (rand_wall[1] != 0):
-                            if (self.maze[rand_wall[0]][rand_wall[1]-1] != self.path):
-                                self.maze[rand_wall[0]][rand_wall[1]-1] = self.wall
-                            if ([rand_wall[0], rand_wall[1]-1] not in self.walls):
-                                self.walls.append([rand_wall[0], rand_wall[1]-1])
+                            if (self.maze[rand_wall[0]][rand_wall[1]-1]
+                                    != self.path):
+                                self.maze[rand_wall[0]][rand_wall[1]-1] = \
+                                    self.wall
+                            if ([rand_wall[0], rand_wall[1]-1] not in
+                                    self.walls):
+                                self.walls.\
+                                    append([rand_wall[0], rand_wall[1]-1])
 
                         # right wall
                         if (rand_wall[1] != width-1):
-                            if (self.maze[rand_wall[0]][rand_wall[1]+1] != self.path):
-                                self.maze[rand_wall[0]][rand_wall[1]+1] = self.wall
-                            if ([rand_wall[0], rand_wall[1]+1] not in self.walls):
-                                self.walls.append([rand_wall[0], rand_wall[1]+1])
+                            if (self.maze[rand_wall[0]][rand_wall[1]+1]
+                                    != self.path):
+                                self.maze[rand_wall[0]][rand_wall[1]+1] = \
+                                    self.wall
+                            if ([rand_wall[0], rand_wall[1]+1] not in
+                                    self.walls):
+                                self.walls.\
+                                    append([rand_wall[0], rand_wall[1]+1])
 
                     # Delete wall
                     for single_wall in self.walls:
-                        if (single_wall[0] == rand_wall[0] and single_wall[1] == rand_wall[1]):
+                        if (single_wall[0] == rand_wall[0] and single_wall[1]
+                                == rand_wall[1]):
                             self.walls.remove(single_wall)
                     continue
 
             # Check if it is a bottom wall
             if rand_wall[0] != height - 1:
-                if self.maze[rand_wall[0]+1][rand_wall[1]] == self.open and self.maze[rand_wall[0]-1][rand_wall[1]] == self.path:
+                if self.maze[rand_wall[0]+1][rand_wall[1]] == self.open and \
+                        self.maze[rand_wall[0]-1][rand_wall[1]] == self.path:
 
-                    surrounding_cell_count = self.surroundingCells(self.maze, rand_wall)
+                    surrounding_cell_count = \
+                        self.surroundingCells(self.maze, rand_wall)
                     if surrounding_cell_count < 2:
 
                         self.maze[rand_wall[0]][rand_wall[1]] = self.path
@@ -178,37 +208,51 @@ class Game_maze:
                         # Make the walls
                         # bottom wall
                         if (rand_wall[0] != height-1):
-                            if (self.maze[rand_wall[0]+1][rand_wall[1]] != self.path):
-                                self.maze[rand_wall[0]+1][rand_wall[1]] = self.wall
-                            if ([rand_wall[0]+1, rand_wall[1]] not in self.walls):
-                                self.walls.append([rand_wall[0]+1, rand_wall[1]])
+                            if (self.maze[rand_wall[0]+1][rand_wall[1]]
+                                    != self.path):
+                                self.maze[rand_wall[0]+1][rand_wall[1]] = \
+                                    self.wall
+                            if ([rand_wall[0]+1, rand_wall[1]] not in
+                                    self.walls):
+                                self.walls.\
+                                    append([rand_wall[0]+1, rand_wall[1]])
 
                         # left wall
                         if (rand_wall[1] != 0):
-                            if (self.maze[rand_wall[0]][rand_wall[1]-1] != self.path):
-                                self.maze[rand_wall[0]][rand_wall[1]-1] = self.wall
-                            if ([rand_wall[0], rand_wall[1]-1] not in self.walls):
-                                self.walls.append([rand_wall[0], rand_wall[1]-1])
+                            if (self.maze[rand_wall[0]][rand_wall[1]-1] !=
+                                    self.path):
+                                self.maze[rand_wall[0]][rand_wall[1]-1] = \
+                                    self.wall
+                            if ([rand_wall[0], rand_wall[1]-1] not in
+                                    self.walls):
+                                self.walls.\
+                                    append([rand_wall[0], rand_wall[1]-1])
 
                         # right wall
                         if (rand_wall[1] != width-1):
-                            if (self.maze[rand_wall[0]][rand_wall[1]+1] != self.path):
-                                self.maze[rand_wall[0]][rand_wall[1]+1] = self.wall
-                            if ([rand_wall[0], rand_wall[1]+1] not in self.walls):
-                                self.walls.append([rand_wall[0], rand_wall[1]+1])
+                            if (self.maze[rand_wall[0]][rand_wall[1]+1]
+                                    != self.path):
+                                self.maze[rand_wall[0]][rand_wall[1]+1] = \
+                                    self.wall
+                            if ([rand_wall[0], rand_wall[1]+1] not in
+                                    self.walls):
+                                self.walls.\
+                                    append([rand_wall[0], rand_wall[1]+1])
 
                     # Delete wall
                     for single_wall in self.walls:
-                        if (single_wall[0] == rand_wall[0] and single_wall[1] == rand_wall[1]):
+                        if (single_wall[0] == rand_wall[0] and single_wall[1]
+                                == rand_wall[1]):
                             self.walls.remove(single_wall)
                     continue
 
-
             # Check if it is a right wall
             if rand_wall[1] != width-1:
-                if self.maze[rand_wall[0]][rand_wall[1]+1] == self.open and self.maze[rand_wall[0]][rand_wall[1]-1] == self.path:
+                if self.maze[rand_wall[0]][rand_wall[1]+1] == self.open and \
+                        self.maze[rand_wall[0]][rand_wall[1]-1] == self.path:
 
-                    surrounding_cell_count = self.surroundingCells(self.maze, rand_wall)
+                    surrounding_cell_count = \
+                        self.surroundingCells(self.maze, rand_wall)
                     if surrounding_cell_count < 2:
 
                         self.maze[rand_wall[0]][rand_wall[1]] = self.path
@@ -216,17 +260,25 @@ class Game_maze:
                         # Make the walls
                         # right wall
                         if (rand_wall[1] != width-1):
-                            if (self.maze[rand_wall[0]][rand_wall[1]+1] != self.path):
-                                self.maze[rand_wall[0]][rand_wall[1]+1] = self.wall
-                            if ([rand_wall[0], rand_wall[1]+1] not in self.walls):
-                                self.walls.append([rand_wall[0], rand_wall[1]+1])
+                            if (self.maze[rand_wall[0]][rand_wall[1]+1]
+                                    != self.path):
+                                self.maze[rand_wall[0]][rand_wall[1]+1] = \
+                                    self.wall
+                            if ([rand_wall[0], rand_wall[1]+1] not in
+                                    self.walls):
+                                self.walls.\
+                                    append([rand_wall[0], rand_wall[1]+1])
 
                         # bottom wall
                         if (rand_wall[0] != height-1):
-                            if (self.maze[rand_wall[0]+1][rand_wall[1]] != self.path):
-                                self.maze[rand_wall[0]+1][rand_wall[1]] = self.wall
-                            if ([rand_wall[0]+1, rand_wall[1]] not in self.walls):
-                                self.walls.append([rand_wall[0]+1, rand_wall[1]])
+                            if (self.maze[rand_wall[0]+1][rand_wall[1]]
+                                    != self.path):
+                                self.maze[rand_wall[0]+1][rand_wall[1]] = \
+                                    self.wall
+                            if ([rand_wall[0]+1, rand_wall[1]] not in
+                                    self.walls):
+                                self.walls.\
+                                    append([rand_wall[0]+1, rand_wall[1]])
 
                         # top wall
                         if rand_wall[0] != 0:	
@@ -241,8 +293,8 @@ class Game_maze:
 
             # Delete wall
             for single_wall in self.walls:
-                if (single_wall[0] == rand_wall[0] and
-                   single_wall[1] == rand_wall[1]):
+                if single_wall[0] == rand_wall[0] and single_wall[1] \
+                   == rand_wall[1]:
                     self.walls.remove(single_wall)
             continue
 
