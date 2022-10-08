@@ -351,6 +351,32 @@ class Game_maze:
                 self.maze[self.maze_size-1][w] = self.path
                 break
 
+    def solve_maze(self):
+        '''
+        will find the path to get to the end of the maze
+        '''
+        self.get_maze_start()
+
+    def get_maze_start(self):
+        start = None
+        path = []
+        end = None
+        goal = ()
+        for w in range(0, self.maze_size):
+            if self.maze[0][w] == self.path:
+                start = w
+                current = (0, w)
+        for w in range(0, self.maze_size):
+            if self.maze[self.maze_size - 1][w] == self.path:
+                end = w
+                goal = (self.maze_size - 1, w) 
+        if start == None or end == None:
+            print("No start point")
+        path.append(current)
+        print(path)
+        print(current)
+        print(goal)
+
 
 def show_menu():
     print("--- Menu ---")
@@ -381,6 +407,7 @@ def menu_option_1():
     maze_size = get_number_option("maze size", 10, 100)
     TheMaze = Game_maze(maze_size)
     TheMaze.draw_maze()
+    TheMaze.solve_maze()
 
 
 def get_number_option(name, start, end):
