@@ -309,6 +309,8 @@ class Game_maze:
             for w in range(0, self.maze_size):
                 if self.maze[h][w] == self.path:
                     print(Fore.BLACK + f"{self.maze[h][w]} ", end="")
+                elif self.maze[h][w] == self.solution:
+                    print(Fore.GREEN + f"{self.maze[h][w]} ", end="")
                 else:
                     print(Fore.WHITE + Back.WHITE + f"{self.maze[h][w]} ",
                                                     end="")
