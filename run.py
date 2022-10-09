@@ -359,8 +359,14 @@ class Game_maze:
         will find the path to get to the end of the maze
         '''
         path = self.get_maze_start()
-        self.add_solution_to_maze(path)
-        self.draw_maze()
+        if path == 0:
+            self.remove_solution_from_maze()
+            self.draw_maze()
+        elif path == 1:
+            print("The maze could not find a start or end")
+        else:
+            self.add_solution_to_maze(path)
+            self.draw_maze()
 
     def get_maze_start(self):
         '''
@@ -374,14 +380,18 @@ class Game_maze:
             if self.maze[0][w] == self.path:
                 start = w
                 current = (0, w)
+            if self.maze[0][w] == self.solution:
+                return 0
         for w in range(0, self.maze_size):
             if self.maze[self.maze_size - 1][w] == self.path:
                 end = w
-                goal = (self.maze_size - 1, w) 
+                goal = (self.maze_size - 1, w)
+            if self.maze[self.maze_size - 1][w] == self.solution:
+                return 0
         if start == None or end == None:
             print("No start point")
+            return 1
         path = self.create_path(path, current, (), goal)
-        print("new path- " + str(path))
         return path
 
     def create_path(self, path, current, last, goal):
@@ -430,6 +440,13 @@ class Game_maze:
         for step in path:
             self.maze[step[0]][step[1]] = self.solution
 
+    def remove_solution_from_maze(self):
+        for h in range(0, self.maze_size):
+            for w in range(0, self.maze_size):
+                if self.maze[h][w] == self.solution:
+                    self.maze[h][w] = self.path
+
+
 def show_menu():
     print("--- Menu ---")
     print("1) Create random maze")
@@ -438,6 +455,13 @@ def show_menu():
     print("4) Load maze from file")
     print("5) Save maze to file")
     print("6) Exit")
+
+
+def show_maze_menu():
+    print("--- Maze Menu ---")
+    print("1) Solve/ Unsolve Maze")
+    print("2) Save maze to file")
+    print("3) Back to menu")
 
 
 def main():
@@ -459,7 +483,15 @@ def menu_option_1():
     maze_size = get_number_option("maze size", 10, 100)
     TheMaze = Game_maze(maze_size)
     TheMaze.draw_maze()
-    TheMaze.solve_maze()
+    show_maze_menu()
+    maze_menu_option = get_number_option("maze menu", 1, 3)
+    while maze_menu_option != 3:
+        if maze_menu_option == 1 :
+            TheMaze.solve_maze()
+        show_maze_menu()
+        maze_menu_option = get_number_option("maze menu", 1, 3)
+
+
 
 
 def get_number_option(name, start, end):
