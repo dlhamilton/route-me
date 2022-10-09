@@ -372,10 +372,84 @@ class Game_maze:
                 goal = (self.maze_size - 1, w) 
         if start == None or end == None:
             print("No start point")
-        path.append(current)
-        print(path)
-        print(current)
-        print(goal)
+        # path.append(current)
+        path = self.create_path(path, current, (), goal, 0)
+        print("new path- "+ str(path))
+
+    def create_path(self, path, current, last, goal, count):
+        # print("count - " + str(count))
+        # print(path)
+        # print(current)
+        # print(goal)
+        new_path=[]
+
+        # if current == goal:
+        # return path
+        count = count + 1
+        if current == (3,1):
+            path.append(current)
+            print("lol")
+            print(path)
+            return path
+        
+        if current[0] != 0 :
+            next_path = (current[0]-1, current[1])
+            if next_path != last:
+                if self.maze[current[0]-1][current[1]] != self.wall:
+                    print("up")
+                    print(str(current) + " - " + str(next_path))
+                    temp_path = self.create_path([], next_path, current, goal, count)
+                    print(str(len(temp_path)) + " - " + str(len(new_path)))
+                    print(str(temp_path) + " - " + str(new_path))
+                    if len(temp_path) > len(new_path):
+                        new_path=temp_path
+                        new_path.append(current)
+
+        if current[1] != 0 :
+            next_path = (current[0], current[1]-1)
+            if next_path != last:
+                if self.maze[current[0]][current[1]-1] != self.wall:
+                    print("left")
+                    print(str(current) + " - " + str(next_path))
+                    temp_path = self.create_path([], next_path, current, goal, count)
+                    print(str(len(temp_path)) + " - " + str(len(new_path)))
+                    print(str(temp_path) + " - " + str(new_path))
+                    if len(temp_path) > len(new_path):
+                        new_path=temp_path
+                        new_path.append(current)
+        
+        if current[1] != self.maze_size-1:
+            next_path = (current[0], current[1]+1)
+            if next_path != last:
+                if self.maze[current[0]][current[1]+1] != self.wall:
+                    print("right")
+                    print(str(current) + " - " + str(next_path))
+                    temp_path = self.create_path([], next_path, current, goal, count)
+                    print(str(len(temp_path)) + " - " + str(len(new_path)))
+                    print(str(temp_path) + " - " + str(new_path))
+                    if len(temp_path) > len(new_path):
+                        new_path=temp_path
+                        new_path.append(current)
+        
+        if current[0] != self.maze_size - 1:
+            next_path = (current[0]+1, current[1])
+            if next_path != last:
+                if self.maze[current[0]+1][current[1]] != self.wall:
+                    print("down")
+                    print(str(current) + " - " + str(next_path))
+                    temp_path = self.create_path([], next_path, current, goal, count)
+                    print(str(len(temp_path)) + " - " + str(len(new_path)))
+                    print(str(temp_path) + " - " + str(new_path))
+                    if len(temp_path) > len(new_path):
+                        new_path=temp_path
+                        new_path.append(current)
+                
+
+
+       # newpath = self.create_path(newpath, nextPath, goal)
+
+        print(f"I return {new_path}")
+        return new_path
 
 
 def show_menu():
