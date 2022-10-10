@@ -447,6 +447,28 @@ class Game_maze:
                     self.maze[h][w] = self.path
 
 
+class Game_Graph:
+    '''
+    Graph Class
+    '''
+    # class attribute
+    graph_nodes = []
+    graph_node_names = []
+
+    def __init__(self, name):
+        # instance attribute
+        self.graph_name = name
+
+    def add_node_to_graph(self, name):
+        self.graph_node_names.append(name)
+        temp_array = []
+        for i in self.graph_node_names:
+            temp_array.append(0)
+        self.graph_nodes.append(temp_array)
+        print(self.graph_node_names)
+        print(self.graph_nodes)
+    
+
 def show_menu():
     print("--- Menu ---")
     print("1) Create random maze")
@@ -474,6 +496,8 @@ def main():
     while menu_option != 6:
         if menu_option == 1:
             menu_option_1()
+        elif menu_option == 2:
+            menu_option_2()
         show_menu()
         menu_option = get_number_option("menu", 1, 6)
 
@@ -486,10 +510,19 @@ def menu_option_1():
     show_maze_menu()
     maze_menu_option = get_number_option("maze menu", 1, 3)
     while maze_menu_option != 3:
-        if maze_menu_option == 1 :
+        if maze_menu_option == 1:
             TheMaze.solve_maze()
         show_maze_menu()
         maze_menu_option = get_number_option("maze menu", 1, 3)
+
+
+def menu_option_2():
+    TheGraph = None
+    TheGraph = Game_Graph("Test")
+    TheGraph.add_node_to_graph("One")
+    TheGraph.add_node_to_graph("Two")
+    TheGraph.add_node_to_graph("Three")
+    TheGraph.add_node_to_graph("Four")
 
 
 def get_number_option(name, start, end):
