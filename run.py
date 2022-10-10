@@ -459,20 +459,27 @@ class Game_Graph:
         # instance attribute
         self.graph_name = name
 
-    def add_node_to_graph(self, name):
+    def add_node_to_graph(self):
+        name = input("Please enter the name of the :\n")
         self.graph_node_names.append(name)
         temp_array = []
         for i in self.graph_node_names:
             temp_array.append(0)
         self.graph_nodes.append(temp_array)
+        for j in range(len(self.graph_nodes)-1):
+            self.graph_nodes[j].append(0)
+  
+    def show_graph_status(self):
+        print(self.graph_name)
         print(self.graph_node_names)
-        print(self.graph_nodes)
-    
+        for node in self.graph_nodes:
+            print(node)
+
 
 def show_menu():
     print("--- Menu ---")
-    print("1) Create random maze")
-    print("2) Solve Maze")
+    print("1) Create Maze")
+    print("2) Create Graph")
     print("3) Create custom maze")
     print("4) Load maze from file")
     print("5) Save maze to file")
@@ -484,6 +491,14 @@ def show_maze_menu():
     print("1) Solve/ Unsolve Maze")
     print("2) Save maze to file")
     print("3) Back to menu")
+
+
+def show_graph_menu():
+    print("--- Graph Menu ---")
+    print("1) Add Node")
+    print("2) Add Link")
+    print("3) Show Graph Details")
+    print("4) Back to menu")
 
 
 def main():
@@ -518,11 +533,17 @@ def menu_option_1():
 
 def menu_option_2():
     TheGraph = None
-    TheGraph = Game_Graph("Test")
-    TheGraph.add_node_to_graph("One")
-    TheGraph.add_node_to_graph("Two")
-    TheGraph.add_node_to_graph("Three")
-    TheGraph.add_node_to_graph("Four")
+    graph_name = input("Please enter the name of the graph:\n")
+    TheGraph = Game_Graph(graph_name)
+    show_graph_menu()
+    graph_menu_option = get_number_option("graph menu", 1, 4)
+    while graph_menu_option != 4:
+        if graph_menu_option == 1:
+            TheGraph.add_node_to_graph()
+        elif graph_menu_option == 3:
+            TheGraph.show_graph_status()
+        show_graph_menu()
+        graph_menu_option = get_number_option("graph menu", 1, 4)
 
 
 def get_number_option(name, start, end):
