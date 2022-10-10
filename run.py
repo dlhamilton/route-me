@@ -460,7 +460,7 @@ class Game_Graph:
         self.graph_name = name
 
     def add_node_to_graph(self):
-        name = input("Please enter the name of the :\n")
+        name = input("Please enter the name of the node:\n")
         self.graph_node_names.append(name)
         temp_array = []
         for i in self.graph_node_names:
@@ -468,7 +468,14 @@ class Game_Graph:
         self.graph_nodes.append(temp_array)
         for j in range(len(self.graph_nodes)-1):
             self.graph_nodes[j].append(0)
-  
+
+    def add_link_to_graph(self):
+        name = input("Please enter the name of the first node:\n")
+        self.get_node_index(name)
+
+    def get_node_index(self, search_string):
+        print(search_string)
+
     def show_graph_status(self):
         print(self.graph_name)
         print(self.graph_node_names)
@@ -540,6 +547,8 @@ def menu_option_2():
     while graph_menu_option != 4:
         if graph_menu_option == 1:
             TheGraph.add_node_to_graph()
+        elif graph_menu_option == 2:
+            TheGraph.add_link_to_graph()
         elif graph_menu_option == 3:
             TheGraph.show_graph_status()
         show_graph_menu()
