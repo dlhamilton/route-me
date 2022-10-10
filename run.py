@@ -476,14 +476,20 @@ class Game_Graph:
             second_name = input("Please enter the name of the second node:\n")
             second_name_index = self.get_node_index(second_name)
             if second_name_index != -1:
-                print("We have two")
+                if first_name_index != second_name_index:
+                    print(f"Linking {self.graph_node_names[first_name_index]} to {self.graph_node_names[second_name_index]}")
+                    link_weight = get_number_option("node weight", 0, 100)
+                    self.graph_nodes[first_name_index][second_name_index] = link_weight
+                    self.graph_nodes[second_name_index][first_name_index] = link_weight
+                    print(f"Link Created - {self.graph_node_names[first_name_index]} to {self.graph_node_names[second_name_index]} weight {link_weight}")
+                else:
+                    print("Error: Cannot change link node to itself")
             else:
                 print("Error: Name not found in graph")
         else:
             print("Error: Name not found in graph")
 
     def get_node_index(self, search_string):
-        print(search_string)
         for name in self.graph_node_names:
             if name.upper() == search_string.upper():
                 return self.graph_node_names.index(name)
