@@ -469,7 +469,8 @@ class Game_Graph:
         for j in range(len(self.graph_nodes)-1):
             self.graph_nodes[j].append(0)
 
-    def add_link_to_graph(self):
+    def add_link_to_graph(self, mode):
+        print(f"{mode} the link between nodes")
         first_name = input("Please enter the name of the first node:\n")
         first_name_index = self.get_node_index(first_name)
         if first_name_index != -1:
@@ -477,11 +478,14 @@ class Game_Graph:
             second_name_index = self.get_node_index(second_name)
             if second_name_index != -1:
                 if first_name_index != second_name_index:
-                    print(f"Linking {self.graph_node_names[first_name_index]} to {self.graph_node_names[second_name_index]}")
-                    link_weight = get_number_option("node weight", 0, 100)
+                    print(f"{mode} link between {self.graph_node_names[first_name_index]} to {self.graph_node_names[second_name_index]}")
+                    if mode == "Delete":
+                        link_weight = 0
+                    else:
+                        link_weight = get_number_option("node weight", 0, 100)
                     self.graph_nodes[first_name_index][second_name_index] = link_weight
                     self.graph_nodes[second_name_index][first_name_index] = link_weight
-                    print(f"Link Created - {self.graph_node_names[first_name_index]} to {self.graph_node_names[second_name_index]} weight {link_weight}")
+                    print(f"Link Change Complete - {self.graph_node_names[first_name_index]} to {self.graph_node_names[second_name_index]} weight {link_weight}")
                 else:
                     print("Error: Cannot change link node to itself")
             else:
@@ -532,9 +536,11 @@ def show_graph_menu():
     print("--- Graph Menu ---")
     print("1) Add Node")
     print("2) Add Link")
-    print("3) Show Graph Details")
-    print("4) Quick Fill Data")
-    print("5) Back to menu")
+    print("3) Edit Link")
+    print("4) Delete Link")
+    print("5) Show Graph Details")
+    print("6) Quick Fill Data")
+    print("7) Back to menu")
 
 
 def main():
@@ -572,18 +578,22 @@ def menu_option_2():
     graph_name = input("Please enter the name of the graph:\n")
     TheGraph = Game_Graph(graph_name)
     show_graph_menu()
-    graph_menu_option = get_number_option("graph menu", 1, 5)
-    while graph_menu_option != 5:
+    graph_menu_option = get_number_option("graph menu", 1, 7)
+    while graph_menu_option != 7:
         if graph_menu_option == 1:
             TheGraph.add_node_to_graph()
         elif graph_menu_option == 2:
-            TheGraph.add_link_to_graph()
+            TheGraph.add_link_to_graph("Add")
         elif graph_menu_option == 3:
-            TheGraph.show_graph_status()
+            TheGraph.add_link_to_graph("Edit")
         elif graph_menu_option == 4:
+            TheGraph.add_link_to_graph("Delete")
+        elif graph_menu_option == 5:
+            TheGraph.show_graph_status()
+        elif graph_menu_option == 6:
             TheGraph.quick_fill_graph()
         show_graph_menu()
-        graph_menu_option = get_number_option("graph menu", 1, 5)
+        graph_menu_option = get_number_option("graph menu", 1, 7)
 
 
 def get_number_option(name, start, end):
