@@ -481,6 +481,15 @@ class Game_Graph:
         print(self.graph_node_names)
         for node in self.graph_nodes:
             print(node)
+    
+    def quick_fill_graph(self):
+        self.graph_name = "Test Data"
+        self.graph_node_names = ["One", "Two", "Three", "Four", "Five"]
+        self.graph_nodes = [[0, 2, 0, 4, 0],
+                            [2, 0, 3, 6, 3],
+                            [0, 3, 0, 0, 3],
+                            [4, 6, 0, 0, 1],
+                            [0, 3, 3, 1, 0]]
 
 
 def show_menu():
@@ -505,7 +514,8 @@ def show_graph_menu():
     print("1) Add Node")
     print("2) Add Link")
     print("3) Show Graph Details")
-    print("4) Back to menu")
+    print("4) Quick Fill Data")
+    print("5) Back to menu")
 
 
 def main():
@@ -543,16 +553,18 @@ def menu_option_2():
     graph_name = input("Please enter the name of the graph:\n")
     TheGraph = Game_Graph(graph_name)
     show_graph_menu()
-    graph_menu_option = get_number_option("graph menu", 1, 4)
-    while graph_menu_option != 4:
+    graph_menu_option = get_number_option("graph menu", 1, 5)
+    while graph_menu_option != 5:
         if graph_menu_option == 1:
             TheGraph.add_node_to_graph()
         elif graph_menu_option == 2:
             TheGraph.add_link_to_graph()
         elif graph_menu_option == 3:
             TheGraph.show_graph_status()
+        elif graph_menu_option == 4:
+            TheGraph.quick_fill_graph()
         show_graph_menu()
-        graph_menu_option = get_number_option("graph menu", 1, 4)
+        graph_menu_option = get_number_option("graph menu", 1, 5)
 
 
 def get_number_option(name, start, end):
