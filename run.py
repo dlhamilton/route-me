@@ -470,8 +470,17 @@ class Game_Graph:
             self.graph_nodes[j].append(0)
 
     def add_link_to_graph(self):
-        name = input("Please enter the name of the first node:\n")
-        self.get_node_index(name)
+        first_name = input("Please enter the name of the first node:\n")
+        first_name_index = self.get_node_index(first_name)
+        if first_name_index != -1:
+            second_name = input("Please enter the name of the second node:\n")
+            second_name_index = self.get_node_index(second_name)
+            if second_name_index != -1:
+                print("We have two")
+            else:
+                print("Error: Name not found in graph")
+        else:
+            print("Error: Name not found in graph")
 
     def get_node_index(self, search_string):
         print(search_string)
