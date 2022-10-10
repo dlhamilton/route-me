@@ -1,13 +1,16 @@
+'''
+route-me
+'''
 # Your code goes here.
 # You can delete these comments, but do not change the name of this file
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
-from pprint import pprint
+# from pprint import pprint
 import random
-from colorama import init, Fore, Back, Style
+from colorama import init, Fore, Back
 init(autoreset=True)
 
 
-class Game_maze:
+class GameMaze:
     '''
     Maze Class
     '''
@@ -99,7 +102,7 @@ class Game_maze:
                       self.maze[rand_wall[0]][rand_wall[1]+1] == self.path:
 
                     surrounding_cell_count = \
-                        self.surroundingCells(self.maze, rand_wall)
+                        self.surrounding_cells(self.maze, rand_wall)
                     if surrounding_cell_count < 2:
 
                         self.maze[rand_wall[0]][rand_wall[1]] = self.path
@@ -151,7 +154,7 @@ class Game_maze:
                         self.maze[rand_wall[0]+1][rand_wall[1]] == self.path:
 
                     surrounding_cell_count = \
-                        self.surroundingCells(self.maze, rand_wall)
+                        self.surrounding_cells(self.maze, rand_wall)
                     if surrounding_cell_count < 2:
 
                         self.maze[rand_wall[0]][rand_wall[1]] = self.path
@@ -203,7 +206,7 @@ class Game_maze:
                         self.maze[rand_wall[0]-1][rand_wall[1]] == self.path:
 
                     surrounding_cell_count = \
-                        self.surroundingCells(self.maze, rand_wall)
+                        self.surrounding_cells(self.maze, rand_wall)
                     if surrounding_cell_count < 2:
 
                         self.maze[rand_wall[0]][rand_wall[1]] = self.path
@@ -255,7 +258,7 @@ class Game_maze:
                         self.maze[rand_wall[0]][rand_wall[1]-1] == self.path:
 
                     surrounding_cell_count = \
-                        self.surroundingCells(self.maze, rand_wall)
+                        self.surrounding_cells(self.maze, rand_wall)
                     if surrounding_cell_count < 2:
 
                         self.maze[rand_wall[0]][rand_wall[1]] = self.path
@@ -316,7 +319,7 @@ class Game_maze:
                                                     end="")
             print()
 
-    def surroundingCells(self, maze, rand_wall):
+    def surrounding_cells(self, maze, rand_wall):
         '''
         get all paths surrounding the wall
         '''
@@ -437,17 +440,25 @@ class Game_maze:
         return new_path
 
     def add_solution_to_maze(self, path):
+        '''
+        will take the coordinates of the path and will add them to the maze
+        array
+        '''
         for step in path:
             self.maze[step[0]][step[1]] = self.solution
 
     def remove_solution_from_maze(self):
-        for h in range(0, self.maze_size):
-            for w in range(0, self.maze_size):
-                if self.maze[h][w] == self.solution:
-                    self.maze[h][w] = self.path
+        '''
+        will find the solution in the array and change the character into the
+        path
+        '''
+        for height in range(0, self.maze_size):
+            for width in range(0, self.maze_size):
+                if self.maze[height][width] == self.solution:
+                    self.maze[height][width] = self.path
 
 
-class Game_Graph:
+class GameGraph:
     '''
     Graph Class
     '''
@@ -460,6 +471,10 @@ class Game_Graph:
         self.graph_name = name
 
     def add_node_to_graph(self):
+        '''
+        This will add the node to the graph array and add a
+        new array item to all items in the array
+        '''
         name = input("Please enter the name of the node:\n")
         self.graph_node_names.append(name)
         temp_array = []
@@ -470,6 +485,10 @@ class Game_Graph:
             self.graph_nodes[j].append(0)
 
     def add_link_to_graph(self, mode):
+        '''
+        will change the value in the graph array to represent a new link
+        between nodes
+        '''
         print(f"{mode} the link between nodes")
         first_name = input("Please enter the name of the first node:\n")
         first_name_index = self.get_node_index(first_name)
@@ -478,14 +497,21 @@ class Game_Graph:
             second_name_index = self.get_node_index(second_name)
             if second_name_index != -1:
                 if first_name_index != second_name_index:
-                    print(f"{mode} link between {self.graph_node_names[first_name_index]} to {self.graph_node_names[second_name_index]}")
+                    print(f"{mode} link between "
+                          f"{self.graph_node_names[first_name_index]} "
+                          f" to {self.graph_node_names[second_name_index]}")
                     if mode == "Delete":
                         link_weight = 0
                     else:
                         link_weight = get_number_option("node weight", 0, 100)
-                    self.graph_nodes[first_name_index][second_name_index] = link_weight
-                    self.graph_nodes[second_name_index][first_name_index] = link_weight
-                    print(f"Link Change Complete - {self.graph_node_names[first_name_index]} to {self.graph_node_names[second_name_index]} weight {link_weight}")
+                    self.graph_nodes[first_name_index][second_name_index] = \
+                        link_weight
+                    self.graph_nodes[second_name_index][first_name_index] = \
+                        link_weight
+                    print(f"Link Change Complete - "
+                          f"{self.graph_node_names[first_name_index]} to "
+                          f"{self.graph_node_names[second_name_index]} "
+                          f"weight {link_weight}")
                 else:
                     print("Error: Cannot change link node to itself")
             else:
@@ -494,18 +520,29 @@ class Game_Graph:
             print("Error: Name not found in graph")
 
     def get_node_index(self, search_string):
+        '''
+        Will iterate through the array to see what the index is of the
+        string that is passed to it. If the string is not in the array
+        it will return -1
+        '''
         for name in self.graph_node_names:
             if name.upper() == search_string.upper():
                 return self.graph_node_names.index(name)
         return -1
 
     def show_graph_status(self):
+        '''
+        will output all the values linked to the graph
+        '''
         print(self.graph_name)
         print(self.graph_node_names)
         for node in self.graph_nodes:
             print(node)
-    
+
     def quick_fill_graph(self):
+        '''
+        Will put set values into the graph to allow testing
+        '''
         self.graph_name = "Test Data"
         self.graph_node_names = ["One", "Two", "Three", "Four", "Five"]
         self.graph_nodes = [[0, 2, 0, 4, 0],
@@ -516,16 +553,21 @@ class Game_Graph:
 
 
 def show_menu():
+    '''
+    Will show the main menu to the console
+    '''
     print("--- Menu ---")
     print("1) Create Maze")
     print("2) Create Graph")
-    print("3) Create custom maze")
-    print("4) Load maze from file")
-    print("5) Save maze to file")
-    print("6) Exit")
+    print("3) Load Maze from file")
+    print("4) Load Graph from file")
+    print("5) Exit")
 
 
 def show_maze_menu():
+    '''
+    Will show the menu for the maze to the console
+    '''
     print("--- Maze Menu ---")
     print("1) Solve/ Unsolve Maze")
     print("2) Save maze to file")
@@ -533,6 +575,9 @@ def show_maze_menu():
 
 
 def show_graph_menu():
+    '''
+    Will show the menu for the graph to the console
+    '''
     print("--- Graph Menu ---")
     print("1) Add Node")
     print("2) Add Link")
@@ -544,73 +589,86 @@ def show_graph_menu():
 
 
 def main():
+    '''
+    Main, the program start
+    '''
     print("----------")
     print("Route Me")
     print("----------")
     print("Welcome to Route me the best way to find the quickest route.\n")
     show_menu()
-    menu_option = get_number_option("menu", 1, 6)
-    while menu_option != 6:
+    menu_option = get_number_option("menu", 1, 5)
+    while menu_option != 5:
         if menu_option == 1:
             menu_option_1()
         elif menu_option == 2:
             menu_option_2()
         show_menu()
-        menu_option = get_number_option("menu", 1, 6)
+        menu_option = get_number_option("menu", 1, 5)
 
 
 def menu_option_1():
-    TheMaze = None
+    '''
+    get the user input and perform the method the user selects for the maze
+    '''
+    the_maze = None
     maze_size = get_number_option("maze size", 10, 100)
-    TheMaze = Game_maze(maze_size)
-    TheMaze.draw_maze()
+    the_maze = GameMaze(maze_size)
+    the_maze.draw_maze()
     show_maze_menu()
     maze_menu_option = get_number_option("maze menu", 1, 3)
     while maze_menu_option != 3:
         if maze_menu_option == 1:
-            TheMaze.solve_maze()
+            the_maze.solve_maze()
         show_maze_menu()
         maze_menu_option = get_number_option("maze menu", 1, 3)
 
 
 def menu_option_2():
-    TheGraph = None
+    '''
+    get the user input and perform the method the user selects for the graph
+    '''
+    the_graph = None
     graph_name = input("Please enter the name of the graph:\n")
-    TheGraph = Game_Graph(graph_name)
+    the_graph = GameGraph(graph_name)
     show_graph_menu()
     graph_menu_option = get_number_option("graph menu", 1, 7)
     while graph_menu_option != 7:
         if graph_menu_option == 1:
-            TheGraph.add_node_to_graph()
+            the_graph.add_node_to_graph()
         elif graph_menu_option == 2:
-            TheGraph.add_link_to_graph("Add")
+            the_graph.add_link_to_graph("Add")
         elif graph_menu_option == 3:
-            TheGraph.add_link_to_graph("Edit")
+            the_graph.add_link_to_graph("Edit")
         elif graph_menu_option == 4:
-            TheGraph.add_link_to_graph("Delete")
+            the_graph.add_link_to_graph("Delete")
         elif graph_menu_option == 5:
-            TheGraph.show_graph_status()
+            the_graph.show_graph_status()
         elif graph_menu_option == 6:
-            TheGraph.quick_fill_graph()
+            the_graph.quick_fill_graph()
         show_graph_menu()
         graph_menu_option = get_number_option("graph menu", 1, 7)
 
 
 def get_number_option(name, start, end):
+    '''
+    Will get the user to enter a number and will validate their entry
+    '''
     invalid_option = True
     while invalid_option:
         try:
             invalid_option = True
-            menu_option = int(input(f"Please enter your {name} choice ({start} - {end}):\n"))
+            menu_option = int(input(f"Please enter your {name} "
+                                    f"choice ({start} - {end}):\n"))
         except ValueError:
-            print(f"Not a valid number - Please enter a number between {start} and {end}")
-        except Exception:
-            print(f'Another error has occurred - Please enter a number between {start} and {end}')
+            print(f"Not a valid number - Please enter a number between "
+                  f"{start} and {end}")
         else:
             if menu_option >= start and menu_option <= end:
                 invalid_option = False
             else:
-                print(f'Number option not avaliable - Please enter a number between {start} and {end}')
+                print(f'Number option not avaliable - Please enter a '
+                      f'number between {start} and {end}')
     return menu_option
 
 
