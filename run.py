@@ -475,6 +475,10 @@ class Game_Graph:
 
     def get_node_index(self, search_string):
         print(search_string)
+        for name in self.graph_node_names:
+            if name.upper() == search_string.upper():
+                return self.graph_node_names.index(name)
+        return -1
 
     def show_graph_status(self):
         print(self.graph_name)
