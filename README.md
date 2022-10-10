@@ -1,31 +1,33 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# Route Me
 
-Welcome Dan Hamilton,
+Route me is a python termial program, which runs in the CI mock terminal on Heroku.
+<br>
+Users can create a graph and find the shortest route to their target. Users can also create a maze, they cna choose to solve it them self or use the program to show them the correct path.
 
-This is the Code Institute student template for deploying your third portfolio project, the Python command-line project. The last update to this file was: **August 17, 2021**
+![imaage](image)
 
-## Reminders
+## How to use it
 
-* Your code must be placed in the `run.py` file
-* Your dependencies must be placed in the `requirements.txt` file
-* Do not edit any of the other files or your code may not deploy properly
+## User Story
 
-## Creating the Heroku app
+## Features
 
-When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
+## Data modeling
 
-1. `heroku/python`
-2. `heroku/nodejs`
+## Testing
 
-You must then create a _Config Var_ called `PORT`. Set this to `8000`
+### Manual Testing
 
-If you have credentials, such as in the Love Sandwiches project, you must create another _Config Var_ called `CREDS` and paste the JSON into the value field.
+### User Story Testing
 
-Connect your GitHub repository and deploy as normal.
+### Validatior Testing
 
-## Constraints
+### Solved Bugs
 
-The deployment terminal is set to 80 columns by 24 rows. That means that each line of text needs to be 80 characters or less otherwise it will be wrapped onto a second line.
+## Deployment
+
+## Credits
+
 
 -----
 Happy coding!

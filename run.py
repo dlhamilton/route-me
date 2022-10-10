@@ -492,8 +492,6 @@ def menu_option_1():
         maze_menu_option = get_number_option("maze menu", 1, 3)
 
 
-
-
 def get_number_option(name, start, end):
     invalid_option = True
     while invalid_option:
