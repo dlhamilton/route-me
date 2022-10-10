@@ -45,9 +45,9 @@ class GameMaze:
         """
         width = self.maze_size
         height = self.maze_size
-        for h in range(0, height):
+        for _ in range(0, height):
             row = []
-            for w in range(0, width):
+            for _ in range(0, width):
                 row.append(self.open)
             self.maze.append(row)
 
@@ -120,7 +120,7 @@ class GameMaze:
                                     append([rand_wall[0]-1, rand_wall[1]])
 
                         # Bottom wall
-                        if (rand_wall[0] != height-1):
+                        if rand_wall[0] != height-1:
                             if (self.maze[rand_wall[0]+1][rand_wall[1]] !=
                                     self.path):
                                 self.maze[rand_wall[0]+1][rand_wall[1]] = \
@@ -131,7 +131,7 @@ class GameMaze:
                                     append([rand_wall[0]+1, rand_wall[1]])
 
                         # left wall
-                        if (rand_wall[1] != 0):
+                        if rand_wall[1] != 0:
                             if (self.maze[rand_wall[0]][rand_wall[1]-1] !=
                                     self.path):
                                 self.maze[rand_wall[0]][rand_wall[1]-1] = \
@@ -161,7 +161,7 @@ class GameMaze:
 
                         # Make the walls
                         # top wall
-                        if (rand_wall[0] != 0):
+                        if rand_wall[0] != 0:
                             if (self.maze[rand_wall[0]-1][rand_wall[1]] !=
                                     self.path):
                                 self.maze[rand_wall[0]-1][rand_wall[1]] = \
@@ -172,7 +172,7 @@ class GameMaze:
                                     append([rand_wall[0]-1, rand_wall[1]])
 
                         # left wall
-                        if (rand_wall[1] != 0):
+                        if rand_wall[1] != 0:
                             if (self.maze[rand_wall[0]][rand_wall[1]-1]
                                     != self.path):
                                 self.maze[rand_wall[0]][rand_wall[1]-1] = \
@@ -183,7 +183,7 @@ class GameMaze:
                                     append([rand_wall[0], rand_wall[1]-1])
 
                         # right wall
-                        if (rand_wall[1] != width-1):
+                        if rand_wall[1] != width-1:
                             if (self.maze[rand_wall[0]][rand_wall[1]+1]
                                     != self.path):
                                 self.maze[rand_wall[0]][rand_wall[1]+1] = \
@@ -213,7 +213,7 @@ class GameMaze:
 
                         # Make the walls
                         # bottom wall
-                        if (rand_wall[0] != height-1):
+                        if rand_wall[0] != height-1:
                             if (self.maze[rand_wall[0]+1][rand_wall[1]]
                                     != self.path):
                                 self.maze[rand_wall[0]+1][rand_wall[1]] = \
@@ -224,7 +224,7 @@ class GameMaze:
                                     append([rand_wall[0]+1, rand_wall[1]])
 
                         # left wall
-                        if (rand_wall[1] != 0):
+                        if rand_wall[1] != 0:
                             if (self.maze[rand_wall[0]][rand_wall[1]-1] !=
                                     self.path):
                                 self.maze[rand_wall[0]][rand_wall[1]-1] = \
@@ -235,7 +235,7 @@ class GameMaze:
                                     append([rand_wall[0], rand_wall[1]-1])
 
                         # right wall
-                        if (rand_wall[1] != width-1):
+                        if rand_wall[1] != width-1:
                             if (self.maze[rand_wall[0]][rand_wall[1]+1]
                                     != self.path):
                                 self.maze[rand_wall[0]][rand_wall[1]+1] = \
@@ -265,7 +265,7 @@ class GameMaze:
 
                         # Make the walls
                         # right wall
-                        if (rand_wall[1] != width-1):
+                        if rand_wall[1] != width-1:
                             if (self.maze[rand_wall[0]][rand_wall[1]+1]
                                     != self.path):
                                 self.maze[rand_wall[0]][rand_wall[1]+1] = \
@@ -276,7 +276,7 @@ class GameMaze:
                                     append([rand_wall[0], rand_wall[1]+1])
 
                         # bottom wall
-                        if (rand_wall[0] != height-1):
+                        if rand_wall[0] != height-1:
                             if (self.maze[rand_wall[0]+1][rand_wall[1]]
                                     != self.path):
                                 self.maze[rand_wall[0]+1][rand_wall[1]] = \
@@ -287,7 +287,7 @@ class GameMaze:
                                     append([rand_wall[0]+1, rand_wall[1]])
 
                         # top wall
-                        if rand_wall[0] != 0:	
+                        if rand_wall[0] != 0:
                             if self.maze[rand_wall[0]-1][rand_wall[1]] != \
                                  self.path:
                                 self.maze[rand_wall[0]-1][rand_wall[1]] = \
@@ -308,15 +308,16 @@ class GameMaze:
         '''
         Draw the grid to the console
         '''
-        for h in range(0, self.maze_size):
-            for w in range(0, self.maze_size):
-                if self.maze[h][w] == self.path:
-                    print(Fore.BLACK + f"{self.maze[h][w]} ", end="")
-                elif self.maze[h][w] == self.solution:
-                    print(Fore.GREEN + f"{self.maze[h][w]} ", end="")
+        for height in range(0, self.maze_size):
+            for width in range(0, self.maze_size):
+                if self.maze[height][width] == self.path:
+                    print(Fore.BLACK + f"{self.maze[height][width]} ", end="")
+                elif self.maze[height][width] == self.solution:
+                    print(Fore.GREEN + f"{self.maze[height][width]} ", end="")
                 else:
-                    print(Fore.WHITE + Back.WHITE + f"{self.maze[h][w]} ",
-                                                    end="")
+                    print(Fore.WHITE + Back.WHITE +
+                          f"{self.maze[height][width]} ",
+                          end="")
             print()
 
     def surrounding_cells(self, maze, rand_wall):
@@ -379,19 +380,19 @@ class GameMaze:
         path = []
         end = None
         goal = ()
-        for w in range(0, self.maze_size):
-            if self.maze[0][w] == self.path:
-                start = w
-                current = (0, w)
-            if self.maze[0][w] == self.solution:
+        for width in range(0, self.maze_size):
+            if self.maze[0][width] == self.path:
+                start = width
+                current = (0, width)
+            if self.maze[0][width] == self.solution:
                 return 0
-        for w in range(0, self.maze_size):
-            if self.maze[self.maze_size - 1][w] == self.path:
-                end = w
-                goal = (self.maze_size - 1, w)
-            if self.maze[self.maze_size - 1][w] == self.solution:
+        for width in range(0, self.maze_size):
+            if self.maze[self.maze_size - 1][width] == self.path:
+                end = width
+                goal = (self.maze_size - 1, width)
+            if self.maze[self.maze_size - 1][width] == self.solution:
                 return 0
-        if start == None or end == None:
+        if start is None or end is None:
             print("No start point")
             return 1
         path = self.create_path(path, current, (), goal)
@@ -399,14 +400,15 @@ class GameMaze:
 
     def create_path(self, path, current, last, goal):
         '''
-        a recursive method to find a path to the exit point in the maze returning the path it took.
+        a recursive method to find a path to the exit point in the
+        maze returning the path it took.
         '''
         new_path = []
 
         if current == goal:
             path.append(current)
             return path
-        
+
         for count in range(4):
             if count == 0:
                 current_coord = current[0]
@@ -420,7 +422,7 @@ class GameMaze:
             if count == 3:
                 current_coord = current[0]
                 maze_edge = self.maze_size-1
-            
+
             if current_coord != maze_edge:
                 if count == 0:
                     next_path = (current[0]-1, current[1])
@@ -432,7 +434,8 @@ class GameMaze:
                     next_path = (current[0]+1, current[1])
                 if next_path != last:
                     if self.maze[next_path[0]][next_path[1]] != self.wall:
-                        temp_path = self.create_path([], next_path, current, goal)
+                        temp_path = self.create_path([], next_path, current,
+                                                     goal)
                         if len(temp_path) > len(new_path):
                             new_path = temp_path
                             new_path.append(current)
@@ -478,11 +481,11 @@ class GameGraph:
         name = input("Please enter the name of the node:\n")
         self.graph_node_names.append(name)
         temp_array = []
-        for i in self.graph_node_names:
+        for _ in self.graph_node_names:
             temp_array.append(0)
         self.graph_nodes.append(temp_array)
-        for j in range(len(self.graph_nodes)-1):
-            self.graph_nodes[j].append(0)
+        for none in range(len(self.graph_nodes)-1):
+            self.graph_nodes[none].append(0)
 
     def add_link_to_graph(self, mode):
         '''
