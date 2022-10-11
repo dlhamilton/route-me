@@ -339,23 +339,23 @@ class GameMaze:
         '''
         Fills the open maze items will the wall icons
         '''
-        for h in range(0, self.maze_size):
-            for w in range(0, self.maze_size):
-                if self.maze[h][w] == self.open:
-                    self.maze[h][w] = self.wall
+        for height in range(0, self.maze_size):
+            for width in range(0, self.maze_size):
+                if self.maze[height][width] == self.open:
+                    self.maze[height][width] = self.wall
 
     def create_ins_and_outs(self):
         '''
         Set the entrance and exit of the maze
         '''
-        for w in range(0, self.maze_size):
-            if self.maze[1][w] == self.path:
-                self.maze[0][w] = self.path
+        for width in range(0, self.maze_size):
+            if self.maze[1][width] == self.path:
+                self.maze[0][width] = self.path
                 break
 
-        for w in range(self.maze_size-1, 0, -1):
-            if self.maze[self.maze_size-2][w] == self.path:
-                self.maze[self.maze_size-1][w] = self.path
+        for width in range(self.maze_size-1, 0, -1):
+            if self.maze[self.maze_size-2][width] == self.path:
+                self.maze[self.maze_size-1][width] = self.path
                 break
 
     def solve_maze(self):
@@ -554,6 +554,22 @@ class GameGraph:
                             [4, 6, 0, 0, 1],
                             [0, 3, 3, 1, 0]]
 
+    def delete_node(self):
+        '''
+        Delete a node from the graph array.
+        '''
+        print("Delete node")
+        node_name = input("Please enter the name of the node:\n")
+        node_name_index = self.get_node_index(node_name)
+        if node_name_index != -1:
+            count = len(self.graph_nodes)
+            for node_index in range(count):
+                del self.graph_nodes[node_index][node_name_index]
+            del self.graph_node_names[node_name_index]
+            del self.graph_nodes[node_name_index]
+        else:
+            print("Error: Name not found in graph")
+
 
 def show_menu():
     '''
@@ -586,9 +602,10 @@ def show_graph_menu():
     print("2) Add Link")
     print("3) Edit Link")
     print("4) Delete Link")
-    print("5) Show Graph Details")
-    print("6) Quick Fill Data")
-    print("7) Back to menu")
+    print("5) Delete Node")
+    print("6) Show Graph Details")
+    print("7) Quick Fill Data")
+    print("8) Back to menu")
 
 
 def main():
@@ -635,8 +652,8 @@ def menu_option_2():
     graph_name = input("Please enter the name of the graph:\n")
     the_graph = GameGraph(graph_name)
     show_graph_menu()
-    graph_menu_option = get_number_option("graph menu", 1, 7)
-    while graph_menu_option != 7:
+    graph_menu_option = get_number_option("graph menu", 1, 8)
+    while graph_menu_option != 8:
         if graph_menu_option == 1:
             the_graph.add_node_to_graph()
         elif graph_menu_option == 2:
@@ -646,11 +663,13 @@ def menu_option_2():
         elif graph_menu_option == 4:
             the_graph.add_link_to_graph("Delete")
         elif graph_menu_option == 5:
-            the_graph.show_graph_status()
+            the_graph.delete_node()
         elif graph_menu_option == 6:
+            the_graph.show_graph_status()
+        elif graph_menu_option == 7:
             the_graph.quick_fill_graph()
         show_graph_menu()
-        graph_menu_option = get_number_option("graph menu", 1, 7)
+        graph_menu_option = get_number_option("graph menu", 1, 8)
 
 
 def get_number_option(name, start, end):
