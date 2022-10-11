@@ -5,11 +5,12 @@ route-me
 # You can delete these comments, but do not change the name of this file
 # Write your code to expect a terminal of 80 characters wide and 24 rows high
 # from pprint import pprint
+# # Library for INT_MAX
+import sys
 import random
 from colorama import init, Fore, Back
 init(autoreset=True)
-# Library for INT_MAX
-import sys
+
 
 class GameMaze:
     '''
@@ -600,8 +601,28 @@ class GameGraph:
             end_name = input("Please enter the name of the destination node:\n")
             end_name_index = self.get_node_index(end_name)
             if end_name_index != -1:
-                distance = [sys.maxsize] * len(self.graph_node_names)
-                print(distance)
+
+                total_distance = [sys.maxsize] * len(self.graph_node_names)
+                path = []
+                total_distance[start_name_index] = 0
+                visited = [False]*len(self.graph_node_names)
+
+                for _ in range(len(self.graph_node_names)):
+                    min_number = sys.maxsize
+
+                    for node in range(len(self.graph_node_names)):
+                        if total_distance[node] < min_number and visited[node] == False:
+                            min_number = total_distance[node]
+                            min_index = node
+                            print("Enter")
+                    current_node = min_index
+
+                    visited[current_node] = True
+
+                print(total_distance)
+                print(visited)
+
+
             else:
                 print("Error: Name not found in graph")
         else:
