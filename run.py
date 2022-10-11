@@ -8,7 +8,8 @@ route-me
 import random
 from colorama import init, Fore, Back
 init(autoreset=True)
-
+# Library for INT_MAX
+import sys
 
 class GameMaze:
     '''
@@ -589,6 +590,23 @@ class GameGraph:
         else:
             print("Error: Name not found in graph")
 
+    def dijkstra_path(self):
+        '''
+        Find the shortest path to a node
+        '''
+        start_name = input("Please enter the name of the start node:\n")
+        start_name_index = self.get_node_index(start_name)
+        if start_name_index != -1:
+            end_name = input("Please enter the name of the destination node:\n")
+            end_name_index = self.get_node_index(end_name)
+            if end_name_index != -1:
+                distance = [sys.maxsize] * len(self.graph_node_names)
+                print(distance)
+            else:
+                print("Error: Name not found in graph")
+        else:
+            print("Error: Name not found in graph")
+
 
 def show_menu():
     '''
@@ -625,6 +643,7 @@ def show_graph_menu():
     print("6) Show Graph Details")
     print("7) Fill With Sample Data")
     print("8) Show Connections")
+    print("9) Find Shortest Route")
     print("0) Back to menu")
 
 
@@ -672,7 +691,7 @@ def menu_option_2():
     graph_name = input("Please enter the name of the graph:\n")
     the_graph = GameGraph(graph_name)
     show_graph_menu()
-    graph_menu_option = get_number_option("graph menu", 0, 8)
+    graph_menu_option = get_number_option("graph menu", 0, 9)
     while graph_menu_option != 0:
         if graph_menu_option == 1:
             the_graph.add_node_to_graph()
@@ -690,8 +709,10 @@ def menu_option_2():
             the_graph.quick_fill_graph()
         elif graph_menu_option == 8:
             the_graph.show_connections()
+        elif graph_menu_option == 9:
+            the_graph.dijkstra_path()
         show_graph_menu()
-        graph_menu_option = get_number_option("graph menu", 0, 8)
+        graph_menu_option = get_number_option("graph menu", 0, 9)
 
 
 def get_number_option(name, start, end):
