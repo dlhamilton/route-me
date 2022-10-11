@@ -550,7 +550,6 @@ class GameGraph:
         '''
         Will put set values into the graph to allow testing
         '''
-        self.graph_name = "Test Data"
         self.graph_node_names = ["One", "Two", "Three", "Four", "Five"]
         self.graph_nodes = [[0, 2, 0, 4, 0],
                             [2, 0, 3, 6, 3],
@@ -574,6 +573,22 @@ class GameGraph:
         else:
             print("Error: Name not found in graph")
 
+    def show_connections(self):
+        '''
+        Show all the connections for one of the nodes
+        '''
+        print("Show connected nodes")
+        node_name = input("Please enter the name of the node:\n")
+        node_name_index = self.get_node_index(node_name)
+        if node_name_index != -1:
+            for index, node in enumerate(self.graph_nodes[node_name_index]):
+                if node != 0:
+                    print(f"{self.graph_node_names[node_name_index]} to "
+                          f"{self.graph_node_names[index]} -- weight: "
+                          f"{self.graph_nodes[node_name_index][index]}")
+        else:
+            print("Error: Name not found in graph")
+
 
 def show_menu():
     '''
@@ -584,7 +599,7 @@ def show_menu():
     print("2) Create Graph")
     print("3) Load Maze from file")
     print("4) Load Graph from file")
-    print("5) Exit")
+    print("0) Exit")
 
 
 def show_maze_menu():
@@ -594,7 +609,7 @@ def show_maze_menu():
     print("--- Maze Menu ---")
     print("1) Solve/ Unsolve Maze")
     print("2) Save maze to file")
-    print("3) Back to menu")
+    print("0) Back to menu")
 
 
 def show_graph_menu():
@@ -608,8 +623,9 @@ def show_graph_menu():
     print("4) Delete Link")
     print("5) Delete Node")
     print("6) Show Graph Details")
-    print("7) Quick Fill Data")
-    print("8) Back to menu")
+    print("7) Fill With Sample Data")
+    print("8) Show Connections")
+    print("0) Back to menu")
 
 
 def main():
@@ -621,14 +637,14 @@ def main():
     print("----------")
     print("Welcome to Route me the best way to find the quickest route.\n")
     show_menu()
-    menu_option = get_number_option("menu", 1, 5)
-    while menu_option != 5:
+    menu_option = get_number_option("menu", 0, 5)
+    while menu_option != 0:
         if menu_option == 1:
             menu_option_1()
         elif menu_option == 2:
             menu_option_2()
         show_menu()
-        menu_option = get_number_option("menu", 1, 5)
+        menu_option = get_number_option("menu", 0, 5)
 
 
 def menu_option_1():
@@ -640,12 +656,12 @@ def menu_option_1():
     the_maze = GameMaze(maze_size)
     the_maze.draw_maze()
     show_maze_menu()
-    maze_menu_option = get_number_option("maze menu", 1, 3)
-    while maze_menu_option != 3:
+    maze_menu_option = get_number_option("maze menu", 0, 3)
+    while maze_menu_option != 0:
         if maze_menu_option == 1:
             the_maze.solve_maze()
         show_maze_menu()
-        maze_menu_option = get_number_option("maze menu", 1, 3)
+        maze_menu_option = get_number_option("maze menu", 0, 3)
 
 
 def menu_option_2():
@@ -656,8 +672,8 @@ def menu_option_2():
     graph_name = input("Please enter the name of the graph:\n")
     the_graph = GameGraph(graph_name)
     show_graph_menu()
-    graph_menu_option = get_number_option("graph menu", 1, 8)
-    while graph_menu_option != 8:
+    graph_menu_option = get_number_option("graph menu", 0, 8)
+    while graph_menu_option != 0:
         if graph_menu_option == 1:
             the_graph.add_node_to_graph()
         elif graph_menu_option == 2:
@@ -672,8 +688,10 @@ def menu_option_2():
             the_graph.show_graph_status()
         elif graph_menu_option == 7:
             the_graph.quick_fill_graph()
+        elif graph_menu_option == 8:
+            the_graph.show_connections()
         show_graph_menu()
-        graph_menu_option = get_number_option("graph menu", 1, 8)
+        graph_menu_option = get_number_option("graph menu", 0, 8)
 
 
 def get_number_option(name, start, end):
