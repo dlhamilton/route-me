@@ -479,13 +479,17 @@ class GameGraph:
         new array item to all items in the array
         '''
         name = input("Please enter the name of the node:\n")
-        self.graph_node_names.append(name)
-        temp_array = []
-        for _ in self.graph_node_names:
-            temp_array.append(0)
-        self.graph_nodes.append(temp_array)
-        for none in range(len(self.graph_nodes)-1):
-            self.graph_nodes[none].append(0)
+        name_in_array = self.get_node_index(name)
+        if name_in_array == -1:
+            self.graph_node_names.append(name)
+            temp_array = []
+            for _ in self.graph_node_names:
+                temp_array.append(0)
+            self.graph_nodes.append(temp_array)
+            for none in range(len(self.graph_nodes)-1):
+                self.graph_nodes[none].append(0)
+        else:
+            print(f"{name} is already in the graph!")
 
     def add_link_to_graph(self, mode):
         '''
