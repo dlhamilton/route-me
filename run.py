@@ -598,7 +598,8 @@ class GameGraph:
         start_name = input("Please enter the name of the start node:\n")
         start_name_index = self.get_node_index(start_name)
         if start_name_index != -1:
-            end_name = input("Please enter the name of the destination node:\n")
+            end_name = input("Please enter the name of the "
+                             "destination node:\n")
             end_name_index = self.get_node_index(end_name)
             if end_name_index != -1:
 
@@ -611,7 +612,8 @@ class GameGraph:
                     min_number = sys.maxsize
 
                     for node in range(len(self.graph_node_names)):
-                        if total_distance[node] < min_number and visited[node] == False:
+                        if total_distance[node] < min_number and \
+                                visited[node] is False:
                             min_number = total_distance[node]
                             min_index = node
                             print("Enter")
@@ -619,9 +621,18 @@ class GameGraph:
 
                     visited[current_node] = True
 
+                    for node in range(len(self.graph_node_names)):
+                        if self.graph_nodes[current_node][node] > 0 and \
+                            visited[node] is False and \
+                            total_distance[node] > \
+                                total_distance[current_node] + \
+                                self.graph_nodes[current_node][node]:
+                            total_distance[node] = \
+                                total_distance[current_node] + \
+                                self.graph_nodes[current_node][node]
+
                 print(total_distance)
                 print(visited)
-
 
             else:
                 print("Error: Name not found in graph")
