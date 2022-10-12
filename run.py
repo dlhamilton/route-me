@@ -558,7 +558,8 @@ class GameGraph:
                             [4, 6, 0, 0, 1],
                             [0, 3, 3, 1, 0]]
         '''
-        self.graph_node_names = ["Zero", "One", "Two", "Three", "Four", "Five", "six", "seven", "eight"]
+        self.graph_node_names = ["Zero", "One", "Two", "Three", "Four", "Five",
+                                 "six", "seven", "eight"]
         self.graph_nodes = [[0, 4, 0, 0, 0, 0, 0, 8, 0],
                             [4, 0, 8, 0, 0, 0, 0, 11, 0],
                             [0, 8, 0, 7, 0, 4, 0, 0, 2],
@@ -641,17 +642,27 @@ class GameGraph:
                             total_distance[node] = \
                                 total_distance[current_node] + \
                                 self.graph_nodes[current_node][node]
-                            previous_node[node] = self.graph_node_names[current_node]
-
-
-                print(total_distance)
-                print(visited)
-                print(previous_node)
+                            previous_node[node] = current_node
+                self.print_short_path(total_distance, previous_node, start_name_index, end_name_index)
 
             else:
                 print("Error: Name not found in graph")
         else:
             print("Error: Name not found in graph")
+
+    def print_short_path(self, total_distance, previous_node, start_index, end_index):
+        print(f"{self.graph_node_names[start_index]} to "
+              f"{self.graph_node_names[end_index]} has "
+              f"weight of {total_distance[end_index]} "
+              )
+        the_node = end_index
+        print("The steps to destination")
+        solution = []
+        while the_node != start_index:
+            solution.insert(0, the_node)
+            the_node = previous_node[the_node]
+        solution.insert(0, start_index)
+        print(solution)
 
 
 def show_menu():
