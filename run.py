@@ -628,7 +628,6 @@ class GameGraph:
                                 visited[node] is False:
                             min_number = total_distance[node]
                             min_index = node
-                            print("Enter")
                     current_node = min_index
 
                     visited[current_node] = True
@@ -658,11 +657,20 @@ class GameGraph:
         the_node = end_index
         print("The steps to destination")
         solution = []
+        solution_name = []
         while the_node != start_index:
             solution.insert(0, the_node)
+            solution_name.insert(0, self.graph_node_names[the_node])
             the_node = previous_node[the_node]
-        solution.insert(0, start_index)
-        print(solution)
+        solution_name.insert(0, self.graph_node_names[start_index])
+        print(solution_name)
+        last_node = start_index
+
+        for index, node in enumerate(solution):
+            print(f"{index+1}) {self.graph_node_names[last_node]} to "
+                  f"{self.graph_node_names[node]} ("
+                  f"weight = {self.graph_nodes[last_node][node]})")
+            last_node = node
 
 
 def show_menu():
@@ -694,9 +702,9 @@ def show_graph_menu():
     print("--- Graph Menu ---")
     print("1) Add Node")
     print("2) Add Link")
-    print("3) Edit Link")
-    print("4) Delete Link")
-    print("5) Delete Node")
+    print("3) Delete Link")
+    print("4) Delete Node")
+    print("5) Save Graph")
     print("6) Show Graph Details")
     print("7) Fill With Sample Data")
     print("8) Show Connections")
@@ -753,13 +761,13 @@ def menu_option_2():
         if graph_menu_option == 1:
             the_graph.add_node_to_graph()
         elif graph_menu_option == 2:
-            the_graph.add_link_to_graph("Add")
+            the_graph.add_link_to_graph("Add / Edit")
         elif graph_menu_option == 3:
-            the_graph.add_link_to_graph("Edit")
-        elif graph_menu_option == 4:
             the_graph.add_link_to_graph("Delete")
-        elif graph_menu_option == 5:
+        elif graph_menu_option == 4:
             the_graph.delete_node()
+        elif graph_menu_option == 5:
+            print("Save goes here")
         elif graph_menu_option == 6:
             the_graph.show_graph_status()
         elif graph_menu_option == 7:
