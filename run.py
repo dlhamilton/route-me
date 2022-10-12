@@ -551,13 +551,24 @@ class GameGraph:
     def quick_fill_graph(self):
         '''
         Will put set values into the graph to allow testing
-        '''
         self.graph_node_names = ["One", "Two", "Three", "Four", "Five"]
         self.graph_nodes = [[0, 2, 0, 4, 0],
                             [2, 0, 3, 6, 3],
                             [0, 3, 0, 0, 3],
                             [4, 6, 0, 0, 1],
                             [0, 3, 3, 1, 0]]
+        '''
+        self.graph_node_names = ["Zero", "One", "Two", "Three", "Four", "Five", "six", "seven", "eight"]
+        self.graph_nodes = [[0, 4, 0, 0, 0, 0, 0, 8, 0],
+                            [4, 0, 8, 0, 0, 0, 0, 11, 0],
+                            [0, 8, 0, 7, 0, 4, 0, 0, 2],
+                            [0, 0, 7, 0, 9, 14, 0, 0, 0],
+                            [0, 0, 0, 9, 0, 10, 0, 0, 0],
+                            [0, 0, 4, 14, 10, 0, 2, 0, 0],
+                            [0, 0, 0, 0, 0, 2, 0, 1, 6],
+                            [8, 11, 0, 0, 0, 0, 1, 0, 7],
+                            [0, 0, 2, 0, 0, 0, 6, 7, 0]
+                            ]
 
     def delete_node(self):
         '''
@@ -604,7 +615,7 @@ class GameGraph:
             if end_name_index != -1:
 
                 total_distance = [sys.maxsize] * len(self.graph_node_names)
-                path = []
+                previous_node = [None] * len(self.graph_node_names)
                 total_distance[start_name_index] = 0
                 visited = [False]*len(self.graph_node_names)
 
@@ -630,9 +641,12 @@ class GameGraph:
                             total_distance[node] = \
                                 total_distance[current_node] + \
                                 self.graph_nodes[current_node][node]
+                            previous_node[node] = self.graph_node_names[current_node]
+
 
                 print(total_distance)
                 print(visited)
+                print(previous_node)
 
             else:
                 print("Error: Name not found in graph")
