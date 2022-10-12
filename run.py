@@ -642,14 +642,20 @@ class GameGraph:
                                 total_distance[current_node] + \
                                 self.graph_nodes[current_node][node]
                             previous_node[node] = current_node
-                self.print_short_path(total_distance, previous_node, start_name_index, end_name_index)
+                self.print_short_path(total_distance, previous_node,
+                                      start_name_index, end_name_index)
 
             else:
                 print("Error: Name not found in graph")
         else:
             print("Error: Name not found in graph")
 
-    def print_short_path(self, total_distance, previous_node, start_index, end_index):
+    def print_short_path(self, total_distance, previous_node, start_index,
+                         end_index):
+        '''
+        Will write out the instructions on how to follow the shortest path
+        '''
+        print()
         print(f"{self.graph_node_names[start_index]} to "
               f"{self.graph_node_names[end_index]} has "
               f"weight of {total_distance[end_index]} "
@@ -677,28 +683,33 @@ def show_menu():
     '''
     Will show the main menu to the console
     '''
+    print()
     print("--- Menu ---")
     print("1) Create Maze")
     print("2) Create Graph")
     print("3) Load Maze from file")
     print("4) Load Graph from file")
     print("0) Exit")
+    print(("===================="))
 
 
 def show_maze_menu():
     '''
     Will show the menu for the maze to the console
     '''
+    print()
     print("--- Maze Menu ---")
     print("1) Solve/ Unsolve Maze")
     print("2) Save maze to file")
     print("0) Back to menu")
+    print(("===================="))
 
 
 def show_graph_menu():
     '''
     Will show the menu for the graph to the console
     '''
+    print()
     print("--- Graph Menu ---")
     print("1) Add Node")
     print("2) Add Link")
@@ -710,6 +721,7 @@ def show_graph_menu():
     print("8) Show Connections")
     print("9) Find Shortest Route")
     print("0) Back to menu")
+    print(("===================="))
 
 
 def main():
@@ -721,14 +733,14 @@ def main():
     print("----------")
     print("Welcome to Route me the best way to find the quickest route.\n")
     show_menu()
-    menu_option = get_number_option("menu", 0, 5)
+    menu_option = get_number_option("menu", 0, 4)
     while menu_option != 0:
         if menu_option == 1:
             menu_option_1()
         elif menu_option == 2:
             menu_option_2()
         show_menu()
-        menu_option = get_number_option("menu", 0, 5)
+        menu_option = get_number_option("menu", 0, 4)
 
 
 def menu_option_1():
@@ -740,12 +752,12 @@ def menu_option_1():
     the_maze = GameMaze(maze_size)
     the_maze.draw_maze()
     show_maze_menu()
-    maze_menu_option = get_number_option("maze menu", 0, 3)
+    maze_menu_option = get_number_option("maze menu", 0, 2)
     while maze_menu_option != 0:
         if maze_menu_option == 1:
             the_maze.solve_maze()
         show_maze_menu()
-        maze_menu_option = get_number_option("maze menu", 0, 3)
+        maze_menu_option = get_number_option("maze menu", 0, 2)
 
 
 def menu_option_2():
