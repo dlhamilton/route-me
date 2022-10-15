@@ -15,12 +15,16 @@ This program is designed o help you find the quickest way from a start position 
 
 #### Option 1 - Create Maze
 This will generate a random new maze. It will ask for a name and a size then create a maze with the dimensions entered.
+Will the take you to the create maze menu (option 1).
 #### Option 2 - Create Graph
-This will create a empty graph. It will ask for a name for your graph. 
+This will create a empty graph. It will ask for a name for your graph.
+Will the take you to the create graph menu (option 2).
 #### Option 3 - Load Maze
 This will show a list of all saved mazes and ask you to enter the name of the maze you want to load.
+Will the tak you to the create maze menu (option 1).
 #### Option 4 - Load Graph
 This will show a list of all saved graphs and ask you to enter the name of the graph you want to load.
+Will the tak you to the create graph menu (option 2).
 #### Option 0 - Exit
 This will terminate the program.
 
@@ -60,13 +64,9 @@ This will take you back to the main menu.
 
 <br>
 
-### Option 3 -Load Graph
+### Navigaton Flowchart
 
 <br>
-
-### Option 4 - Load Maze
-
-### Navigaton Flowchart
 
 ![Navigation Image](assets/media/route_me_menu_flow.png)
 
