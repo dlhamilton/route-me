@@ -28,22 +28,35 @@ This will terminate the program.
 
 ### Option 1 - Create Maze
 #### Option 1 - Solve /Unsolve Maze
+This will show the path to get from the start of the maze to the other. If they maze has already been solved it will remove the path.
 #### Option 2 - Save Maze
+This will save the maze to a google sheets file.
 #### Option 0 - Back to Main Menu
+This will take you back to the main menu.
 
 <br>
 
 ### Option 2 - Create Graph
 #### Option 1 - Add Node
+This will add a node to the graph, it will ask for a name for the node.
 #### Option 2 - Add Link
+This will cretae a link between two nodes. It will ask for the name of the start connection and the name of the end. It will then ask for the weight for the connections. 
 #### Option 3 - Delete Link
+This will delete a link between two nodes. It will ask for the name of the start connection and the name of the end and set the link to 0.
 #### Option 4 - Delete Node
+This will remove a node from the graph and all its connections, It will ask for the name of the node to remove. 
 #### Option 5 - Save Graph
+This will save the graph to a google sheets file.
 #### Option 6 - Show Graph Details
+This will show the name of the graph, the name of the nodes and all the connections in the graph matrix. 
 #### Option 7 - Fill With Sample Data
+This will create a graph with test data in the nodes and connections. 
 #### Option 8 - Show Connections
+This will show all teh connections for one node. It will ask you to enter the name of the node.
 #### Option 9 - Find Shortest Route
+This will find the shortest path between two node. It will ask for the names of the start and end. Itw ill then find the route and list out the steps.
 #### Option 0 - Back to menu
+This will take you back to the main menu.
 
 <br>
 
