@@ -540,10 +540,13 @@ class GameGraph:
         '''
         will output all the values linked to the graph
         '''
-        print(self.graph_name)
-        print(self.graph_node_names)
+        print("Graph name: " + self.graph_name)
+        print([str(i) + " = " + self.graph_node_names[i]
+              for i in range(len(self.graph_node_names))])
+        count = 0
         for node in self.graph_nodes:
-            print(node)
+            print(str(count) + " " + str(node))
+            count = count + 1
 
     def quick_fill_graph(self):
         '''
