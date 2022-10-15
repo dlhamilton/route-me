@@ -20,8 +20,9 @@ class GameMaze:
     walls = []
     maze = []
 
-    def __init__(self, maze_size):
+    def __init__(self, maze_size, name):
         # instance attribute
+        self.maze_name = name
         self.walls = []
         self.maze = []
         self.maze_size = maze_size
@@ -744,8 +745,9 @@ def menu_option_1():
     get the user input and perform the method the user selects for the maze
     '''
     the_maze = None
+    maze_name = input("Please enter the name of the maze:\n")
     maze_size = get_number_option("maze size", 10, 100)
-    the_maze = GameMaze(maze_size)
+    the_maze = GameMaze(maze_size, maze_name)
     the_maze.draw_maze()
     show_maze_menu()
     maze_menu_option = get_number_option("maze menu", 0, 2)
