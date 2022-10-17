@@ -718,7 +718,7 @@ def show_graph_menu():
     print("5) Save Graph")
     print("6) Show Graph Details")
     print("7) Fill With Sample Data")
-    print("8) Show Connections")
+    print("8) Show Connections for Node")
     print("9) Find Shortest Route")
     print("0) Back to menu")
     print(("===================="))
