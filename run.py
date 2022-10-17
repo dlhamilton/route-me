@@ -310,9 +310,11 @@ class GameMaze:
         for height in range(0, self.maze_size):
             for width in range(0, self.maze_size):
                 if self.maze[height][width] == self.path:
-                    print(Fore.BLACK + f"{self.maze[height][width]} ", end="")
+                    print(Fore.BLACK + Back.BLACK +
+                          f"{self.maze[height][width]} ", end="")
                 elif self.maze[height][width] == self.solution:
-                    print(Fore.GREEN + f"{self.maze[height][width]} ", end="")
+                    print(Fore.GREEN + Back.GREEN +
+                          f"{self.maze[height][width]} ", end="")
                 else:
                     print(Fore.WHITE + Back.WHITE +
                           f"{self.maze[height][width]} ",
@@ -728,9 +730,7 @@ def main():
     '''
     Main, the program start
     '''
-    print("----------")
-    print("Route Me")
-    print("----------")
+    show_app_title()
     print("Welcome to Route me the best way to find the quickest route.\n")
     show_menu()
     menu_option = get_number_option("menu", 0, 4)
@@ -814,5 +814,26 @@ def get_number_option(name, start, end):
                       f'number between {start} and {end}')
     return menu_option
 
+
+def show_app_title():
+    '''
+    Will show the Title logo for the route me app
+    '''
+    print(Fore.BLUE + Back.WHITE +
+          "===============================================")
+    print(Fore.BLUE + Back.WHITE +
+          "______            _             ___  ___      ")
+    print(Fore.BLUE + Back.WHITE +
+          "| ___ \          | |            |  \/  |      ")
+    print(Fore.BLUE + Back.WHITE +
+          "| |_/ /___  _   _| |_ ___ ______| .  . | ___  ")
+    print(Fore.BLUE + Back.WHITE +
+          '|    // _ \| | | | __/ _ \______| |\/| |/ _ \ ')
+    print(Fore.BLUE + Back.WHITE +
+          "| |\ \ (_) | |_| | ||  __/      | |  | |  __/ ")
+    print(Fore.BLUE + Back.WHITE +
+          "\_| \_\___/ \__,_|\__\___|      \_|  |_/\___| ")
+    print(Fore.BLUE + Back.WHITE +
+          "===============================================")
 
 main()
