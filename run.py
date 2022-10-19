@@ -2,6 +2,7 @@
 route-me
 '''
 # # Library for INT_MAX
+from gspread_formatting import *
 import sys
 import gspread
 from google.oauth2.service_account import Credentials
@@ -474,6 +475,20 @@ class GameMaze:
                 if self.maze[height][width] == self.solution:
                     self.maze[height][width] = self.path
 
+    def save_maze(self):
+        '''
+        Will store the maze details to sheets 
+        '''
+        print(self.maze_name)
+        print(self.maze)
+        print(self.maze_size)
+        new_sheet = SHEET.add_worksheet(self.maze_name, self.maze_size + 1,
+                                        self.maze_size)
+        new_sheet.update("A1", self.maze_name)
+        new_sheet.update("B1", self.maze_size)
+        for row in self.maze:
+            new_sheet.append_row(row)
+
 
 class GameGraph:
     '''
@@ -779,6 +794,8 @@ def menu_option_1():
     while maze_menu_option != 0:
         if maze_menu_option == 1:
             the_maze.solve_maze()
+        elif maze_menu_option == 2:
+            the_maze.save_maze()
         show_maze_menu()
         maze_menu_option = get_number_option("maze menu", 0, 2)
 
@@ -879,6 +896,7 @@ def get_saved_file_names(save_type):
         if file_name_enetered in saved_names:
             if save_type == 1:
                 print("Maze loading...")
+                load_maze(file_name_enetered)
             elif save_type == 2:
                 print("Graph loading...")
                 load_graph(file_name_enetered)
@@ -910,6 +928,14 @@ def load_graph(sheet_name):
                             int_temp_graph_node)
 
     menu_option_2(the_graph)
+
+
+def load_maze(sheet_name):
+    temp_maze = SHEET.worksheet(sheet_name)
+    temp_maze_name = sheet_name
+
+    print(temp_maze_name)
+    print(temp_maze.get_all_values())
 
 
 main()
