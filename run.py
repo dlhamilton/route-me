@@ -693,6 +693,11 @@ class GameGraph:
                   f"weight = {self.graph_nodes[last_node][node]})")
             last_node = node
 
+    def load_in_graph(self, name, node_names, matrix):
+        self.graph_name = name
+        self.graph_node_names = node_names
+        self.graph_nodes = matrix
+
 
 def show_menu():
     '''
@@ -778,13 +783,13 @@ def menu_option_1():
         maze_menu_option = get_number_option("maze menu", 0, 2)
 
 
-def menu_option_2():
+def menu_option_2(the_graph=None):
     '''
     get the user input and perform the method the user selects for the graph
     '''
-    the_graph = None
-    graph_name = input("Please enter the name of the graph:\n")
-    the_graph = GameGraph(graph_name)
+    if the_graph is None:
+        graph_name = input("Please enter the name of the graph:\n")
+        the_graph = GameGraph(graph_name)
     show_graph_menu()
     graph_menu_option = get_number_option("graph menu", 0, 9)
     while graph_menu_option != 0:
@@ -857,25 +862,54 @@ def show_app_title():
 
 
 def get_saved_file_names(save_type):
-    # test = SHEET.worksheet('tube_map')
-    # test_data = test.get_all_values()
+    '''
+    Will show the user all the graphs and mazes that are saved and will 
+    allow the user o enter the worksheets name to load it
+    '''
     saved_sheets = SHEET.worksheet('saves')
     saved_names = saved_sheets.col_values(save_type)
-    # saved_graphs = saved_sheets.col_values(2)
-    # print(saved_sheets)
-    # print(saved_mazes)
-    # print(saved_graphs)
-    print("Files available to load:")
-    print("========================")
-    for name in saved_names:
-        print(name)
-    print()
-    file_name_enetered = input("Please enter the file name you want to open" +
-                               " (case sensitive) \n")
-    if file_name_enetered in saved_names:
-        print("yes")
+    if len(saved_names) != 0:
+        print("Files available to load:")
+        print("========================")
+        for name in saved_names:
+            print(name)
+        print()
+        file_name_enetered = input("Please enter the file name you want " +
+                                   "to open (case sensitive) \n")
+        if file_name_enetered in saved_names:
+            if save_type == 1:
+                print("Maze loading...")
+            elif save_type == 2:
+                print("Graph loading...")
+                load_graph(file_name_enetered)
+        else:
+            print("This sheet could not be found!")
     else:
-        print("no")
+        print("No saved sheets")
+
+
+def load_graph(sheet_name):
+    '''
+    Loads the data from the sheet and will create a new instance of graph
+    with the data
+    '''
+    temp_graph = SHEET.worksheet(sheet_name)
+    temp_graph_name = sheet_name
+    temp_graph_node_names = temp_graph.row_values(1)
+    temp_graph_node = temp_graph.get_all_values()
+    temp_graph_node.pop(0)
+    int_temp_graph_node = []
+    the_graph = None
+
+    for row in temp_graph_node:
+        int_row = [int(num) for num in row]
+        int_temp_graph_node.append(int_row)
+
+    the_graph = GameGraph(temp_graph_name)
+    the_graph.load_in_graph(temp_graph_name, temp_graph_node_names,
+                            int_temp_graph_node)
+
+    menu_option_2(the_graph)
 
 
 main()
