@@ -3,9 +3,22 @@ route-me
 '''
 # # Library for INT_MAX
 import sys
+import gspread
+from google.oauth2.service_account import Credentials
 import random
 from colorama import init, Fore, Back
 init(autoreset=True)
+
+SCOPE = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive.file",
+    "https://www.googleapis.com/auth/drive"
+    ]
+
+CREDS = Credentials.from_service_account_file('creds.json')
+SCOPED_CREDS = CREDS.with_scopes(SCOPE)
+GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
+SHEET = GSPREAD_CLIENT.open('route_me_data')
 
 
 class GameMaze:
@@ -685,7 +698,6 @@ def show_menu():
     '''
     Will show the main menu to the console
     '''
-    print()
     print("--- Menu ---")
     print("1) Create Maze")
     print("2) Create Graph")
@@ -703,7 +715,7 @@ def show_maze_menu():
     print("--- Maze Menu ---")
     print("1) Solve/ Unsolve Maze")
     print("2) Save maze to file")
-    print("0) Back to menu")
+    print("0) Back to Main menu")
     print(("===================="))
 
 
@@ -722,7 +734,7 @@ def show_graph_menu():
     print("7) Fill With Sample Data")
     print("8) Show Connections for Node")
     print("9) Find Shortest Route")
-    print("0) Back to menu")
+    print("0) Back to Main menu")
     print(("===================="))
 
 
@@ -730,15 +742,16 @@ def main():
     '''
     Main, the program start
     '''
-    show_app_title()
-    print("Welcome to Route me the best way to find the quickest route.\n")
-    show_menu()
-    menu_option = get_number_option("menu", 0, 4)
+    # show_app_title()
+    # print("Welcome to Route me the best way to find the quickest route.\n")
+    # show_menu()
+    menu_option = None
     while menu_option != 0:
         if menu_option == 1:
             menu_option_1()
         elif menu_option == 2:
             menu_option_2()
+        show_app_title()
         show_menu()
         menu_option = get_number_option("menu", 0, 4)
 
@@ -749,7 +762,7 @@ def menu_option_1():
     '''
     the_maze = None
     maze_name = input("Please enter the name of the maze:\n")
-    maze_size = get_number_option("maze size", 10, 100)
+    maze_size = get_number_option("maze size", 10, 40)
     the_maze = GameMaze(maze_size, maze_name)
     the_maze.draw_maze()
     show_maze_menu()
@@ -820,7 +833,7 @@ def show_app_title():
     Will show the Title logo for the route me app
     '''
     print(Fore.BLUE + Back.WHITE +
-          "===============================================")
+          "==============================================")
     print(Fore.BLUE + Back.WHITE +
           "______            _             ___  ___      ")
     print(Fore.BLUE + Back.WHITE +
@@ -834,6 +847,12 @@ def show_app_title():
     print(Fore.BLUE + Back.WHITE +
           "\_| \_\___/ \__,_|\__\___|      \_|  |_/\___| ")
     print(Fore.BLUE + Back.WHITE +
-          "===============================================")
+          "==============================================")
+    print()
+    print("Welcome to Route me the best way to find the quickest route.\n")
 
-main()
+
+test = SHEET.worksheet('tube_map')
+test_data = test.get_all_values()
+print(test_data)
+# main()
