@@ -751,6 +751,10 @@ def main():
             menu_option_1()
         elif menu_option == 2:
             menu_option_2()
+        elif menu_option == 3:
+            get_saved_file_names(1)
+        elif menu_option == 4:
+            get_saved_file_names(2)
         show_app_title()
         show_menu()
         menu_option = get_number_option("menu", 0, 4)
@@ -849,10 +853,29 @@ def show_app_title():
     print(Fore.BLUE + Back.WHITE +
           "==============================================")
     print()
-    print("Welcome to Route me the best way to find the quickest route.\n")
+    print("Welcome to Route-me the best way to find the quickest route.\n")
 
 
-test = SHEET.worksheet('tube_map')
-test_data = test.get_all_values()
-print(test_data)
-# main()
+def get_saved_file_names(save_type):
+    # test = SHEET.worksheet('tube_map')
+    # test_data = test.get_all_values()
+    saved_sheets = SHEET.worksheet('saves')
+    saved_names = saved_sheets.col_values(save_type)
+    # saved_graphs = saved_sheets.col_values(2)
+    # print(saved_sheets)
+    # print(saved_mazes)
+    # print(saved_graphs)
+    print("Files available to load:")
+    print("========================")
+    for name in saved_names:
+        print(name)
+    print()
+    file_name_enetered = input("Please enter the file name you want to open" +
+                               " (case sensitive) \n")
+    if file_name_enetered in saved_names:
+        print("yes")
+    else:
+        print("no")
+
+
+main()
