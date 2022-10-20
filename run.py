@@ -35,7 +35,7 @@ class GameMaze:
     walls = []
     maze = []
     loaded = False
-    solver_current = []
+    solver_current = None
 
     def __init__(self, maze_size, name):
         # instance attribute
@@ -43,7 +43,7 @@ class GameMaze:
         self.walls = []
         self.maze = []
         self.loaded = False
-        self.solver_current = []
+        self.solver_current = None
         self.maze_size = maze_size
         self.create_blank_maze()
         start_pos_h = \
@@ -409,13 +409,15 @@ class GameMaze:
         end = None
         goal = ()
         for width in range(0, self.maze_size):
-            if self.maze[0][width] == self.path:
+            if (self.maze[0][width] == self.path or
+               self.maze[0][width] == self.user_move):
                 start = width
                 current = (0, width)
             if self.maze[0][width] == self.solution:
                 return 0
         for width in range(0, self.maze_size):
-            if self.maze[self.maze_size - 1][width] == self.path:
+            if (self.maze[self.maze_size - 1][width] == self.path
+               or self.maze[self.maze_size - 1][width] == self.user_move):
                 end = width
                 goal = (self.maze_size - 1, width)
             if self.maze[self.maze_size - 1][width] == self.solution:
@@ -515,6 +517,7 @@ class GameMaze:
             else:
                 for row in self.maze:
                     new_sheet.append_row(row)
+                new_sheet.append_row(self.solver_current)
                 if self.loaded is False:
                     saves_worksheet = SHEET.worksheet('saves')
                     saves_worksheet_len = len(saves_worksheet.col_values(1))
@@ -523,8 +526,9 @@ class GameMaze:
                                            self.maze_name)
                 print("Maze saved!")
                 self.loaded = True
+                self.draw_maze()
 
-    def load_in_maze(self, name, matrix):
+    def load_in_maze(self, name, matrix, current):
         '''
         Will update the graph with the data that was loaded from google sheets
         '''
@@ -532,42 +536,57 @@ class GameMaze:
         self.maze = matrix
         self.maze_size = len(matrix[0])
         self.loaded = True
+        self.solver_current = current
 
     def user_solve_maze(self):
+        '''
+        using the WASD keys user can solve the maze by drawing a path
+        '''
         print()
         s_and_e = self.get_start_and_end()
-        self.maze[s_and_e[0][0]][s_and_e[0][1]] = self.user_move
-        current = s_and_e[0]
-        self.solver_current = current
-        self.draw_maze()
-        print()
-        end_solver = False
-        while end_solver is False:
-            command = input("Please enter the direction you want to go\n")
-            if command.upper() == "W":
-                print("Move Up")
-                current = self.user_path_creator(command.upper(), current)
-            elif command.upper() == "A":
-                print("Move Left")
-                current = self.user_path_creator(command.upper(), current)
-            elif command.upper() == "S":
-                print("Move Down")
-                current = self.user_path_creator(command.upper(), current)
-            elif command.upper() == "D":
-                print("Move Right")
-                current = self.user_path_creator(command.upper(), current)
-            elif command.upper() == "0":
-                print("Exit Solver")
-                end_solver = True
+        if s_and_e != 0:
+            if self.solver_current is None:
+                self.maze[s_and_e[0][0]][s_and_e[0][1]] = self.user_move
+                current = s_and_e[0]
+                self.solver_current = current
             else:
-                print("Invalid Move")
-            self.solver_current = current
+                current = self.solver_current
             self.draw_maze()
-            if current[0] == s_and_e[1][0] and current[1] == s_and_e[1][1]:
-                print("Solved it")
-                end_solver = True
+            print()
+            end_solver = False
+            while end_solver is False:
+                command = input("Please enter the direction you want to go\n")
+                if command.upper() == "W":
+                    print("Move Up")
+                    current = self.user_path_creator(command.upper(), current)
+                elif command.upper() == "A":
+                    print("Move Left")
+                    current = self.user_path_creator(command.upper(), current)
+                elif command.upper() == "S":
+                    print("Move Down")
+                    current = self.user_path_creator(command.upper(), current)
+                elif command.upper() == "D":
+                    print("Move Right")
+                    current = self.user_path_creator(command.upper(), current)
+                elif command.upper() == "0":
+                    print("Exit Solver")
+                    end_solver = True
+                else:
+                    print("Invalid Move")
+                self.solver_current = current
+                self.draw_maze()
+                if current[0] == s_and_e[1][0] and current[1] == s_and_e[1][1]:
+                    print("Solved it")
+                    end_solver = True
+        else:
+            self.draw_maze()
 
     def user_path_creator(self, direction, current):
+        '''
+        This sets the game maze array path to the user move character.
+        If the user selects a direction that is blocked by a wall then
+        it will give an error message
+        '''
         if direction == "W":
             if current[0] == 0:
                 print("Error border - Cannot go up")
@@ -619,23 +638,33 @@ class GameMaze:
         return current
 
     def get_start_and_end(self):
+        '''
+        will find the start and end coordinates so it will start the user
+        at the right place in the maze
+        '''
         start = None
         path = []
         end = None
         goal = ()
         for width in range(0, self.maze_size):
-            if self.maze[0][width] == self.path:
+            if (self.maze[0][width] == self.path or
+               self.maze[0][width] == self.user_move):
                 start = width
                 current = (0, width)
                 path.append(current)
                 break
         for width in range(0, self.maze_size):
-            if self.maze[self.maze_size - 1][width] == self.path:
+            if (self.maze[self.maze_size - 1][width] == self.path or
+               self.maze[self.maze_size - 1][width] == self.user_move):
                 end = width
                 goal = (self.maze_size - 1, width)
                 path.append(goal)
                 break
         if start is None or end is None:
+            for width in range(0, self.maze_size):
+                if self.maze[self.maze_size - 1][width] == self.solution:
+                    print("Maze already solved!")
+                    return 0
             print("No start point")
             return 0
         return path
@@ -1172,11 +1201,14 @@ def load_maze(sheet_name):
     temp_maze = SHEET.worksheet(sheet_name).get_all_values()
     temp_maze_name = sheet_name
     temp_maze_size = len(temp_maze[0])
+    current = None
 
     the_maze = GameMaze(temp_maze_size, temp_maze_name)
+    if len(temp_maze) != len(temp_maze[0]):
+        current = temp_maze.pop()
+        current = [int(current[0]), int(current[1])]
 
-    the_maze.load_in_maze(temp_maze_name, temp_maze)
-
+    the_maze.load_in_maze(temp_maze_name, temp_maze, current)
     menu_option_1(the_maze)
 
 
