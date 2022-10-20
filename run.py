@@ -40,6 +40,7 @@ class GameMaze:
         self.maze_name = name
         self.walls = []
         self.maze = []
+        self.loaded = False
         self.maze_size = maze_size
         self.create_blank_maze()
         start_pos_h = \
@@ -534,6 +535,9 @@ class GameGraph:
     def __init__(self, name):
         # instance attribute
         self.graph_name = name
+        self.graph_nodes = []
+        self.graph_node_names = []
+        self.loaded = False
 
     def add_node_to_graph(self):
         '''
@@ -658,11 +662,16 @@ class GameGraph:
         node_name = input("Please enter the name of the node:\n")
         node_name_index = self.get_node_index(node_name)
         if node_name_index != -1:
+            has_link = False
             for index, node in enumerate(self.graph_nodes[node_name_index]):
                 if node != 0:
+                    has_link = True
                     print(f"{self.graph_node_names[node_name_index]} to "
                           f"{self.graph_node_names[index]} -- weight: "
                           f"{self.graph_nodes[node_name_index][index]}")
+            if has_link is False:
+                print(f"{self.graph_node_names[node_name_index]} has no "
+                      f"links to other nodes")
         else:
             print("Error: Name not found in graph")
 
@@ -848,9 +857,9 @@ def main():
     menu_option = None
     while menu_option != 0:
         if menu_option == 1:
-            menu_option_1()
+            menu_option_1(None)
         elif menu_option == 2:
-            menu_option_2()
+            menu_option_2(None)
         elif menu_option == 3:
             get_saved_file_names(1)
         elif menu_option == 4:
@@ -882,6 +891,7 @@ def menu_option_1(the_maze=None):
             the_maze.save_maze()
         show_maze_menu()
         maze_menu_option = get_number_option("maze menu", 0, 2)
+    the_maze = None
 
 
 def menu_option_2(the_graph=None):
@@ -917,6 +927,7 @@ def menu_option_2(the_graph=None):
             the_graph.dijkstra_path()
         show_graph_menu()
         graph_menu_option = get_number_option("graph menu", 0, 9)
+    the_graph = None
 
 
 def get_number_option(name, start, end):
@@ -942,6 +953,9 @@ def get_number_option(name, start, end):
 
 
 def valid_user_input(text):
+    '''
+    Will validate the user input to make sure it starst with a letter
+    '''
     if len(text) < 1:
         print("Input is not long enough")
         return False
@@ -978,7 +992,7 @@ def show_app_title():
 
 def get_saved_file_names(save_type):
     '''
-    Will show the user all the graphs and mazes that are saved and will 
+    Will show the user all the graphs and mazes that are saved and will
     allow the user o enter the worksheets name to load it
     '''
     saved_sheets = SHEET.worksheet('saves')
@@ -1029,6 +1043,11 @@ def load_graph(sheet_name):
 
 
 def load_maze(sheet_name):
+    '''
+    Loads the data from the sheet and will create a new instance of maze
+    with the data
+    '''
+    the_maze = None
     temp_maze = SHEET.worksheet(sheet_name).get_all_values()
     temp_maze_name = sheet_name
     temp_maze_size = len(temp_maze[0])
