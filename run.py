@@ -4,8 +4,8 @@ route-me
 # # Library for INT_MAX
 import sys
 import random
-import gspread
 import re
+import gspread
 from google.oauth2.service_account import Credentials
 from colorama import init, Fore, Back
 init(autoreset=True)
@@ -496,7 +496,8 @@ class GameMaze:
                 valid = False
                 name_valid = False
                 while name_valid is False:
-                    new_name = input("Please enter a new name for the sheet \n")
+                    new_name = input("Please enter a new name for the" +
+                                     " sheet \n")
                     name_valid = valid_user_input(new_name)
                 self.maze_name = new_name
             else:
@@ -528,6 +529,7 @@ class GameGraph:
     # class attribute
     graph_nodes = []
     graph_node_names = []
+    loaded = False
 
     def __init__(self, name):
         # instance attribute
@@ -704,7 +706,8 @@ class GameGraph:
                                 self.graph_nodes[current_node][node]
                             previous_node[node] = current_node
                 self.print_short_path(total_distance, previous_node,
-                                      start_name_index, end_name_index)
+                                      start_name_index, end_name_index,
+                                      visited[end_name_index])
 
             else:
                 print("Error: Name not found in graph")
@@ -712,32 +715,37 @@ class GameGraph:
             print("Error: Name not found in graph")
 
     def print_short_path(self, total_distance, previous_node, start_index,
-                         end_index):
+                         end_index, reachable):
         '''
         Will write out the instructions on how to follow the shortest path
         '''
         print()
-        print(f"{self.graph_node_names[start_index]} to "
-              f"{self.graph_node_names[end_index]} has "
-              f"weight of {total_distance[end_index]} "
-              )
-        the_node = end_index
-        print("The steps to destination")
-        solution = []
-        solution_name = []
-        while the_node != start_index:
-            solution.insert(0, the_node)
-            solution_name.insert(0, self.graph_node_names[the_node])
-            the_node = previous_node[the_node]
-        solution_name.insert(0, self.graph_node_names[start_index])
-        print(solution_name)
-        last_node = start_index
+        if reachable is True:
+            print(f"{self.graph_node_names[start_index]} to "
+                  f"{self.graph_node_names[end_index]} has "
+                  f"weight of {total_distance[end_index]} "
+                  )
+            the_node = end_index
+            print("The steps to destination")
+            solution = []
+            solution_name = []
+            while the_node != start_index:
+                solution.insert(0, the_node)
+                solution_name.insert(0, self.graph_node_names[the_node])
+                the_node = previous_node[the_node]
+            solution_name.insert(0, self.graph_node_names[start_index])
+            print(solution_name)
+            last_node = start_index
 
-        for index, node in enumerate(solution):
-            print(f"{index+1}) {self.graph_node_names[last_node]} to "
-                  f"{self.graph_node_names[node]} ("
-                  f"weight = {self.graph_nodes[last_node][node]})")
-            last_node = node
+            for index, node in enumerate(solution):
+                print(f"{index+1}) {self.graph_node_names[last_node]} to "
+                      f"{self.graph_node_names[node]} ("
+                      f"weight = {self.graph_nodes[last_node][node]})")
+                last_node = node
+        else:
+            print(f"There is no route between "
+                  f"{self.graph_node_names[start_index]} and "
+                  f"{self.graph_node_names[end_index]}")
 
     def load_in_graph(self, name, node_names, matrix):
         '''
@@ -746,6 +754,44 @@ class GameGraph:
         self.graph_name = name
         self.graph_node_names = node_names
         self.graph_nodes = matrix
+        self.loaded = True
+
+    def save_graph(self):
+        '''
+        Will store the maze details to sheets
+        '''
+        valid = False
+        while valid is False:
+            valid = True
+            if self.loaded is True:
+                SHEET.del_worksheet(SHEET.worksheet(self.graph_name))
+            print("Saving maze...")
+            try:
+                new_sheet = SHEET.add_worksheet(self.graph_name,
+                                                len(self.graph_node_names) + 1,
+                                                len(self.graph_node_names))
+            except Exception:
+                print(f"Could not save because: A sheet with the name '"
+                      f"{self.graph_name}' already exists.")
+                valid = False
+                name_valid = False
+                while name_valid is False:
+                    new_name = input("Please enter a new name for the" +
+                                     " sheet \n")
+                    name_valid = valid_user_input(new_name)
+                self.graph_name = new_name
+            else:
+                new_sheet.append_row(self.graph_node_names)
+                for row in self.graph_nodes:
+                    new_sheet.append_row(row)
+                if self.loaded is False:
+                    saves_worksheet = SHEET.worksheet('saves')
+                    saves_worksheet_len = len(saves_worksheet.col_values(2))
+
+                    saves_worksheet.update('B'+str(saves_worksheet_len+1),
+                                           self.graph_name)
+                print("Graph saved!")
+                self.loaded = True
 
 
 def show_menu():
@@ -860,7 +906,7 @@ def menu_option_2(the_graph=None):
         elif graph_menu_option == 4:
             the_graph.delete_node()
         elif graph_menu_option == 5:
-            print("Save goes here")
+            the_graph.save_graph()
         elif graph_menu_option == 6:
             the_graph.show_graph_status()
         elif graph_menu_option == 7:
