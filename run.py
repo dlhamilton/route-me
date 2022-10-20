@@ -35,6 +35,7 @@ class GameMaze:
     walls = []
     maze = []
     loaded = False
+    solver_current = []
 
     def __init__(self, maze_size, name):
         # instance attribute
@@ -42,6 +43,7 @@ class GameMaze:
         self.walls = []
         self.maze = []
         self.loaded = False
+        self.solver_current = []
         self.maze_size = maze_size
         self.create_blank_maze()
         start_pos_h = \
@@ -333,8 +335,13 @@ class GameMaze:
                     print(Fore.GREEN + Back.GREEN +
                           f"{self.maze[height][width]} ", end="")
                 elif self.maze[height][width] == self.user_move:
-                    print(Fore.BLUE + Back.BLUE +
-                          f"{self.maze[height][width]} ", end="")
+                    if (height == self.solver_current[0]
+                       and width == self.solver_current[1]):
+                        print(Fore.BLUE + Back.CYAN +
+                              f"{self.maze[height][width]} ", end="")
+                    else:
+                        print(Fore.BLUE + Back.BLUE +
+                              f"{self.maze[height][width]} ", end="")
                 else:
                     print(Fore.WHITE + Back.WHITE +
                           f"{self.maze[height][width]} ",
@@ -531,6 +538,7 @@ class GameMaze:
         s_and_e = self.get_start_and_end()
         self.maze[s_and_e[0][0]][s_and_e[0][1]] = self.user_move
         current = s_and_e[0]
+        self.solver_current = current
         self.draw_maze()
         print()
         end_solver = False
@@ -553,6 +561,7 @@ class GameMaze:
                 end_solver = True
             else:
                 print("Invalid Move")
+            self.solver_current = current
             self.draw_maze()
             if current[0] == s_and_e[1][0] and current[1] == s_and_e[1][1]:
                 print("Solved it")
