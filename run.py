@@ -31,6 +31,7 @@ class GameMaze:
     wall = 'W'
     open = "O"
     solution = "A"
+    user_move = "U"
     walls = []
     maze = []
     loaded = False
@@ -331,6 +332,9 @@ class GameMaze:
                 elif self.maze[height][width] == self.solution:
                     print(Fore.GREEN + Back.GREEN +
                           f"{self.maze[height][width]} ", end="")
+                elif self.maze[height][width] == self.user_move:
+                    print(Fore.BLUE + Back.BLUE +
+                          f"{self.maze[height][width]} ", end="")
                 else:
                     print(Fore.WHITE + Back.WHITE +
                           f"{self.maze[height][width]} ",
@@ -521,6 +525,58 @@ class GameMaze:
         self.maze = matrix
         self.maze_size = len(matrix[0])
         self.loaded = True
+
+    def user_solve_maze(self):
+        print()
+        s_and_e = self.get_start_and_end()
+        self.maze[s_and_e[0][0]][s_and_e[0][1]] = self.user_move
+        self.draw_maze()
+        print()
+        end_solver = False
+        while end_solver is False:
+            command = input("Please enter the direction you want to go\n")
+            if command.upper() == "W":
+                print("Move Up")
+                self.user_path_creator()
+            elif command.upper() == "A":
+                print("Move Left")
+                self.user_path_creator()
+            elif command.upper() == "S":
+                print("Move Down")
+                self.user_path_creator()
+            elif command.upper() == "D":
+                print("Move Right")
+                self.user_path_creator()
+            elif command.upper() == "0":
+                print("Exit Solver")
+                end_solver = True
+            else:
+                print("Invalid Move")
+
+    def user_path_creator(self):
+        print("move here")
+
+    def get_start_and_end(self):
+        start = None
+        path = []
+        end = None
+        goal = ()
+        for width in range(0, self.maze_size):
+            if self.maze[0][width] == self.path:
+                start = width
+                current = (0, width)
+                path.append(current)
+                break
+        for width in range(0, self.maze_size):
+            if self.maze[self.maze_size - 1][width] == self.path:
+                end = width
+                goal = (self.maze_size - 1, width)
+                path.append(goal)
+                break
+        if start is None or end is None:
+            print("No start point")
+            return 0
+        return path
 
 
 class GameGraph:
@@ -824,6 +880,7 @@ def show_maze_menu():
     print("--- Maze Menu ---")
     print("1) Solve/ Unsolve Maze")
     print("2) Save maze to file")
+    print("3) User Solve Maze")
     print("0) Back to Main menu")
     print(("===================="))
 
@@ -883,14 +940,16 @@ def menu_option_1(the_maze=None):
         the_maze = GameMaze(maze_size, maze_name)
     the_maze.draw_maze()
     show_maze_menu()
-    maze_menu_option = get_number_option("maze menu", 0, 2)
+    maze_menu_option = get_number_option("maze menu", 0, 3)
     while maze_menu_option != 0:
         if maze_menu_option == 1:
             the_maze.solve_maze()
         elif maze_menu_option == 2:
             the_maze.save_maze()
+        elif maze_menu_option == 3:
+            the_maze.user_solve_maze()
         show_maze_menu()
-        maze_menu_option = get_number_option("maze menu", 0, 2)
+        maze_menu_option = get_number_option("maze menu", 0, 3)
     the_maze = None
 
 
