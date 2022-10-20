@@ -2,11 +2,11 @@
 route-me
 '''
 # # Library for INT_MAX
-from gspread_formatting import *
 import sys
-import gspread
-from google.oauth2.service_account import Credentials
 import random
+import gspread
+import re
+from google.oauth2.service_account import Credentials
 from colorama import init, Fore, Back
 init(autoreset=True)
 
@@ -33,6 +33,7 @@ class GameMaze:
     solution = "A"
     walls = []
     maze = []
+    loaded = False
 
     def __init__(self, maze_size, name):
         # instance attribute
@@ -477,17 +478,47 @@ class GameMaze:
 
     def save_maze(self):
         '''
-        Will store the maze details to sheets 
+        Will store the maze details to sheets
         '''
-        print(self.maze_name)
-        print(self.maze)
-        print(self.maze_size)
-        new_sheet = SHEET.add_worksheet(self.maze_name, self.maze_size + 1,
-                                        self.maze_size)
-        new_sheet.update("A1", self.maze_name)
-        new_sheet.update("B1", self.maze_size)
-        for row in self.maze:
-            new_sheet.append_row(row)
+        valid = False
+        while valid is False:
+            valid = True
+            if self.loaded is True:
+                SHEET.del_worksheet(SHEET.worksheet(self.maze_name))
+            print("Saving maze...")
+            try:
+                new_sheet = SHEET.add_worksheet(self.maze_name,
+                                                self.maze_size + 1,
+                                                self.maze_size)
+            except Exception:
+                print(f"Could not save because: A sheet with the name '"
+                      f"{self.maze_name}' already exists.")
+                valid = False
+                name_valid = False
+                while name_valid is False:
+                    new_name = input("Please enter a new name for the sheet \n")
+                    name_valid = valid_user_input(new_name)
+                self.maze_name = new_name
+            else:
+                for row in self.maze:
+                    new_sheet.append_row(row)
+                if self.loaded is False:
+                    saves_worksheet = SHEET.worksheet('saves')
+                    saves_worksheet_len = len(saves_worksheet.col_values(1))
+
+                    saves_worksheet.update('A'+str(saves_worksheet_len+1),
+                                           self.maze_name)
+                print("Maze saved!")
+                self.loaded = True
+
+    def load_in_maze(self, name, matrix):
+        '''
+        Will update the graph with the data that was loaded from google sheets
+        '''
+        self.maze_name = name
+        self.maze = matrix
+        self.maze_size = len(matrix[0])
+        self.loaded = True
 
 
 class GameGraph:
@@ -709,6 +740,9 @@ class GameGraph:
             last_node = node
 
     def load_in_graph(self, name, node_names, matrix):
+        '''
+        Will update the graph with the data that was loaded from google sheets
+        '''
         self.graph_name = name
         self.graph_node_names = node_names
         self.graph_nodes = matrix
@@ -780,14 +814,18 @@ def main():
         menu_option = get_number_option("menu", 0, 4)
 
 
-def menu_option_1():
+def menu_option_1(the_maze=None):
     '''
     get the user input and perform the method the user selects for the maze
     '''
-    the_maze = None
-    maze_name = input("Please enter the name of the maze:\n")
-    maze_size = get_number_option("maze size", 10, 40)
-    the_maze = GameMaze(maze_size, maze_name)
+    if the_maze is None:
+        the_maze = None
+        name_valid = False
+        while name_valid is False:
+            maze_name = input("Please enter the name of the maze:\n")
+            name_valid = valid_user_input(maze_name)
+        maze_size = get_number_option("maze size", 10, 40)
+        the_maze = GameMaze(maze_size, maze_name)
     the_maze.draw_maze()
     show_maze_menu()
     maze_menu_option = get_number_option("maze menu", 0, 2)
@@ -805,7 +843,10 @@ def menu_option_2(the_graph=None):
     get the user input and perform the method the user selects for the graph
     '''
     if the_graph is None:
-        graph_name = input("Please enter the name of the graph:\n")
+        name_valid = False
+        while name_valid is False:
+            graph_name = input("Please enter the name of the graph:\n")
+            name_valid = valid_user_input(graph_name)
         the_graph = GameGraph(graph_name)
     show_graph_menu()
     graph_menu_option = get_number_option("graph menu", 0, 9)
@@ -852,6 +893,17 @@ def get_number_option(name, start, end):
                 print(f'Number option not avaliable - Please enter a '
                       f'number between {start} and {end}')
     return menu_option
+
+
+def valid_user_input(text):
+    if len(text) < 1:
+        print("Input is not long enough")
+        return False
+    elif re.search("^[a-zA-Z]", text) is None:
+        print("Input must start with a letter")
+        return False
+    else:
+        return True
 
 
 def show_app_title():
@@ -931,11 +983,15 @@ def load_graph(sheet_name):
 
 
 def load_maze(sheet_name):
-    temp_maze = SHEET.worksheet(sheet_name)
+    temp_maze = SHEET.worksheet(sheet_name).get_all_values()
     temp_maze_name = sheet_name
+    temp_maze_size = len(temp_maze[0])
 
-    print(temp_maze_name)
-    print(temp_maze.get_all_values())
+    the_maze = GameMaze(temp_maze_size, temp_maze_name)
+
+    the_maze.load_in_maze(temp_maze_name, temp_maze)
+
+    menu_option_1(the_maze)
 
 
 main()
