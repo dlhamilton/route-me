@@ -530,6 +530,7 @@ class GameMaze:
         print()
         s_and_e = self.get_start_and_end()
         self.maze[s_and_e[0][0]][s_and_e[0][1]] = self.user_move
+        current = s_and_e[0]
         self.draw_maze()
         print()
         end_solver = False
@@ -537,24 +538,76 @@ class GameMaze:
             command = input("Please enter the direction you want to go\n")
             if command.upper() == "W":
                 print("Move Up")
-                self.user_path_creator()
+                current = self.user_path_creator(command.upper(), current)
             elif command.upper() == "A":
                 print("Move Left")
-                self.user_path_creator()
+                current = self.user_path_creator(command.upper(), current)
             elif command.upper() == "S":
                 print("Move Down")
-                self.user_path_creator()
+                current = self.user_path_creator(command.upper(), current)
             elif command.upper() == "D":
                 print("Move Right")
-                self.user_path_creator()
+                current = self.user_path_creator(command.upper(), current)
             elif command.upper() == "0":
                 print("Exit Solver")
                 end_solver = True
             else:
                 print("Invalid Move")
+            self.draw_maze()
+            if current[0] == s_and_e[1][0] and current[1] == s_and_e[1][1]:
+                print("Solved it")
+                end_solver = True
 
-    def user_path_creator(self):
-        print("move here")
+    def user_path_creator(self, direction, current):
+        if direction == "W":
+            if current[0] == 0:
+                print("Error border - Cannot go up")
+                return current
+            if self.maze[current[0]-1][current[1]] == self.wall:
+                print("Error wall - Cannot go up")
+                return current
+            if self.maze[current[0]-1][current[1]] == self.user_move:
+                self.maze[current[0]][current[1]] = self.path
+            else:
+                self.maze[current[0]-1][current[1]] = self.user_move
+            current = [current[0]-1, current[1]]
+        if direction == "D":
+            if current[1] == self.maze_size-1:
+                print("Error border - Cannot go right")
+                return current
+            if self.maze[current[0]][current[1]+1] == self.wall:
+                print("Error wall - Cannot go right")
+                return current
+            if self.maze[current[0]][current[1]+1] == self.user_move:
+                self.maze[current[0]][current[1]] = self.path
+            else:
+                self.maze[current[0]][current[1]+1] = self.user_move
+            current = [current[0], current[1]+1]
+        if direction == "S":
+            if current[0] == self.maze_size-1:
+                print("Error border - Cannot go down")
+                return current
+            if self.maze[current[0]+1][current[1]] == self.wall:
+                print("Error wall - Cannot go down")
+                return current
+            if self.maze[current[0]+1][current[1]] == self.user_move:
+                self.maze[current[0]][current[1]] = self.path
+            else:
+                self.maze[current[0]+1][current[1]] = self.user_move
+            current = [current[0]+1, current[1]]
+        if direction == "A":
+            if current[1] == 0:
+                print("Error border - Cannot go left")
+                return current
+            if self.maze[current[0]][current[1]-1] == self.wall:
+                print("Error wall - Cannot go left")
+                return current
+            if self.maze[current[0]][current[1]-1] == self.user_move:
+                self.maze[current[0]][current[1]] = self.path
+            else:
+                self.maze[current[0]][current[1]-1] = self.user_move
+            current = [current[0], current[1]-1]
+        return current
 
     def get_start_and_end(self):
         start = None
