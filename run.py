@@ -27,15 +27,11 @@ class GameMaze:
     Maze Class
     '''
     # class attribute
-    path = 'P'
-    wall = 'W'
-    open = "O"
-    solution = "A"
-    user_move = "U"
-    walls = []
-    maze = []
-    loaded = False
-    solver_current = None
+    __path = 'P'
+    __wall = 'W'
+    __open = "O"
+    __solution = "A"
+    __user_move = "U"
 
     def __init__(self, maze_size, name):
         # instance attribute
@@ -45,19 +41,25 @@ class GameMaze:
         self.loaded = False
         self.solver_current = None
         self.maze_size = maze_size
-        self.create_blank_maze()
-        start_pos_h = \
-            self.starting_maze_generation_position(self.maze_size)
-        start_pos_w = \
-            self.starting_maze_generation_position(self.maze_size)
-        self.maze[start_pos_h][start_pos_w] = self.path
-        self.get_starting_walls(start_pos_h, start_pos_w)
-        self.set_starting_walls(start_pos_h, start_pos_w)
-        self.make_maze_walls(maze_size, maze_size)
-        self.fill_open_maze_walls()
-        self.create_ins_and_outs()
+        self.__create_blank_maze()
+        self.__random_maze_path_creator()
 
-    def create_blank_maze(self):
+    def __random_maze_path_creator(self):
+        '''
+        calls all the methods that create a maze
+        '''
+        start_pos_h = \
+            self.__starting_maze_generation_position(self.maze_size)
+        start_pos_w = \
+            self.__starting_maze_generation_position(self.maze_size)
+        self.maze[start_pos_h][start_pos_w] = self.__path
+        self.__get_starting_walls(start_pos_h, start_pos_w)
+        self.__set_starting_walls(start_pos_h, start_pos_w)
+        self.__make_maze_walls(self.maze_size, self.maze_size)
+        self.__fill_open_maze_walls()
+        self.__create_ins_and_outs()
+
+    def __create_blank_maze(self):
         """
         creates a 2d array which stores the width and height of the maze
         """
@@ -66,10 +68,10 @@ class GameMaze:
         for _ in range(0, height):
             row = []
             for _ in range(0, width):
-                row.append(self.open)
+                row.append(self.__open)
             self.maze.append(row)
 
-    def starting_maze_generation_position(self, max_number):
+    def __starting_maze_generation_position(self, max_number):
         '''
         Get the starting posiiton for maze creation but stays away
         from the edge of the maze"
@@ -81,7 +83,7 @@ class GameMaze:
             starting_pos -= 1
         return starting_pos
 
-    def get_starting_walls(self, start_h, start_w):
+    def __get_starting_walls(self, start_h, start_w):
         '''
         This will add the walls surrounding the starting path to the walls list
         '''
@@ -90,16 +92,16 @@ class GameMaze:
         self.walls.append([start_h, start_w+1])
         self.walls.append([start_h+1, start_w])
 
-    def set_starting_walls(self, start_h, start_w):
+    def __set_starting_walls(self, start_h, start_w):
         '''
         This will set the display of the maze to show the walls
         '''
-        self.maze[start_h-1][start_w] = self.wall
-        self.maze[start_h][start_w-1] = self.wall
-        self.maze[start_h][start_w+1] = self.wall
-        self.maze[start_h+1][start_w] = self.wall
+        self.maze[start_h-1][start_w] = self.__wall
+        self.maze[start_h][start_w-1] = self.__wall
+        self.maze[start_h][start_w+1] = self.__wall
+        self.maze[start_h+1][start_w] = self.__wall
 
-    def make_maze_walls(self, height, width):
+    def __make_maze_walls(self, height, width):
         '''
         Prims Algorithm
         While there are walls in the list:
@@ -116,211 +118,146 @@ class GameMaze:
 
             # Check if it is a left wall
             if rand_wall[1] != 0:
-                if self.maze[rand_wall[0]][rand_wall[1]-1] == self.open and \
-                      self.maze[rand_wall[0]][rand_wall[1]+1] == self.path:
-
+                if self.maze[rand_wall[0]][rand_wall[1]-1] == self.__open and \
+                      self.maze[rand_wall[0]][rand_wall[1]+1] == self.__path:
                     surrounding_cell_count = \
-                        self.surrounding_cells(self.maze, rand_wall)
+                        self.__surrounding_cells(self.maze, rand_wall)
                     if surrounding_cell_count < 2:
-
-                        self.maze[rand_wall[0]][rand_wall[1]] = self.path
-
+                        self.maze[rand_wall[0]][rand_wall[1]] = self.__path
                         # Make the walls
                         # The top wall
-                        if rand_wall[0] != 0:
-                            if self.maze[rand_wall[0]-1][rand_wall[1]] != \
-                                   self.path:
-                                self.maze[rand_wall[0]-1][rand_wall[1]] = \
-                                    self.wall
-                            if [rand_wall[0]-1, rand_wall[1]] \
-                                    not in self.walls:
-                                self.walls.\
-                                    append([rand_wall[0]-1, rand_wall[1]])
-
+                        self.__set_top_wall(rand_wall)
                         # Bottom wall
-                        if rand_wall[0] != height-1:
-                            if (self.maze[rand_wall[0]+1][rand_wall[1]] !=
-                                    self.path):
-                                self.maze[rand_wall[0]+1][rand_wall[1]] = \
-                                    self.wall
-                            if ([rand_wall[0]+1, rand_wall[1]] not in
-                                    self.walls):
-                                self.walls.\
-                                    append([rand_wall[0]+1, rand_wall[1]])
-
+                        self.__set_bottom_wall(rand_wall)
                         # left wall
-                        if rand_wall[1] != 0:
-                            if (self.maze[rand_wall[0]][rand_wall[1]-1] !=
-                                    self.path):
-                                self.maze[rand_wall[0]][rand_wall[1]-1] = \
-                                    self.wall
-                            if ([rand_wall[0], rand_wall[1]-1] not in
-                                    self.walls):
-                                self.walls.\
-                                    append([rand_wall[0], rand_wall[1]-1])
-
+                        self.__set_left_wall(rand_wall)
                     # Delete wall
-                    for single_wall in self.walls:
-                        if (single_wall[0] == rand_wall[0] and single_wall[1]
-                                == rand_wall[1]):
-                            self.walls.remove(single_wall)
+                    self.__remove_complete_wall(rand_wall)
                     continue
 
             # Check if it is a top wall
             if rand_wall[0] != 0:
-                if self.maze[rand_wall[0]-1][rand_wall[1]] == self.open and \
-                        self.maze[rand_wall[0]+1][rand_wall[1]] == self.path:
-
+                if self.maze[rand_wall[0]-1][rand_wall[1]] == self.__open and \
+                        self.maze[rand_wall[0]+1][rand_wall[1]] == self.__path:
                     surrounding_cell_count = \
-                        self.surrounding_cells(self.maze, rand_wall)
+                        self.__surrounding_cells(self.maze, rand_wall)
                     if surrounding_cell_count < 2:
-
-                        self.maze[rand_wall[0]][rand_wall[1]] = self.path
-
+                        self.maze[rand_wall[0]][rand_wall[1]] = self.__path
                         # Make the walls
                         # top wall
-                        if rand_wall[0] != 0:
-                            if (self.maze[rand_wall[0]-1][rand_wall[1]] !=
-                                    self.path):
-                                self.maze[rand_wall[0]-1][rand_wall[1]] = \
-                                    self.wall
-                            if ([rand_wall[0]-1, rand_wall[1]] not in
-                                    self.walls):
-                                self.walls.\
-                                    append([rand_wall[0]-1, rand_wall[1]])
-
+                        self.__set_top_wall(rand_wall)
                         # left wall
-                        if rand_wall[1] != 0:
-                            if (self.maze[rand_wall[0]][rand_wall[1]-1]
-                                    != self.path):
-                                self.maze[rand_wall[0]][rand_wall[1]-1] = \
-                                    self.wall
-                            if ([rand_wall[0], rand_wall[1]-1] not in
-                                    self.walls):
-                                self.walls.\
-                                    append([rand_wall[0], rand_wall[1]-1])
-
+                        self.__set_left_wall(rand_wall)
                         # right wall
-                        if rand_wall[1] != width-1:
-                            if (self.maze[rand_wall[0]][rand_wall[1]+1]
-                                    != self.path):
-                                self.maze[rand_wall[0]][rand_wall[1]+1] = \
-                                    self.wall
-                            if ([rand_wall[0], rand_wall[1]+1] not in
-                                    self.walls):
-                                self.walls.\
-                                    append([rand_wall[0], rand_wall[1]+1])
-
+                        self.__set_right_wall(rand_wall)
                     # Delete wall
-                    for single_wall in self.walls:
-                        if (single_wall[0] == rand_wall[0] and single_wall[1]
-                                == rand_wall[1]):
-                            self.walls.remove(single_wall)
+                    self.__remove_complete_wall(rand_wall)
                     continue
 
             # Check if it is a bottom wall
             if rand_wall[0] != height - 1:
-                if self.maze[rand_wall[0]+1][rand_wall[1]] == self.open and \
-                        self.maze[rand_wall[0]-1][rand_wall[1]] == self.path:
-
+                if self.maze[rand_wall[0]+1][rand_wall[1]] == self.__open and \
+                        self.maze[rand_wall[0]-1][rand_wall[1]] == self.__path:
                     surrounding_cell_count = \
-                        self.surrounding_cells(self.maze, rand_wall)
+                        self.__surrounding_cells(self.maze, rand_wall)
                     if surrounding_cell_count < 2:
-
-                        self.maze[rand_wall[0]][rand_wall[1]] = self.path
-
+                        self.maze[rand_wall[0]][rand_wall[1]] = self.__path
                         # Make the walls
                         # bottom wall
-                        if rand_wall[0] != height-1:
-                            if (self.maze[rand_wall[0]+1][rand_wall[1]]
-                                    != self.path):
-                                self.maze[rand_wall[0]+1][rand_wall[1]] = \
-                                    self.wall
-                            if ([rand_wall[0]+1, rand_wall[1]] not in
-                                    self.walls):
-                                self.walls.\
-                                    append([rand_wall[0]+1, rand_wall[1]])
-
+                        self.__set_bottom_wall(rand_wall)
                         # left wall
-                        if rand_wall[1] != 0:
-                            if (self.maze[rand_wall[0]][rand_wall[1]-1] !=
-                                    self.path):
-                                self.maze[rand_wall[0]][rand_wall[1]-1] = \
-                                    self.wall
-                            if ([rand_wall[0], rand_wall[1]-1] not in
-                                    self.walls):
-                                self.walls.\
-                                    append([rand_wall[0], rand_wall[1]-1])
-
+                        self.__set_left_wall(rand_wall)
                         # right wall
-                        if rand_wall[1] != width-1:
-                            if (self.maze[rand_wall[0]][rand_wall[1]+1]
-                                    != self.path):
-                                self.maze[rand_wall[0]][rand_wall[1]+1] = \
-                                    self.wall
-                            if ([rand_wall[0], rand_wall[1]+1] not in
-                                    self.walls):
-                                self.walls.\
-                                    append([rand_wall[0], rand_wall[1]+1])
-
+                        self.__set_right_wall(rand_wall)
                     # Delete wall
-                    for single_wall in self.walls:
-                        if (single_wall[0] == rand_wall[0] and single_wall[1]
-                                == rand_wall[1]):
-                            self.walls.remove(single_wall)
+                    self.__remove_complete_wall(rand_wall)
                     continue
 
             # Check if it is a right wall
             if rand_wall[1] != width-1:
-                if self.maze[rand_wall[0]][rand_wall[1]+1] == self.open and \
-                        self.maze[rand_wall[0]][rand_wall[1]-1] == self.path:
-
+                if self.maze[rand_wall[0]][rand_wall[1]+1] == self.__open and \
+                        self.maze[rand_wall[0]][rand_wall[1]-1] == self.__path:
                     surrounding_cell_count = \
-                        self.surrounding_cells(self.maze, rand_wall)
+                        self.__surrounding_cells(self.maze, rand_wall)
                     if surrounding_cell_count < 2:
-
-                        self.maze[rand_wall[0]][rand_wall[1]] = self.path
-
+                        self.maze[rand_wall[0]][rand_wall[1]] = self.__path
                         # Make the walls
                         # right wall
-                        if rand_wall[1] != width-1:
-                            if (self.maze[rand_wall[0]][rand_wall[1]+1]
-                                    != self.path):
-                                self.maze[rand_wall[0]][rand_wall[1]+1] = \
-                                    self.wall
-                            if ([rand_wall[0], rand_wall[1]+1] not in
-                                    self.walls):
-                                self.walls.\
-                                    append([rand_wall[0], rand_wall[1]+1])
-
+                        self.__set_right_wall(rand_wall)
                         # bottom wall
-                        if rand_wall[0] != height-1:
-                            if (self.maze[rand_wall[0]+1][rand_wall[1]]
-                                    != self.path):
-                                self.maze[rand_wall[0]+1][rand_wall[1]] = \
-                                    self.wall
-                            if ([rand_wall[0]+1, rand_wall[1]] not in
-                                    self.walls):
-                                self.walls.\
-                                    append([rand_wall[0]+1, rand_wall[1]])
-
+                        self.__set_bottom_wall(rand_wall)
                         # top wall
-                        if rand_wall[0] != 0:
-                            if self.maze[rand_wall[0]-1][rand_wall[1]] != \
-                                 self.path:
-                                self.maze[rand_wall[0]-1][rand_wall[1]] = \
-                                    self.wall
-                            if ([rand_wall[0]-1, rand_wall[1]] not in
-                                    self.walls):
-                                self.walls.\
-                                    append([rand_wall[0]-1, rand_wall[1]])
-
+                        self.__set_top_wall(rand_wall)
             # Delete wall
-            for single_wall in self.walls:
-                if single_wall[0] == rand_wall[0] and single_wall[1] \
-                   == rand_wall[1]:
-                    self.walls.remove(single_wall)
+            self.__remove_complete_wall(rand_wall)
             continue
+
+    def __set_left_wall(self, rand_wall):
+        '''
+        Will create a wall to the left of the current position
+        if it is not part of the path
+        '''
+        if rand_wall[1] != 0:
+            if (self.maze[rand_wall[0]][rand_wall[1]-1] !=
+               self.__path):
+                self.maze[rand_wall[0]][rand_wall[1]-1] = \
+                    self.__wall
+            if ([rand_wall[0], rand_wall[1]-1] not in
+               self.walls):
+                self.walls.\
+                        append([rand_wall[0], rand_wall[1]-1])
+
+    def __set_right_wall(self, rand_wall):
+        '''
+        Will create a wall to the right of the current position
+        if it is not part of the path
+        '''
+        if rand_wall[1] != self.maze_size-1:
+            if (self.maze[rand_wall[0]][rand_wall[1]+1]
+               != self.__path):
+                self.maze[rand_wall[0]][rand_wall[1]+1] = \
+                    self.__wall
+            if ([rand_wall[0], rand_wall[1]+1] not in
+               self.walls):
+                self.walls.\
+                    append([rand_wall[0], rand_wall[1]+1])
+
+    def __set_bottom_wall(self, rand_wall):
+        '''
+        Will create a wall under the current position
+        if it is not part of the path
+        '''
+        if rand_wall[0] != self.maze_size-1:
+            if (self.maze[rand_wall[0]+1][rand_wall[1]]
+               != self.__path):
+                self.maze[rand_wall[0]+1][rand_wall[1]] = \
+                    self.__wall
+            if ([rand_wall[0]+1, rand_wall[1]] not in
+               self.walls):
+                self.walls.\
+                    append([rand_wall[0]+1, rand_wall[1]])
+
+    def __set_top_wall(self, rand_wall):
+        '''
+        Will create a wall above the current position
+        if it is not part of the path
+        '''
+        if rand_wall[0] != 0:
+            if (self.maze[rand_wall[0]-1][rand_wall[1]] !=
+               self.__path):
+                self.maze[rand_wall[0]-1][rand_wall[1]] = \
+                        self.__wall
+            if ([rand_wall[0]-1, rand_wall[1]] not in
+                    self.walls):
+                self.walls.\
+                    append([rand_wall[0]-1, rand_wall[1]])
+
+    def __remove_complete_wall(self, rand_wall):
+        '''remove the wall from the not proccessed wall array'''
+        for single_wall in self.walls:
+            if single_wall[0] == rand_wall[0] and single_wall[1] \
+                   == rand_wall[1]:
+                self.walls.remove(single_wall)
 
     def draw_maze(self):
         '''
@@ -328,13 +265,13 @@ class GameMaze:
         '''
         for height in range(0, self.maze_size):
             for width in range(0, self.maze_size):
-                if self.maze[height][width] == self.path:
+                if self.maze[height][width] == self.__path:
                     print(Fore.BLACK + Back.BLACK +
                           f"{self.maze[height][width]} ", end="")
-                elif self.maze[height][width] == self.solution:
+                elif self.maze[height][width] == self.__solution:
                     print(Fore.GREEN + Back.GREEN +
                           f"{self.maze[height][width]} ", end="")
-                elif self.maze[height][width] == self.user_move:
+                elif self.maze[height][width] == self.__user_move:
                     if (height == self.solver_current[0]
                        and width == self.solver_current[1]):
                         print(Fore.BLUE + Back.CYAN +
@@ -348,59 +285,60 @@ class GameMaze:
                           end="")
             print()
 
-    def surrounding_cells(self, maze, rand_wall):
+    def __surrounding_cells(self, maze, rand_wall):
         '''
         get all paths surrounding the wall
         '''
         s_cells = 0
-        if maze[rand_wall[0]-1][rand_wall[1]] == self.path:
+        if maze[rand_wall[0]-1][rand_wall[1]] == self.__path:
             s_cells += 1
-        if maze[rand_wall[0]+1][rand_wall[1]] == self.path:
+        if maze[rand_wall[0]+1][rand_wall[1]] == self.__path:
             s_cells += 1
-        if maze[rand_wall[0]][rand_wall[1]-1] == self.path:
+        if maze[rand_wall[0]][rand_wall[1]-1] == self.__path:
             s_cells += 1
-        if maze[rand_wall[0]][rand_wall[1]+1] == self.path:
+        if maze[rand_wall[0]][rand_wall[1]+1] == self.__path:
             s_cells += 1
         return s_cells
 
-    def fill_open_maze_walls(self):
+    def __fill_open_maze_walls(self):
         '''
         Fills the open maze items will the wall icons
         '''
         for height in range(0, self.maze_size):
             for width in range(0, self.maze_size):
-                if self.maze[height][width] == self.open:
-                    self.maze[height][width] = self.wall
+                if self.maze[height][width] == self.__open:
+                    self.maze[height][width] = self.__wall
 
-    def create_ins_and_outs(self):
+    def __create_ins_and_outs(self):
         '''
         Set the entrance and exit of the maze
         '''
         for width in range(0, self.maze_size):
-            if self.maze[1][width] == self.path:
-                self.maze[0][width] = self.path
+            if self.maze[1][width] == self.__path:
+                self.maze[0][width] = self.__path
                 break
 
         for width in range(self.maze_size-1, 0, -1):
-            if self.maze[self.maze_size-2][width] == self.path:
-                self.maze[self.maze_size-1][width] = self.path
+            if self.maze[self.maze_size-2][width] == self.__path:
+                self.maze[self.maze_size-1][width] = self.__path
                 break
 
     def solve_maze(self):
         '''
         will find the path to get to the end of the maze
         '''
-        path = self.get_maze_start()
+        path = self.__get_maze_start()
         if path == 0:
-            self.remove_solution_from_maze()
+            self.__remove_solution_from_maze()
             self.draw_maze()
         elif path == 1:
             print("The maze could not find a start or end")
         else:
-            self.add_solution_to_maze(path)
+            for step in path:
+                self.maze[step[0]][step[1]] = self.__solution
             self.draw_maze()
 
-    def get_maze_start(self):
+    def __get_maze_start(self):
         '''
         Will find the start and exit point for the maze
         '''
@@ -409,26 +347,26 @@ class GameMaze:
         end = None
         goal = ()
         for width in range(0, self.maze_size):
-            if (self.maze[0][width] == self.path or
-               self.maze[0][width] == self.user_move):
+            if (self.maze[0][width] == self.__path or
+               self.maze[0][width] == self.__user_move):
                 start = width
                 current = (0, width)
-            if self.maze[0][width] == self.solution:
+            if self.maze[0][width] == self.__solution:
                 return 0
         for width in range(0, self.maze_size):
-            if (self.maze[self.maze_size - 1][width] == self.path
-               or self.maze[self.maze_size - 1][width] == self.user_move):
+            if (self.maze[self.maze_size - 1][width] == self.__path
+               or self.maze[self.maze_size - 1][width] == self.__user_move):
                 end = width
                 goal = (self.maze_size - 1, width)
-            if self.maze[self.maze_size - 1][width] == self.solution:
+            if self.maze[self.maze_size - 1][width] == self.__solution:
                 return 0
         if start is None or end is None:
             print("No start point")
             return 1
-        path = self.create_path(path, current, (), goal)
+        path = self.__create_path(path, current, (), goal)
         return path
 
-    def create_path(self, path, current, last, goal):
+    def __create_path(self, path, current, last, goal):
         '''
         a recursive method to find a path to the exit point in the
         maze returning the path it took.
@@ -454,41 +392,37 @@ class GameMaze:
                 maze_edge = self.maze_size-1
 
             if current_coord != maze_edge:
-                if count == 0:
-                    next_path = (current[0]-1, current[1])
-                if count == 1:
-                    next_path = (current[0], current[1]-1)
-                if count == 2:
-                    next_path = (current[0], current[1]+1)
-                if count == 3:
-                    next_path = (current[0]+1, current[1])
+                next_path = self.__set_next_path(count, current)
                 if next_path != last:
-                    if self.maze[next_path[0]][next_path[1]] != self.wall:
-                        temp_path = self.create_path([], next_path, current,
-                                                     goal)
+                    if self.maze[next_path[0]][next_path[1]] != self.__wall:
+                        temp_path = self.__create_path([], next_path, current,
+                                                       goal)
                         if len(temp_path) > len(new_path):
                             new_path = temp_path
                             new_path.append(current)
-
         return new_path
 
-    def add_solution_to_maze(self, path):
-        '''
-        will take the coordinates of the path and will add them to the maze
-        array
-        '''
-        for step in path:
-            self.maze[step[0]][step[1]] = self.solution
+    def __set_next_path(self, count, current):
+        temp_path = ()
+        if count == 0:
+            temp_path = (current[0]-1, current[1])
+        elif count == 1:
+            temp_path = (current[0], current[1]-1)
+        elif count == 2:
+            temp_path = (current[0], current[1]+1)
+        else:
+            temp_path = (current[0]+1, current[1])
+        return temp_path
 
-    def remove_solution_from_maze(self):
+    def __remove_solution_from_maze(self):
         '''
         will find the solution in the array and change the character into the
         path
         '''
         for height in range(0, self.maze_size):
             for width in range(0, self.maze_size):
-                if self.maze[height][width] == self.solution:
-                    self.maze[height][width] = self.path
+                if self.maze[height][width] == self.__solution:
+                    self.maze[height][width] = self.__path
 
     def save_maze(self):
         '''
@@ -543,10 +477,10 @@ class GameMaze:
         using the WASD keys user can solve the maze by drawing a path
         '''
         print()
-        s_and_e = self.get_start_and_end()
+        s_and_e = self.__get_start_and_end()
         if s_and_e != 0:
             if self.solver_current is None:
-                self.maze[s_and_e[0][0]][s_and_e[0][1]] = self.user_move
+                self.maze[s_and_e[0][0]][s_and_e[0][1]] = self.__user_move
                 current = s_and_e[0]
                 self.solver_current = current
             else:
@@ -555,19 +489,21 @@ class GameMaze:
             print()
             end_solver = False
             while end_solver is False:
+                print("Controls: (W - Up, S - Down, D - Right, A - Left) "
+                      "then press Enter... Press 0 to Exit")
                 command = input("Please enter the direction you want to go\n")
                 if command.upper() == "W":
                     print("Move Up")
-                    current = self.user_path_creator(command.upper(), current)
+                    current = self.__set_user_path(command.upper(), current)
                 elif command.upper() == "A":
                     print("Move Left")
-                    current = self.user_path_creator(command.upper(), current)
+                    current = self.__set_user_path(command.upper(), current)
                 elif command.upper() == "S":
                     print("Move Down")
-                    current = self.user_path_creator(command.upper(), current)
+                    current = self.__set_user_path(command.upper(), current)
                 elif command.upper() == "D":
                     print("Move Right")
-                    current = self.user_path_creator(command.upper(), current)
+                    current = self.__set_user_path(command.upper(), current)
                 elif command.upper() == "0":
                     print("Exit Solver")
                     end_solver = True
@@ -581,63 +517,51 @@ class GameMaze:
         else:
             self.draw_maze()
 
-    def user_path_creator(self, direction, current):
+    def __set_user_path(self, direction, current):
         '''
         This sets the game maze array path to the user move character.
         If the user selects a direction that is blocked by a wall then
         it will give an error message
         '''
         if direction == "W":
-            if current[0] == 0:
-                print("Error border - Cannot go up")
-                return current
-            if self.maze[current[0]-1][current[1]] == self.wall:
-                print("Error wall - Cannot go up")
-                return current
-            if self.maze[current[0]-1][current[1]] == self.user_move:
-                self.maze[current[0]][current[1]] = self.path
-            else:
-                self.maze[current[0]-1][current[1]] = self.user_move
-            current = [current[0]-1, current[1]]
-        if direction == "D":
-            if current[1] == self.maze_size-1:
-                print("Error border - Cannot go right")
-                return current
-            if self.maze[current[0]][current[1]+1] == self.wall:
-                print("Error wall - Cannot go right")
-                return current
-            if self.maze[current[0]][current[1]+1] == self.user_move:
-                self.maze[current[0]][current[1]] = self.path
-            else:
-                self.maze[current[0]][current[1]+1] = self.user_move
-            current = [current[0], current[1]+1]
-        if direction == "S":
-            if current[0] == self.maze_size-1:
-                print("Error border - Cannot go down")
-                return current
-            if self.maze[current[0]+1][current[1]] == self.wall:
-                print("Error wall - Cannot go down")
-                return current
-            if self.maze[current[0]+1][current[1]] == self.user_move:
-                self.maze[current[0]][current[1]] = self.path
-            else:
-                self.maze[current[0]+1][current[1]] = self.user_move
-            current = [current[0]+1, current[1]]
-        if direction == "A":
-            if current[1] == 0:
-                print("Error border - Cannot go left")
-                return current
-            if self.maze[current[0]][current[1]-1] == self.wall:
-                print("Error wall - Cannot go left")
-                return current
-            if self.maze[current[0]][current[1]-1] == self.user_move:
-                self.maze[current[0]][current[1]] = self.path
-            else:
-                self.maze[current[0]][current[1]-1] = self.user_move
-            current = [current[0], current[1]-1]
+            text_direction = "up"
+            edge_coord = current[0]
+            edge_coord_limit = 0
+            new_x = current[0]-1
+            new_y = current[1]
+        elif direction == "D":
+            text_direction = "right"
+            edge_coord = current[1]
+            edge_coord_limit = self.maze_size-1
+            new_x = current[0]
+            new_y = current[1]+1
+        elif direction == "S":
+            text_direction = "down"
+            edge_coord = current[0]
+            edge_coord_limit = self.maze_size-1
+            new_x = current[0]+1
+            new_y = current[1]
+        elif direction == "A":
+            text_direction = "left"
+            edge_coord = current[1]
+            edge_coord_limit = 0
+            new_x = current[0]
+            new_y = current[1]-1
+
+        if edge_coord == edge_coord_limit:
+            print(f"Error border - Cannot go {text_direction}")
+            return current
+        if self.maze[new_x][new_y] == self.__wall:
+            print(f"Error wall - Cannot go {text_direction}")
+            return current
+        if self.maze[new_x][new_y] == self.__user_move:
+            self.maze[current[0]][current[1]] = self.__path
+        else:
+            self.maze[new_x][new_y] = self.__user_move
+        current = [new_x, new_y]
         return current
 
-    def get_start_and_end(self):
+    def __get_start_and_end(self):
         '''
         will find the start and end coordinates so it will start the user
         at the right place in the maze
@@ -647,22 +571,22 @@ class GameMaze:
         end = None
         goal = ()
         for width in range(0, self.maze_size):
-            if (self.maze[0][width] == self.path or
-               self.maze[0][width] == self.user_move):
+            if (self.maze[0][width] == self.__path or
+               self.maze[0][width] == self.__user_move):
                 start = width
                 current = (0, width)
                 path.append(current)
                 break
         for width in range(0, self.maze_size):
-            if (self.maze[self.maze_size - 1][width] == self.path or
-               self.maze[self.maze_size - 1][width] == self.user_move):
+            if (self.maze[self.maze_size - 1][width] == self.__path or
+               self.maze[self.maze_size - 1][width] == self.__user_move):
                 end = width
                 goal = (self.maze_size - 1, width)
                 path.append(goal)
                 break
         if start is None or end is None:
             for width in range(0, self.maze_size):
-                if self.maze[self.maze_size - 1][width] == self.solution:
+                if self.maze[self.maze_size - 1][width] == self.__solution:
                     print("Maze already solved!")
                     return 0
             print("No start point")
@@ -764,13 +688,8 @@ class GameGraph:
 
     def quick_fill_graph(self):
         '''
-        Will put set values into the graph to allow testing
-        self.graph_node_names = ["One", "Two", "Three", "Four", "Five"]
-        self.graph_nodes = [[0, 2, 0, 4, 0],
-                            [2, 0, 3, 6, 3],
-                            [0, 3, 0, 0, 3],
-                            [4, 6, 0, 0, 1],
-                            [0, 3, 3, 1, 0]]
+        Will put set values into the graph to allow the user to see an example
+        graph
         '''
         self.graph_node_names = ["Zero", "One", "Two", "Three", "Four", "Five",
                                  "six", "seven", "eight"]
