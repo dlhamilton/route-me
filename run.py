@@ -327,44 +327,50 @@ class GameMaze:
         '''
         will find the path to get to the end of the maze
         '''
-        path = self.__get_maze_start()
-        if path == 0:
+        s_and_e = self.__get_start_and_end()
+        path = []
+
+        if s_and_e == 0:
             self.__remove_solution_from_maze()
             self.draw_maze()
-        elif path == 1:
+            print(self.solver_current)
+        elif s_and_e == 1:
             print("The maze could not find a start or end")
         else:
+            path = self.__create_path(path, s_and_e[0], (), s_and_e[1])
             for step in path:
                 self.maze[step[0]][step[1]] = self.__solution
+            self.__remove_user_path_from_maze()
             self.draw_maze()
+            self.solver_current = None
+            print(self.solver_current)
 
-    def __get_maze_start(self):
+    def __get_start_and_end(self):
         '''
-        Will find the start and exit point for the maze
+        will find the start and end coordinates so it will start the user
+        at the right place in the maze
         '''
-        start = None
-        path = []
-        end = None
-        goal = ()
-        for width in range(0, self.maze_size):
-            if (self.maze[0][width] == self.__path or
-               self.maze[0][width] == self.__user_move):
-                start = width
-                current = (0, width)
-            if self.maze[0][width] == self.__solution:
-                return 0
-        for width in range(0, self.maze_size):
-            if (self.maze[self.maze_size - 1][width] == self.__path
-               or self.maze[self.maze_size - 1][width] == self.__user_move):
-                end = width
-                goal = (self.maze_size - 1, width)
-            if self.maze[self.maze_size - 1][width] == self.__solution:
-                return 0
-        if start is None or end is None:
+        the_coord = ()
+        start_end = []
+        for count in range(2):
+            if count == 0:
+                the_index = 0
+            else:
+                the_index = self.maze_size - 1
+
+            for width in range(0, self.maze_size):
+                if (self.maze[the_index][width] == self.__path or
+                   self.maze[the_index][width] == self.__user_move):
+                    the_coord = (the_index, width)
+                    start_end.append(the_coord)
+                    break
+                if self.maze[the_index][width] == self.__solution:
+                    print("Maze already solved!")
+                    return 0
+        if len(start_end) < 2:
             print("No start point")
             return 1
-        path = self.__create_path(path, current, (), goal)
-        return path
+        return start_end
 
     def __create_path(self, path, current, last, goal):
         '''
@@ -424,6 +430,16 @@ class GameMaze:
                 if self.maze[height][width] == self.__solution:
                     self.maze[height][width] = self.__path
 
+    def __remove_user_path_from_maze(self):
+        '''
+        will find the user move in the array and change the character into the
+        path
+        '''
+        for height in range(0, self.maze_size):
+            for width in range(0, self.maze_size):
+                if self.maze[height][width] == self.__user_move:
+                    self.maze[height][width] = self.__path
+
     def save_maze(self):
         '''
         Will store the maze details to sheets
@@ -478,7 +494,7 @@ class GameMaze:
         '''
         print()
         s_and_e = self.__get_start_and_end()
-        if s_and_e != 0:
+        if s_and_e != 0 and s_and_e != 1:
             if self.solver_current is None:
                 self.maze[s_and_e[0][0]][s_and_e[0][1]] = self.__user_move
                 current = s_and_e[0]
@@ -560,35 +576,6 @@ class GameMaze:
             self.maze[new_x][new_y] = self.__user_move
         current = [new_x, new_y]
         return current
-
-    def __get_start_and_end(self):
-        '''
-        will find the start and end coordinates so it will start the user
-        at the right place in the maze
-        '''
-        the_coord = ()
-        path = []
-        for count in range(2):
-            if count == 0:
-                the_index = 0
-            else:
-                the_index = self.maze_size - 1
-
-            for width in range(0, self.maze_size):
-                if (self.maze[the_index][width] == self.__path or
-                   self.maze[the_index][width] == self.__user_move):
-                    the_coord = (the_index, width)
-                    path.append(the_coord)
-                    break
-
-        if len(path) < 2:
-            for width in range(0, self.maze_size):
-                if self.maze[self.maze_size - 1][width] == self.__solution:
-                    print("Maze already solved!")
-                    return 0
-            print("No start point")
-            return 0
-        return path
 
 
 class GameGraph:
