@@ -566,25 +566,22 @@ class GameMaze:
         will find the start and end coordinates so it will start the user
         at the right place in the maze
         '''
-        start = None
+        the_coord = ()
         path = []
-        end = None
-        goal = ()
-        for width in range(0, self.maze_size):
-            if (self.maze[0][width] == self.__path or
-               self.maze[0][width] == self.__user_move):
-                start = width
-                current = (0, width)
-                path.append(current)
-                break
-        for width in range(0, self.maze_size):
-            if (self.maze[self.maze_size - 1][width] == self.__path or
-               self.maze[self.maze_size - 1][width] == self.__user_move):
-                end = width
-                goal = (self.maze_size - 1, width)
-                path.append(goal)
-                break
-        if start is None or end is None:
+        for count in range(2):
+            if count == 0:
+                the_index = 0
+            else:
+                the_index = self.maze_size - 1
+
+            for width in range(0, self.maze_size):
+                if (self.maze[the_index][width] == self.__path or
+                   self.maze[the_index][width] == self.__user_move):
+                    the_coord = (the_index, width)
+                    path.append(the_coord)
+                    break
+
+        if len(path) < 2:
             for width in range(0, self.maze_size):
                 if self.maze[self.maze_size - 1][width] == self.__solution:
                     print("Maze already solved!")
