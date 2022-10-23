@@ -1,13 +1,48 @@
 '''
 route-me
+
+This program is designed o help you find the quickest way from a
+start position to a destination.
+It can also create and solve mazes. When you start the program
+you will be taken to the Main menu.
+
+Classes:
+
+    Graph
+    Maze
+
+Functions:
+
+    show_menu()
+    show_maze_menu()
+    show_graph_menu()
+    menu_option_1(object = None)
+    menu_option_2(object = None)
+    get_number_option(str, int, int) -> int
+    valid_user_input(str) -> boolean
+    show_app_title()
+    get_saved_file_names(int)
+    load_graph(str)
+    load_maze(str)
+    main()
+
+Variables:
+
+    SCOPE
+    CREDS
+    SCOPED_CREDS
+    GSPREAD_CLIENT
+    SHEET
+
 '''
-# # Library for INT_MAX
+# Library for INT_MAX
 import sys
 import random
 import re
 import gspread
 from google.oauth2.service_account import Credentials
 from colorama import init, Fore, Back
+# reset colour back to default
 init(autoreset=True)
 
 SCOPE = [
@@ -1391,31 +1426,18 @@ def show_graph_menu():
     print(("===================="))
 
 
-def main():
-    '''
-    Main, the program start
-    '''
-    # show_app_title()
-    # print("Welcome to Route me the best way to find the quickest route.\n")
-    # show_menu()
-    menu_option = None
-    while menu_option != 0:
-        if menu_option == 1:
-            menu_option_1(None)
-        elif menu_option == 2:
-            menu_option_2(None)
-        elif menu_option == 3:
-            get_saved_file_names(1)
-        elif menu_option == 4:
-            get_saved_file_names(2)
-        show_app_title()
-        show_menu()
-        menu_option = get_number_option("menu", 0, 4)
-
-
 def menu_option_1(the_maze=None):
     '''
     get the user input and perform the method the user selects for the maze
+
+    Parameters
+    ----------
+    the_maze: maze
+        if a maze has not been loaded, set maze to None
+
+    Returns
+    -------
+    None
     '''
     if the_maze is None:
         the_maze = None
@@ -1443,6 +1465,15 @@ def menu_option_1(the_maze=None):
 def menu_option_2(the_graph=None):
     '''
     get the user input and perform the method the user selects for the graph
+
+    Parameters
+    ----------
+    the_graph: graph
+        if a graph has not been loaded, set graph to None
+
+    Returns
+    -------
+    None
     '''
     if the_graph is None:
         name_valid = False
@@ -1478,7 +1509,22 @@ def menu_option_2(the_graph=None):
 
 def get_number_option(name, start, end):
     '''
+    numerical menu
     get the user to enter a number and will validate their entry
+
+    Parameters
+    ----------
+    name: str
+        menu name
+    start: int
+        min number the user can select
+    end: int
+        max number the user can select
+
+    Returns
+    -------
+    menu option: int
+        the menu number the user has selected
     '''
     invalid_option = True
     while invalid_option:
@@ -1501,15 +1547,24 @@ def get_number_option(name, start, end):
 def valid_user_input(text):
     '''
     validate the user input to make sure it starst with a letter
+
+    Parameters
+    ----------
+    text: str
+        the users input
+
+    Returns
+    -------
+    if the text meets al requirements returns true
     '''
     if len(text) < 1:
         print("Input is not long enough")
         return False
-    elif re.search("^[a-zA-Z]", text) is None:
+    if re.search("^[a-zA-Z]", text) is None:
         print("Input must start with a letter")
         return False
-    else:
-        return True
+
+    return True
 
 
 def show_app_title():
@@ -1539,7 +1594,17 @@ def show_app_title():
 def get_saved_file_names(save_type):
     '''
     show the user all the graphs and mazes that are saved and will
-    allow the user o enter the worksheets name to load it
+    allow the user to enter the worksheets name to load it
+
+    Parameters
+    ----------
+    save_type: int
+        1 - is to load a maze
+        2 - is to load a graph
+
+    Returns
+    -------
+    None
     '''
     saved_sheets = SHEET.worksheet('saves')
     saved_names = saved_sheets.col_values(save_type)
@@ -1568,6 +1633,15 @@ def load_graph(sheet_name):
     '''
     loads the data from the sheet and will create a new instance of graph
     with the data
+
+    Parameters
+    ----------
+    sheet_name: str
+        the name of the sheet to load
+
+    Returns
+    -------
+    None
     '''
     temp_graph = SHEET.worksheet(sheet_name)
     temp_graph_name = sheet_name
@@ -1592,6 +1666,15 @@ def load_maze(sheet_name):
     '''
     loads the data from the sheet and will create a new instance of maze
     with the data
+
+    Parameters
+    ----------
+    sheet_name: str
+        the name of the sheet to load
+
+    Returns
+    -------
+    None
     '''
     the_maze = None
     temp_maze = SHEET.worksheet(sheet_name).get_all_values()
@@ -1606,6 +1689,25 @@ def load_maze(sheet_name):
 
     the_maze.load_in_maze(temp_maze_name, temp_maze, current)
     menu_option_1(the_maze)
+
+
+def main():
+    '''
+    Main, the program start
+    '''
+    menu_option = None
+    while menu_option != 0:
+        if menu_option == 1:
+            menu_option_1(None)
+        elif menu_option == 2:
+            menu_option_2(None)
+        elif menu_option == 3:
+            get_saved_file_names(1)
+        elif menu_option == 4:
+            get_saved_file_names(2)
+        show_app_title()
+        show_menu()
+        menu_option = get_number_option("menu", 0, 4)
 
 
 main()
