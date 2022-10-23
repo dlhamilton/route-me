@@ -43,12 +43,8 @@ class GameMaze:
     maze_size
         the size of the maze
 
-
     Methods
     -------
-    info(additional=""):
-        Prints the person's name and age.
-
     __random_maze_path_creator:
         calls all the methods to create a maze
 
@@ -922,13 +918,65 @@ class GameMaze:
 class GameGraph:
     '''
     Graph Class
-    '''
-    # class attribute
-    graph_nodes = []
-    graph_node_names = []
-    loaded = False
+    ...
 
+    Attributes
+    ----------
+    graph_name : str
+        name of the graph
+    graph_nodes : int[]
+        graph weights between node
+    graph_node_names : str[]
+        graph names for each node
+    loaded: boolean
+        has the maze been saved before
+
+    Methods
+    -------
+    add_node_to_graph:
+        add node to the graph array
+
+    add_link_to_graph(mode):
+        change the value in the node array
+
+    __get_node_index(search_string):
+        get the index of the node from the name
+
+    show_graph_status:
+        output all the values linked to the graph
+
+    quick_fill_graph:
+        put set values into the graph
+
+    delete_node:
+        delete a node from the graph array
+
+    show_connections:
+        show all the connections for one of the nodes
+
+    dijkstra_path:
+        find the shortest path to a node
+
+    __print_short_path(total_distance, previous_node, start_index,
+                         end_index, reachable):
+        write out the instructions on how to follow the shortest path
+
+    load_in_graph(name, node_names, matrix):
+        update the graph with the data from google sheets
+
+    save_graph:
+        store the maze details to google sheets
+    '''
     def __init__(self, name):
+        '''
+        Constructs all the necessary attributes for the graph object.
+        ...
+
+        Parameters
+        ----------
+            name : str
+                name of the maze
+        '''
         # instance attribute
         self.graph_name = name
         self.graph_nodes = []
@@ -937,11 +985,19 @@ class GameGraph:
 
     def add_node_to_graph(self):
         '''
-        This will add the node to the graph array and add a
+        add node to the graph array and add a
         new array item to all items in the array
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
         '''
         name = input("Please enter the name of the node:\n")
-        name_in_array = self.get_node_index(name)
+        name_in_array = self.__get_node_index(name)
         if name_in_array == -1:
             self.graph_node_names.append(name)
             temp_array = []
@@ -955,15 +1011,24 @@ class GameGraph:
 
     def add_link_to_graph(self, mode):
         '''
-        will change the value in the graph array to represent a new link
+        change the value in the node array to represent a new link
         between nodes
+
+        Parameters
+        ----------
+        mode: str
+            if it is adding or editing the link between the nodes
+
+        Returns
+        -------
+        None
         '''
         print(f"{mode} the link between nodes")
         first_name = input("Please enter the name of the first node:\n")
-        first_name_index = self.get_node_index(first_name)
+        first_name_index = self.__get_node_index(first_name)
         if first_name_index != -1:
             second_name = input("Please enter the name of the second node:\n")
-            second_name_index = self.get_node_index(second_name)
+            second_name_index = self.__get_node_index(second_name)
             if second_name_index != -1:
                 if first_name_index != second_name_index:
                     print(f"{mode} link between "
@@ -988,11 +1053,20 @@ class GameGraph:
         else:
             print("Error: Name not found in graph")
 
-    def get_node_index(self, search_string):
+    def __get_node_index(self, search_string):
         '''
-        Will iterate through the array to see what the index is of the
+        iterate through the array to see what the index is of the
         string that is passed to it. If the string is not in the array
         it will return -1
+
+        Parameters
+        ----------
+        search_string: str
+            name of the node to search for
+
+        Returns
+        -------
+        index of the node (-1 if not found)
         '''
         for name in self.graph_node_names:
             if name.upper() == search_string.upper():
@@ -1001,7 +1075,15 @@ class GameGraph:
 
     def show_graph_status(self):
         '''
-        will output all the values linked to the graph
+        output all the values linked to the graph
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
         '''
         print("Graph name: " + self.graph_name)
         print([str(i) + " = " + self.graph_node_names[i]
@@ -1013,8 +1095,16 @@ class GameGraph:
 
     def quick_fill_graph(self):
         '''
-        Will put set values into the graph to allow the user to see an example
+        put set values into the graph to allow the user to see an example
         graph
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
         '''
         self.graph_node_names = ["Zero", "One", "Two", "Three", "Four", "Five",
                                  "six", "seven", "eight"]
@@ -1031,11 +1121,19 @@ class GameGraph:
 
     def delete_node(self):
         '''
-        Delete a node from the graph array.
+        delete a node from the graph array
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
         '''
         print("Delete node")
         node_name = input("Please enter the name of the node:\n")
-        node_name_index = self.get_node_index(node_name)
+        node_name_index = self.__get_node_index(node_name)
         if node_name_index != -1:
             count = len(self.graph_nodes)
             for node_index in range(count):
@@ -1047,11 +1145,19 @@ class GameGraph:
 
     def show_connections(self):
         '''
-        Show all the connections for one of the nodes
+        show all the connections for one of the nodes
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
         '''
         print("Show connected nodes")
         node_name = input("Please enter the name of the node:\n")
-        node_name_index = self.get_node_index(node_name)
+        node_name_index = self.__get_node_index(node_name)
         if node_name_index != -1:
             has_link = False
             for index, node in enumerate(self.graph_nodes[node_name_index]):
@@ -1068,14 +1174,22 @@ class GameGraph:
 
     def dijkstra_path(self):
         '''
-        Find the shortest path to a node
+        find the shortest path to a node
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
         '''
         start_name = input("Please enter the name of the start node:\n")
-        start_name_index = self.get_node_index(start_name)
+        start_name_index = self.__get_node_index(start_name)
         if start_name_index != -1:
             end_name = input("Please enter the name of the "
                              "destination node:\n")
-            end_name_index = self.get_node_index(end_name)
+            end_name_index = self.__get_node_index(end_name)
             if end_name_index != -1:
 
                 total_distance = [sys.maxsize] * len(self.graph_node_names)
@@ -1105,19 +1219,36 @@ class GameGraph:
                                 total_distance[current_node] + \
                                 self.graph_nodes[current_node][node]
                             previous_node[node] = current_node
-                self.print_short_path(total_distance, previous_node,
-                                      start_name_index, end_name_index,
-                                      visited[end_name_index])
+                self.__print_short_path(total_distance, previous_node,
+                                        start_name_index, end_name_index,
+                                        visited[end_name_index])
 
             else:
                 print("Error: Name not found in graph")
         else:
             print("Error: Name not found in graph")
 
-    def print_short_path(self, total_distance, previous_node, start_index,
-                         end_index, reachable):
+    def __print_short_path(self, total_distance, previous_node, start_index,
+                           end_index, reachable):
         '''
-        Will write out the instructions on how to follow the shortest path
+        write out the instructions on how to follow the shortest path
+
+        Parameters
+        ----------
+        total_distance: int
+            the total distance of the path
+        previous_node: int
+            index of the node that was last visited
+        start_index: int
+            index of the start node
+        end_index: int
+            index of the end node
+        reachable: boolean
+            true if the start and end have a path to link
+
+        Returns
+        -------
+        None
         '''
         print()
         if reachable is True:
@@ -1149,7 +1280,20 @@ class GameGraph:
 
     def load_in_graph(self, name, node_names, matrix):
         '''
-        Will update the graph with the data that was loaded from google sheets
+        update the graph with the data that was loaded from google sheets
+
+        Parameters
+        ----------
+        name: str
+            name of the graph
+        node_names: str[]
+            name of all the nodes
+        matrix: int[]
+            the array links of nodes
+
+        Returns
+        -------
+        None
         '''
         self.graph_name = name
         self.graph_node_names = node_names
@@ -1158,7 +1302,15 @@ class GameGraph:
 
     def save_graph(self):
         '''
-        Will store the maze details to sheets
+        store the maze details to google sheets
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
         '''
         valid = False
         while valid is False:
@@ -1196,7 +1348,7 @@ class GameGraph:
 
 def show_menu():
     '''
-    Will show the main menu to the console
+    show the main menu to the console
     '''
     print("--- Menu ---")
     print("1) Create Maze")
@@ -1209,7 +1361,7 @@ def show_menu():
 
 def show_maze_menu():
     '''
-    Will show the menu for the maze to the console
+    show the menu for the maze to the console
     '''
     print()
     print("--- Maze Menu ---")
@@ -1222,7 +1374,7 @@ def show_maze_menu():
 
 def show_graph_menu():
     '''
-    Will show the menu for the graph to the console
+    show the menu for the graph to the console
     '''
     print()
     print("--- Graph Menu ---")
@@ -1326,7 +1478,7 @@ def menu_option_2(the_graph=None):
 
 def get_number_option(name, start, end):
     '''
-    Will get the user to enter a number and will validate their entry
+    get the user to enter a number and will validate their entry
     '''
     invalid_option = True
     while invalid_option:
@@ -1348,7 +1500,7 @@ def get_number_option(name, start, end):
 
 def valid_user_input(text):
     '''
-    Will validate the user input to make sure it starst with a letter
+    validate the user input to make sure it starst with a letter
     '''
     if len(text) < 1:
         print("Input is not long enough")
@@ -1362,7 +1514,7 @@ def valid_user_input(text):
 
 def show_app_title():
     '''
-    Will show the Title logo for the route me app
+    show the Title logo for the route me app
     '''
     print(Fore.BLUE + Back.WHITE +
           "==============================================")
@@ -1386,7 +1538,7 @@ def show_app_title():
 
 def get_saved_file_names(save_type):
     '''
-    Will show the user all the graphs and mazes that are saved and will
+    show the user all the graphs and mazes that are saved and will
     allow the user o enter the worksheets name to load it
     '''
     saved_sheets = SHEET.worksheet('saves')
@@ -1414,7 +1566,7 @@ def get_saved_file_names(save_type):
 
 def load_graph(sheet_name):
     '''
-    Loads the data from the sheet and will create a new instance of graph
+    loads the data from the sheet and will create a new instance of graph
     with the data
     '''
     temp_graph = SHEET.worksheet(sheet_name)
@@ -1438,7 +1590,7 @@ def load_graph(sheet_name):
 
 def load_maze(sheet_name):
     '''
-    Loads the data from the sheet and will create a new instance of maze
+    loads the data from the sheet and will create a new instance of maze
     with the data
     '''
     the_maze = None
