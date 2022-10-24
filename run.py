@@ -22,8 +22,8 @@ Functions:
     valid_user_input(str) -> boolean
     show_app_title()
     get_saved_file_names(int)
-    load_graph(str)
-    load_maze(str)
+    load_graph(str) -> object
+    load_maze(str) -> object
     main()
 
 Variables:
@@ -40,6 +40,7 @@ import sys
 import random
 import re
 import gspread
+from termcolor import colored
 from google.oauth2.service_account import Credentials
 from colorama import init, Fore, Back
 # reset colour back to default
@@ -616,9 +617,9 @@ class GameMaze:
         if s_and_e == 0:
             self.__remove_from_maze(self.__solution)
             self.draw_maze()
-            print(self.solver_current)
         elif s_and_e == 1:
-            print("The maze could not find a start or end")
+            print(negative_text_color("The maze could not find a "
+                  " start or end point"))
         else:
             path = self.__create_path(path, s_and_e[0], (), s_and_e[1])
             for step in path:
@@ -626,7 +627,6 @@ class GameMaze:
             self.__remove_from_maze(self.__user_move)
             self.draw_maze()
             self.solver_current = None
-            print(self.solver_current)
 
     def __get_start_and_end(self):
         '''
@@ -661,10 +661,9 @@ class GameMaze:
                     start_end.append(the_coord)
                     break
                 if self.maze[the_index][width] == self.__solution:
-                    print("Maze already solved!")
                     return 0
         if len(start_end) < 2:
-            print("No start point")
+            print(negative_text_color("No start point"))
             return 1
         return start_end
 
@@ -787,14 +786,15 @@ class GameMaze:
             valid = True
             if self.loaded is True:
                 SHEET.del_worksheet(SHEET.worksheet(self.maze_name))
-            print("Saving maze...")
+            print(warning_text_color("Saving maze...(Please wait)"))
             try:
                 new_sheet = SHEET.add_worksheet(self.maze_name,
                                                 self.maze_size + 1,
                                                 self.maze_size)
-            except Exception:
-                print(f"Could not save because: A sheet with the name '"
-                      f"{self.maze_name}' already exists.")
+            except gspread.exceptions.APIError:
+                print(negative_text_color(
+                    f"Could not save because: A sheet with the name '"
+                    f"{self.maze_name}' already exists."))
                 valid = False
                 name_valid = False
                 while name_valid is False:
@@ -812,7 +812,7 @@ class GameMaze:
 
                     saves_worksheet.update('A'+str(saves_worksheet_len+1),
                                            self.maze_name)
-                print("Maze saved!")
+                print(positive_text_color("Maze saved!"))
                 self.loaded = True
                 self.draw_maze()
 
@@ -853,6 +853,7 @@ class GameMaze:
         None
         '''
         print()
+        # s_and_e - start and end coordinates array
         s_and_e = self.__get_start_and_end()
         if s_and_e != 0 and s_and_e != 1:
             if self.solver_current is None:
@@ -865,32 +866,34 @@ class GameMaze:
             print()
             end_solver = False
             while end_solver is False:
-                print("Controls: (W - Up, S - Down, D - Right, A - Left) "
-                      "then press Enter... Press 0 to Exit")
+                print(heading_text_color("Controls: (W - Up, S - Down, D - "
+                      "Right, A - Left) then press Enter... Press 0 to Exit"))
                 command = input("Please enter the direction you want to go\n")
                 if command.upper() == "W":
-                    print("Move Up")
+                    print(warning_text_color("Moving Up..."))
                     current = self.__set_user_path(command.upper(), current)
                 elif command.upper() == "A":
-                    print("Move Left")
+                    print(warning_text_color("Moving Left..."))
                     current = self.__set_user_path(command.upper(), current)
                 elif command.upper() == "S":
-                    print("Move Down")
+                    print(warning_text_color("Moving Down..."))
                     current = self.__set_user_path(command.upper(), current)
                 elif command.upper() == "D":
-                    print("Move Right")
+                    print(warning_text_color("Moving Right..."))
                     current = self.__set_user_path(command.upper(), current)
                 elif command.upper() == "0":
-                    print("Exit Solver")
+                    print(highlight_text_color("Exit Solver"))
                     end_solver = True
                 else:
-                    print("Invalid Move")
+                    print(negative_text_color("Invalid move command!"))
                 self.solver_current = current
                 self.draw_maze()
                 if current[0] == s_and_e[1][0] and current[1] == s_and_e[1][1]:
-                    print("Solved it")
+                    print(positive_text_color("Solved it"))
                     end_solver = True
         else:
+            if s_and_e == 0:
+                print(warning_text_color("Maze already solved!"))
             self.draw_maze()
 
     def __set_user_path(self, direction, current):
@@ -937,16 +940,19 @@ class GameMaze:
             new_y = current[1]-1
 
         if edge_coord == edge_coord_limit:
-            print(f"Error border - Cannot go {text_direction}")
+            print(negative_text_color(f"Error border - Cannot go "
+                  f"{text_direction}"))
             return current
         if self.maze[new_x][new_y] == self.__wall:
-            print(f"Error wall - Cannot go {text_direction}")
+            print(negative_text_color(f"Error wall - Cannot go "
+                  f"{text_direction}"))
             return current
         if self.maze[new_x][new_y] == self.__user_move:
             self.maze[current[0]][current[1]] = self.__path
         else:
             self.maze[new_x][new_y] = self.__user_move
         current = [new_x, new_y]
+        print(positive_text_color("Move complete!"))
         return current
 
 
@@ -1042,7 +1048,7 @@ class GameGraph:
             for none in range(len(self.graph_nodes)-1):
                 self.graph_nodes[none].append(0)
         else:
-            print(f"{name} is already in the graph!")
+            print(negative_text_color(f"{name} is already in the graph!"))
 
     def add_link_to_graph(self, mode):
         '''
@@ -1058,7 +1064,7 @@ class GameGraph:
         -------
         None
         '''
-        print(f"{mode} the link between nodes")
+        print(heading_text_color(f"{mode} the link between nodes"))
         first_name = input("Please enter the name of the first node:\n")
         first_name_index = self.__get_node_index(first_name)
         if first_name_index != -1:
@@ -1066,9 +1072,10 @@ class GameGraph:
             second_name_index = self.__get_node_index(second_name)
             if second_name_index != -1:
                 if first_name_index != second_name_index:
-                    print(f"{mode} link between "
-                          f"{self.graph_node_names[first_name_index]} "
-                          f" to {self.graph_node_names[second_name_index]}")
+                    print(highlight_text_color(
+                        f"{mode} link between "
+                        f"{self.graph_node_names[first_name_index]} "
+                        f"to {self.graph_node_names[second_name_index]}"))
                     if mode == "Delete":
                         link_weight = 0
                     else:
@@ -1077,16 +1084,18 @@ class GameGraph:
                         link_weight
                     self.graph_nodes[second_name_index][first_name_index] = \
                         link_weight
-                    print(f"Link Change Complete - "
-                          f"{self.graph_node_names[first_name_index]} to "
-                          f"{self.graph_node_names[second_name_index]} "
-                          f"weight {link_weight}")
+                    print(
+                        f"{positive_text_color('Link Change Complete - ')}"
+                        f"{self.graph_node_names[first_name_index]} to "
+                        f"{self.graph_node_names[second_name_index]} "
+                        f"weight {link_weight}")
                 else:
-                    print("Error: Cannot change link node to itself")
+                    print(negative_text_color("Error: Cannot change link node "
+                                              "to itself"))
             else:
-                print("Error: Name not found in graph")
+                print(negative_text_color("Error: Name not found in graph"))
         else:
-            print("Error: Name not found in graph")
+            print(negative_text_color("Error: Name not found in graph"))
 
     def __get_node_index(self, search_string):
         '''
@@ -1120,12 +1129,15 @@ class GameGraph:
         -------
         None
         '''
-        print("Graph name: " + self.graph_name)
+        print(heading_text_color("Graph Details"))
+        print(highlight_text_color("Graph name: ") + self.graph_name)
+        print(highlight_text_color("Node names:"))
         print([str(i) + " = " + self.graph_node_names[i]
               for i in range(len(self.graph_node_names))])
         count = 0
+        print(highlight_text_color("Node matrix:"))
         for node in self.graph_nodes:
-            print(str(count) + " " + str(node))
+            print(heading_text_color(str(count)) + " " + str(node))
             count = count + 1
 
     def quick_fill_graph(self):
@@ -1166,7 +1178,7 @@ class GameGraph:
         -------
         None
         '''
-        print("Delete node")
+        print(heading_text_color("Delete node"))
         node_name = input("Please enter the name of the node:\n")
         node_name_index = self.__get_node_index(node_name)
         if node_name_index != -1:
@@ -1176,7 +1188,7 @@ class GameGraph:
             del self.graph_node_names[node_name_index]
             del self.graph_nodes[node_name_index]
         else:
-            print("Error: Name not found in graph")
+            print(negative_text_color("Error: Name not found in graph"))
 
     def show_connections(self):
         '''
@@ -1190,22 +1202,26 @@ class GameGraph:
         -------
         None
         '''
-        print("Show connected nodes")
+        print(heading_text_color("Show connected nodes"))
         node_name = input("Please enter the name of the node:\n")
         node_name_index = self.__get_node_index(node_name)
         if node_name_index != -1:
             has_link = False
-            for index, node in enumerate(self.graph_nodes[node_name_index]):
+            for ind, node in enumerate(self.graph_nodes[node_name_index]):
                 if node != 0:
                     has_link = True
-                    print(f"{self.graph_node_names[node_name_index]} to "
-                          f"{self.graph_node_names[index]} -- weight: "
-                          f"{self.graph_nodes[node_name_index][index]}")
+                    nni = node_name_index
+                    print(
+                        f"{warning_text_color(self.graph_node_names[nni])} to "
+                        f"{positive_text_color(self.graph_node_names[ind])} "
+                        f"-- weight: "
+                        f"{highlight_text_color(self.graph_nodes[nni][ind])}")
             if has_link is False:
-                print(f"{self.graph_node_names[node_name_index]} has no "
-                      f"links to other nodes")
+                print(warning_text_color(
+                    f"{self.graph_node_names[node_name_index]} has no "
+                    f"links to other nodes"))
         else:
-            print("Error: Name not found in graph")
+            print(negative_text_color("Error: Name not found in graph"))
 
     def dijkstra_path(self):
         '''
@@ -1259,9 +1275,9 @@ class GameGraph:
                                         visited[end_name_index])
 
             else:
-                print("Error: Name not found in graph")
+                print(negative_text_color("Error: Name not found in graph"))
         else:
-            print("Error: Name not found in graph")
+            print(negative_text_color("Error: Name not found in graph"))
 
     def __print_short_path(self, total_distance, previous_node, start_index,
                            end_index, reachable):
@@ -1286,13 +1302,14 @@ class GameGraph:
         None
         '''
         print()
+        print(heading_text_color("Quickest route"))
         if reachable is True:
             print(f"{self.graph_node_names[start_index]} to "
                   f"{self.graph_node_names[end_index]} has "
                   f"weight of {total_distance[end_index]} "
                   )
             the_node = end_index
-            print("The steps to destination")
+            print(highlight_text_color("The steps to destination"))
             solution = []
             solution_name = []
             while the_node != start_index:
@@ -1306,12 +1323,14 @@ class GameGraph:
             for index, node in enumerate(solution):
                 print(f"{index+1}) {self.graph_node_names[last_node]} to "
                       f"{self.graph_node_names[node]} ("
-                      f"weight = {self.graph_nodes[last_node][node]})")
+                      f"{highlight_text_color('weight = ')}"
+                      f"{self.graph_nodes[last_node][node]})")
                 last_node = node
         else:
-            print(f"There is no route between "
-                  f"{self.graph_node_names[start_index]} and "
-                  f"{self.graph_node_names[end_index]}")
+            print(negative_text_color(
+                f"There is no route between "
+                f"{self.graph_node_names[start_index]} and "
+                f"{self.graph_node_names[end_index]}"))
 
     def load_in_graph(self, name, node_names, matrix):
         '''
@@ -1352,14 +1371,16 @@ class GameGraph:
             valid = True
             if self.loaded is True:
                 SHEET.del_worksheet(SHEET.worksheet(self.graph_name))
-            print("Saving maze...")
+            print(warning_text_color('Saving maze...(Please wait)'))
             try:
                 new_sheet = SHEET.add_worksheet(self.graph_name,
                                                 len(self.graph_node_names) + 1,
                                                 len(self.graph_node_names))
-            except Exception:
-                print(f"Could not save because: A sheet with the name '"
-                      f"{self.graph_name}' already exists.")
+            except gspread.exceptions.APIError:
+                print(negative_text_color(
+                    f"Could not save because: "
+                    f"A sheet with the name "
+                    f"{self.graph_name}' already exists."))
                 valid = False
                 name_valid = False
                 while name_valid is False:
@@ -1377,7 +1398,7 @@ class GameGraph:
 
                     saves_worksheet.update('B'+str(saves_worksheet_len+1),
                                            self.graph_name)
-                print("Graph saved!")
+                print(positive_text_color("Graph saved!"))
                 self.loaded = True
 
 
@@ -1385,13 +1406,17 @@ def show_menu():
     '''
     show the main menu to the console
     '''
-    print("--- Menu ---")
+    print(f"{colored('---------', 'cyan')} Menu "
+          f"{colored('---------', 'cyan')} ")
+    print(warning_text_color(
+        "Enter the menu number you want then press enter."
+    ))
     print("1) Create Maze")
     print("2) Create Graph")
     print("3) Load Maze from file")
     print("4) Load Graph from file")
     print("0) Exit")
-    print(("===================="))
+    print(f"{colored('========================','cyan')}")
 
 
 def show_maze_menu():
@@ -1399,12 +1424,16 @@ def show_maze_menu():
     show the menu for the maze to the console
     '''
     print()
-    print("--- Maze Menu ---")
+    print(f"{colored('-------', 'cyan')} Maze Menu "
+          f"{colored('-------', 'cyan')}")
+    print(warning_text_color(
+        "Enter the menu number you want then press enter."
+    ))
     print("1) Solve/ Unsolve Maze")
     print("2) Save maze to file")
     print("3) User Solve Maze")
     print("0) Back to Main menu")
-    print(("===================="))
+    print(f"{colored('=========================','cyan')}")
 
 
 def show_graph_menu():
@@ -1412,7 +1441,11 @@ def show_graph_menu():
     show the menu for the graph to the console
     '''
     print()
-    print("--- Graph Menu ---")
+    print(f"{colored('--------', 'cyan')} Graph Menu "
+          f"{colored('--------', 'cyan')}")
+    print(warning_text_color(
+        "Enter the menu number you want then press enter."
+    ))
     print("1) Add Node")
     print("2) Add Link")
     print("3) Delete Link")
@@ -1423,7 +1456,7 @@ def show_graph_menu():
     print("8) Show Connections for Node")
     print("9) Find Shortest Route")
     print("0) Back to Main menu")
-    print(("===================="))
+    print(f"{colored('============================','cyan')}")
 
 
 def menu_option_1(the_maze=None):
@@ -1533,14 +1566,14 @@ def get_number_option(name, start, end):
             menu_option = int(input(f"Please enter your {name} "
                                     f"choice ({start} - {end}):\n"))
         except ValueError:
-            print(f"Not a valid number - Please enter a number between "
-                  f"{start} and {end}")
+            print(negative_text_color(f"Not a valid number - Please enter a "
+                  f"number between {start} and {end}"))
         else:
             if menu_option >= start and menu_option <= end:
                 invalid_option = False
             else:
-                print(f'Number option not avaliable - Please enter a '
-                      f'number between {start} and {end}')
+                print(negative_text_color(f'Number option not avaliable '
+                      f'- Please enter a number between {start} and {end}'))
     return menu_option
 
 
@@ -1558,10 +1591,10 @@ def valid_user_input(text):
     if the text meets al requirements returns true
     '''
     if len(text) < 1:
-        print("Input is not long enough")
+        print(negative_text_color("Input is not long enough"))
         return False
     if re.search("^[a-zA-Z]", text) is None:
-        print("Input must start with a letter")
+        print(negative_text_color("Input must start with a letter"))
         return False
 
     return True
@@ -1571,22 +1604,11 @@ def show_app_title():
     '''
     show the Title logo for the route me app
     '''
-    print(Fore.BLUE + Back.WHITE +
-          "==============================================")
-    print(Fore.BLUE + Back.WHITE +
-          "______            _             ___  ___      ")
-    print(Fore.BLUE + Back.WHITE +
-          "| ___ \          | |            |  \/  |      ")
-    print(Fore.BLUE + Back.WHITE +
-          "| |_/ /___  _   _| |_ ___ ______| .  . | ___  ")
-    print(Fore.BLUE + Back.WHITE +
-          '|    // _ \| | | | __/ _ \______| |\/| |/ _ \ ')
-    print(Fore.BLUE + Back.WHITE +
-          "| |\ \ (_) | |_| | ||  __/      | |  | |  __/ ")
-    print(Fore.BLUE + Back.WHITE +
-          "\_| \_\___/ \__,_|\__\___|      \_|  |_/\___| ")
-    print(Fore.BLUE + Back.WHITE +
-          "==============================================")
+    print(Fore.GREEN + Back.WHITE + "=================")
+    print(Fore.BLUE + Back.WHITE + "+-+-+-+-+-+-+-+-+")
+    print(Fore.RED + Back.WHITE + "|R|o|u|t|e|-|M|e|")
+    print(Fore.BLUE + Back.WHITE + "+-+-+-+-+-+-+-+-+")
+    print(Fore.GREEN + Back.WHITE + "=================")
     print()
     print("Welcome to Route-me the best way to find the quickest route.\n")
 
@@ -1609,8 +1631,12 @@ def get_saved_file_names(save_type):
     saved_sheets = SHEET.worksheet('saves')
     saved_names = saved_sheets.col_values(save_type)
     if len(saved_names) != 0:
+        print(heading_text_color("Load in file"))
+        print(warning_text_color(
+            "Type the name of the file you want to load, then click enter.."))
+        print(warning_text_color("Press '0' to go back"))
         print("Files available to load:")
-        print("========================")
+        print(highlight_text_color("========================"))
         for name in saved_names:
             print(name)
         print()
@@ -1618,15 +1644,20 @@ def get_saved_file_names(save_type):
                                    "to open (case sensitive) \n")
         if file_name_enetered in saved_names:
             if save_type == 1:
-                print("Maze loading...")
-                load_maze(file_name_enetered)
+                print(warning_text_color("Maze loading..."))
+                loaded_maze = load_maze(file_name_enetered)
+                print(positive_text_color("Maze loaded!"))
+                menu_option_1(loaded_maze)
             elif save_type == 2:
-                print("Graph loading...")
-                load_graph(file_name_enetered)
+                print(warning_text_color("Graph loading..."))
+                loaded_graph = load_graph(file_name_enetered)
+                print(positive_text_color("Graph loaded!"))
+                menu_option_2(loaded_graph)
         else:
-            print("This sheet could not be found!")
+            if file_name_enetered != '0':
+                print(negative_text_color("This sheet could not be found!"))
     else:
-        print("No saved sheets")
+        print(negative_text_color("No saved sheets"))
 
 
 def load_graph(sheet_name):
@@ -1659,7 +1690,7 @@ def load_graph(sheet_name):
     the_graph.load_in_graph(temp_graph_name, temp_graph_node_names,
                             int_temp_graph_node)
 
-    menu_option_2(the_graph)
+    return the_graph
 
 
 def load_maze(sheet_name):
@@ -1674,7 +1705,8 @@ def load_maze(sheet_name):
 
     Returns
     -------
-    None
+    the_maze: maze object
+        the maze that has been loaded from google sheets
     '''
     the_maze = None
     temp_maze = SHEET.worksheet(sheet_name).get_all_values()
@@ -1688,7 +1720,23 @@ def load_maze(sheet_name):
         current = [int(current[0]), int(current[1])]
 
     the_maze.load_in_maze(temp_maze_name, temp_maze, current)
-    menu_option_1(the_maze)
+    return the_maze
+
+
+def positive_text_color(text):
+    return colored(text, 'green')
+
+def warning_text_color(text):
+    return colored(text, 'yellow')
+
+def negative_text_color(text):
+    return colored(text, 'red')
+
+def highlight_text_color(text):
+    return colored(text, 'cyan')
+
+def heading_text_color(text):
+    return colored(text, 'magenta')
 
 
 def main():
