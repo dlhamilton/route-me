@@ -24,6 +24,11 @@ Functions:
     get_saved_file_names(int)
     load_graph(str) -> object
     load_maze(str) -> object
+    positive_text_color(str) -> str
+    warning_text_color(str) -> str
+    negative_text_color(str) -> str
+    highlight_text_color(str) -> str
+    heading_text_color(str) -> str
     main()
 
 Variables:
@@ -1724,18 +1729,87 @@ def load_maze(sheet_name):
 
 
 def positive_text_color(text):
+    '''
+    green text style
+
+    Parameters
+    ----------
+    text: str
+        the output string
+
+    Returns
+    -------
+    coloured text: str
+        the string with a new colour
+    '''
     return colored(text, 'green')
 
+
 def warning_text_color(text):
+    '''
+    yellow text style
+
+    Parameters
+    ----------
+    text: str
+        the output string
+
+    Returns
+    -------
+    coloured text: str
+        the string with a new colour
+    '''
     return colored(text, 'yellow')
 
+
 def negative_text_color(text):
+    '''
+    red text style
+
+    Parameters
+    ----------
+    text: str
+        the output string
+
+    Returns
+    -------
+    coloured text: str
+        the string with a new colour
+    '''
     return colored(text, 'red')
 
+
 def highlight_text_color(text):
+    '''
+    cyan text style
+
+    Parameters
+    ----------
+    text: str
+        the output string
+
+    Returns
+    -------
+    coloured text: str
+        the string with a new colour
+    '''
     return colored(text, 'cyan')
 
+
 def heading_text_color(text):
+    '''
+    magenta text style
+
+    Parameters
+    ----------
+    text: str
+        the output string
+
+    Returns
+    -------
+    coloured text: str
+        the string with a new colour
+    '''
     return colored(text, 'magenta')
 
 
