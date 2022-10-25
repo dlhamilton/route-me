@@ -14,6 +14,8 @@ Functions:
     heading_text_color(str) -> str
     get_number_option(str, int, int) -> int
     valid_user_input(str) -> boolean
+    clear_terminal()
+    press_enter()
 
 Variables:
 
@@ -25,6 +27,7 @@ Variables:
 
 '''
 import re
+from os import system, name
 import gspread
 from termcolor import colored
 from google.oauth2.service_account import Credentials
@@ -150,14 +153,14 @@ def valid_user_input(text):
     return True
 
 
-def get_number_option(name, start, end):
+def get_number_option(menu_name, start, end):
     '''
     numerical menu
     get the user to enter a number and will validate their entry
 
     Parameters
     ----------
-    name: str
+    menu_name: str
         menu name
     start: int
         min number the user can select
@@ -173,7 +176,7 @@ def get_number_option(name, start, end):
     while invalid_option:
         try:
             invalid_option = True
-            menu_option = int(input(f"Please enter your {name} "
+            menu_option = int(input(f"Please enter your {menu_name} "
                                     f"choice ({start} - {end}):\n"))
         except ValueError:
             print(negative_text_color(f"Not a valid number - Please enter a "
@@ -185,3 +188,17 @@ def get_number_option(name, start, end):
                 print(negative_text_color(f'Number option not avaliable '
                       f'- Please enter a number between {start} and {end}'))
     return menu_option
+
+
+def clear_terminal():
+    '''
+    Clears terminal for better UX
+    '''
+    system('cls' if name == 'nt' else 'clear')
+
+
+def press_enter():
+    '''
+    Print "Press enter to continue."
+    '''
+    input(colored("Press enter to continue.", 'yellow', 'on_white'))

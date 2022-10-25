@@ -19,7 +19,7 @@ import gspread
 from colorama import init, Fore, Back
 from util import (positive_text_color, warning_text_color, negative_text_color,
                   highlight_text_color, heading_text_color, valid_user_input,
-                  SHEET)
+                  SHEET, clear_terminal, press_enter)
 # reset colour back to default
 init(autoreset=True)
 
@@ -582,7 +582,6 @@ class GameMaze:
 
         if s_and_e == 0:
             self.__remove_from_maze(self.__solution)
-            self.draw_maze()
         elif s_and_e == 1:
             print(negative_text_color("The maze could not find a "
                   " start or end point"))
@@ -591,7 +590,6 @@ class GameMaze:
             for step in path:
                 self.maze[step[0]][step[1]] = self.__solution
             self.__remove_from_maze(self.__user_move)
-            self.draw_maze()
             self.solver_current = None
 
     def __get_start_and_end(self):
@@ -780,7 +778,6 @@ class GameMaze:
                                            self.maze_name)
                 print(positive_text_color("Maze saved!"))
                 self.loaded = True
-                self.draw_maze()
 
     def load_in_maze(self, name, matrix, current):
         '''
@@ -828,6 +825,7 @@ class GameMaze:
                 self.solver_current = current
             else:
                 current = self.solver_current
+            clear_terminal()
             self.draw_maze()
             print()
             end_solver = False
@@ -849,18 +847,21 @@ class GameMaze:
                     current = self.__set_user_path(command.upper(), current)
                 elif command.upper() == "0":
                     print(highlight_text_color("Exit Solver"))
+                    press_enter()
                     end_solver = True
                 else:
                     print(negative_text_color("Invalid move command!"))
                 self.solver_current = current
+                clear_terminal()
                 self.draw_maze()
                 if current[0] == s_and_e[1][0] and current[1] == s_and_e[1][1]:
                     print(positive_text_color("Solved it"))
+                    press_enter()
                     end_solver = True
         else:
             if s_and_e == 0:
                 print(warning_text_color("Maze already solved!"))
-            self.draw_maze()
+                press_enter()
 
     def __set_user_path(self, direction, current):
         '''
@@ -908,10 +909,12 @@ class GameMaze:
         if edge_coord == edge_coord_limit:
             print(negative_text_color(f"Error border - Cannot go "
                   f"{text_direction}"))
+            press_enter()
             return current
         if self.maze[new_x][new_y] == self.__wall:
             print(negative_text_color(f"Error wall - Cannot go "
                   f"{text_direction}"))
+            press_enter()
             return current
         if self.maze[new_x][new_y] == self.__user_move:
             self.maze[current[0]][current[1]] = self.__path

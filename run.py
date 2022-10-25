@@ -34,7 +34,7 @@ from game_graph import GameGraph
 from game_maze import GameMaze
 from util import (positive_text_color, warning_text_color, negative_text_color,
                   highlight_text_color, heading_text_color, valid_user_input,
-                  get_number_option, SHEET)
+                  get_number_option, SHEET, clear_terminal, press_enter)
 # reset colour back to default
 init(autoreset=True)
 
@@ -117,6 +117,9 @@ def menu_option_1(the_maze=None):
             name_valid = valid_user_input(maze_name)
         maze_size = get_number_option("maze size", 10, 40)
         the_maze = GameMaze(maze_size, maze_name)
+    print(positive_text_color("Maze ready!"))
+    press_enter()
+    clear_terminal()
     the_maze.draw_maze()
     show_maze_menu()
     maze_menu_option = get_number_option("maze menu", 0, 3)
@@ -127,6 +130,8 @@ def menu_option_1(the_maze=None):
             the_maze.save_maze()
         elif maze_menu_option == 3:
             the_maze.user_solve_maze()
+        clear_terminal()
+        the_maze.draw_maze()
         show_maze_menu()
         maze_menu_option = get_number_option("maze menu", 0, 3)
     the_maze = None
@@ -187,7 +192,6 @@ def show_app_title():
     print(Fore.BLUE + Back.WHITE + "+-+-+-+-+-+-+-+-+")
     print(Fore.GREEN + Back.WHITE + "=================")
     print()
-    print("Welcome to Route-me the best way to find the quickest route.\n")
 
 
 def get_saved_file_names(save_type):
@@ -300,6 +304,18 @@ def load_maze(sheet_name):
     return the_maze
 
 
+def exit_message():
+    '''
+    Message shown to the user when they end the program
+    '''
+    clear_terminal()
+    print()
+    print(highlight_text_color("Thanks for using Route-Me"))
+    print()
+    show_app_title()
+    print()
+
+
 def main():
     '''
     Main, the program start
@@ -314,9 +330,12 @@ def main():
             get_saved_file_names(1)
         elif menu_option == 4:
             get_saved_file_names(2)
+        clear_terminal()
         show_app_title()
+        print("Welcome to Route-me the best way to find the quickest route.\n")
         show_menu()
         menu_option = get_number_option("menu", 0, 4)
+    exit_message()
 
 
 main()
