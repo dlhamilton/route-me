@@ -17,9 +17,10 @@ Variables:
 # Library for INT_MAX
 import sys
 import gspread
+from prettytable import PrettyTable
 from util import (positive_text_color, warning_text_color, negative_text_color,
                   highlight_text_color, heading_text_color, valid_user_input,
-                  get_number_option, SHEET)
+                  get_number_option, SHEET, clear_terminal)
 
 
 class GameGraph:
@@ -199,14 +200,28 @@ class GameGraph:
         '''
         print(heading_text_color("Graph Details"))
         print(highlight_text_color("Graph name: ") + self.graph_name)
+        print()
         print(highlight_text_color("Node names:"))
-        print([str(i) + " = " + self.graph_node_names[i]
-              for i in range(len(self.graph_node_names))])
+
+        graph_table = PrettyTable(["No.", "Node Name", "Num. of connections"])
+
         count = 0
-        print(highlight_text_color("Node matrix:"))
-        for node in self.graph_nodes:
-            print(heading_text_color(str(count)) + " " + str(node))
-            count = count + 1
+        for node in self.graph_node_names:
+            links = list(filter(lambda number: number > 0,
+                         self.graph_nodes[count]))
+            graph_table.add_row([count, node, len(links)])
+            count += 1
+        print(graph_table)
+        print()
+        print("Enter '0' to go back or '1' to see more node details")
+
+        user_input = get_number_option("details", 0, 1)
+        if user_input == 1:
+            count = 0
+            print(highlight_text_color("Node matrix:"))
+            for node in self.graph_nodes:
+                print(heading_text_color(str(count)) + " " + str(node))
+                count = count + 1
 
     def quick_fill_graph(self):
         '''
@@ -370,7 +385,7 @@ class GameGraph:
         -------
         None
         '''
-        print()
+        clear_terminal()
         print(heading_text_color("Quickest route"))
         if reachable is True:
             print(f"{self.graph_node_names[start_index]} to "
@@ -378,6 +393,7 @@ class GameGraph:
                   f"weight of {total_distance[end_index]} "
                   )
             the_node = end_index
+            print()
             print(highlight_text_color("The steps to destination"))
             solution = []
             solution_name = []
@@ -388,7 +404,7 @@ class GameGraph:
             solution_name.insert(0, self.graph_node_names[start_index])
             print(solution_name)
             last = start_index
-
+            print()
             for index, node in enumerate(solution):
                 print(f"{index+1}) {self.graph_node_names[last]} to "
                       f"{self.graph_node_names[node]} ("
@@ -400,6 +416,7 @@ class GameGraph:
                 f"There is no route between "
                 f"{self.graph_node_names[start_index]} and "
                 f"{self.graph_node_names[end_index]}"))
+        print()
 
     def load_in_graph(self, name, node_names, matrix):
         '''

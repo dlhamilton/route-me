@@ -173,6 +173,7 @@ def menu_option_2(the_graph=None):
         elif graph_menu_option == 5:
             the_graph.save_graph()
         elif graph_menu_option == 6:
+            clear_terminal()
             the_graph.show_graph_status()
         elif graph_menu_option == 7:
             the_graph.quick_fill_graph()
