@@ -777,6 +777,7 @@ class GameMaze:
                     saves_worksheet.update('A'+str(saves_worksheet_len+1),
                                            self.maze_name)
                 print(positive_text_color("Maze saved!"))
+                press_enter()
                 self.loaded = True
 
     def load_in_maze(self, name, matrix, current):
