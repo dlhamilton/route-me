@@ -4,11 +4,11 @@ Route me is a python termial program, which runs in the CI mock terminal on Hero
 <br>
 Users can create a graph and find the shortest route to their target. Users can also create a maze, they can choose to solve it them self or use the program to show them the correct path.
 
-![imaage](image)
+![Program Screen](assets/media/main_menu_img.png)
 
 ## How to use it
 
-This program is designed o help you find the quickest way from a start position to a destination. It can also create and solve mazes. When you start the program you will be taken to the Main menu. Use the instructions and image below to help navigate.
+This program is designed to help you find the quickest way from a start position to a destination. It can also create and solve mazes. When you start the program you will be taken to the Main menu. Use the instructions and image below to help navigate.
 <br>
 
 ### Main Menu
@@ -88,81 +88,185 @@ This will take you back to the main menu.
 
 ## Features
 
-MENUS
+### Menus
+The main menu is the first screen you will interact with. The user will choose from 5 options in a numerical menu:
+![Main menu](assets/media/main_menu_img.png)
 
-create maze
+The maze menu is the menu which shows all the things yoiu can do to a maze once it is created. The user will choose from 4 options in a numerical menu:
+![Maze menu](assets/media/maze_menu_img.png)
 
-Maze size
+The graph menu is the menu which shows all the things yoiu can do to a graph once it is created. The user will choose from 10 options in a numerical menu:
+![Graph menu](assets/media/graph_menu_img.png)
 
-solve maze
+### Create Maze
+The user can give the maze a name and then set the size of the maze. Once a name that starts with a letter has been entered and a maze size between 10 and 40 has been entered it will create the maze. the maze is created using a random prims algorithm.
 
-unsolve maze
+**Prims Algorithm **
+Start with a grid full of walls.
+Pick a random cell, mark it as part of the maze. Add the walls of the cell to the wall list.
+While there are walls in the list:
+    Pick a random wall from the list. If only one of the two cells that the wall divides is visited, then:
+        Make the wall a passage and mark the unvisited cell as part of the maze
+        Add the neighboring walls of the cell to the wall list.
+    Remove the wall from the list
 
-save a maze
+![Create Maze](assets/media/create_maze_img.png)
 
-load a maze
+### Solve maze/ Unsolve maze
+Option 1 in the maze menu will work out the path to complete the maze. It uses a recursive method to check all possible routes until it reaches the exit of the maze. It uses a depth-first approach.
 
+```
+def __create_path(self, path, current, last, goal):
+        '''
+        recursive method to find a path to the exit point in the
+        maze returning the path it took.
 
-create graph
+        Parameters
+        ----------
+        path: int[]
+            steps taken to get to the exit
+        current: int[]
+            current position in the maze
+        last: int[]
+            the position in the maze it has left
+        goal: int[]
+            the exit to the maze
 
-add node
+        Returns
+        -------
+        path: int[]
+            steps to the exit
+        '''
+        new_path = []
 
-add/edit link
+        if current == goal:
+            path.append(current)
+            return path
 
-delete node
+        for count in range(4):
+            if count == 0:
+                current_coord = current[0]
+                maze_edge = 0
+            if count == 1:
+                current_coord = current[1]
+                maze_edge = 0
+            if count == 2:
+                current_coord = current[1]
+                maze_edge = self.maze_size-1
+            if count == 3:
+                current_coord = current[0]
+                maze_edge = self.maze_size-1
 
-delete link
+            if current_coord != maze_edge:
+                next_path = self.__set_next_path(count, current)
+                if next_path != last:
+                    if self.maze[next_path[0]][next_path[1]] != self.__wall:
+                        temp_path = self.__create_path([], next_path, current,
+                                                       goal)
+                        if len(temp_path) > len(new_path):
+                            new_path = temp_path
+                            new_path.append(current)
+        return new_path
+```
 
-show graph
+![Solve Maze](assets/media/solve_maze_img.png)
 
-show connections for one node
+### Save a maze
+Option 2 of the menu will save the maze to google sheets. It takes the name of the maze and create a new worksheet with the same name then will pass the array maze data to the sheets. 
 
-find the shorest path 
+![Save Maze](assets/media/saving_maze_img.png)
 
-quick fill the graph with sample data
+### Load a maze
+Option 3 in the main menu will show all the available sheets that can be loaded. The user will then be able to enter the sheet name the maze will be loaded in.
+ 
+![Load Maze](assets/media/loading_maze_img.png)
 
-name the graph
+### Create Graph
+Once a name that starts with a letter has been entered it will create the graph.
 
-save a graph
+![Graph menu](assets/media/create_graph_img.png)
 
-load a graph
+### Add node
+Can add a node to the graph. It will ask the user to enter the name for the node and will check to make sure it doesnt alredy exist in the graph.
+
+### Add/edit link
+Can add a link between to nodes. It will ask for the name of the first node then the name of the second node. once it has validated both names it will ask the user to enter the weight between the nodes then finally create the link.
+
+### Delete node
+This will remove the node from the graph and all links associated to it. it will ask the user for the name of the node to remove. 
+
+### Delete link
+Can remove a link between to nodes. It will ask for the name of the first node then the name of the second node. once it has validated both names it will set the link weight to 0.
+
+### Show graph
+This will show all the details for the graph and will ask the user if they want to view the complete matrix. 
+
+### Show connections for one node
+Will ask the user to enter the name of the node they want to view. It will then show all the weights and connections for the node.
+
+### Find the shorest path
+
+using the Dijkstras algorithm it will find the shortest path from a start location to the end. 
+
+The Pseudo code I used to design the methods are below. 
+
+This will find the total distance from the start node to the end.
+```
+ 1  function Dijkstra(Graph, source):
+ 2      
+ 3      for each vertex v in Graph.Vertices:
+ 4          dist[v] ← INFINITY
+ 5          prev[v] ← UNDEFINED
+ 6          add v to Q
+ 7      dist[source] ← 0
+ 8      
+ 9      while Q is not empty:
+10          u ← vertex in Q with min dist[u]
+11          remove u from Q
+12          
+13          for each neighbor v of u still in Q:
+14              alt ← dist[u] + Graph.Edges(u, v)
+15              if alt < dist[v]:
+16                  dist[v] ← alt
+17                  prev[v] ← u
+18
+19      return dist[], prev[]
+```
+
+This prints out the path that was taken to get to the destination. 
+```
+1  S ← empty sequence
+2  u ← target
+3  if prev[u] is defined or u = source:          // Do something only if the vertex is reachable
+4      while u is defined:                       // Construct the shortest path with a stack S
+5          insert u at the beginning of S        // Push the vertex onto the stack
+6          u ← prev[u]                           // Traverse from target to source
+```
+
+These can be seen in the GameGraph class in methods "dijkstra_path" and "__print_short_path"
+
+### Quick fill the graph with sample data
+
+### Save a graph
+
+### Load a graph
 
 ## Future features
 
-Different with and height for maze.
-
 Live solving for maze.
 
+Different with and height for maze.
+
 Spanning tree
+
+None and zero.
 
 ## Data modeling
 
 ## Testing
 
-### Manual Testing
-
-Test the pathing works
-
-Test the maze solving works
-
-Test a add, edit, delete for connections
-
-test a add and delete of a node
-
-### User Story Testing
-
-|Story No.|Result|Story/ Evidence|
-| ------------- | ------------- | ------------- |
-|1|Test Pass| As a user, <br> I want to be able to create a randomly genrated maze <br> so that I can get see how good i am at solving them. <br><br>I know I am done when a maze is shown in the console <br><br>Evidence:<br>The user can open the high score modal and it loads the scores from local storage.<br> ![high_score](assets/media/chrome_images/game_highscore.webp)|
-|2|Test Pass|As a user, <br> I want to be able to choose the size of my maze <br> so that I can control the difficulty of the maze.<br><br>I know I am done when users can enter a size and a maze appears in theose dimensions.<br><br>Evidence:<br>The user can open the high score modal and it loads the scores from local storage.<br> ![high_score](assets/media/chrome_images/game_highscore.webp)|
-|3|Test Pass|As a user, <br> I want to be able to solve the maze<br> so that I can get the path to solve the maze. <br><br> I know I am done when a path is shown on the maze.<br><br>Evidence:<br>The user can open the high score modal and it loads the scores from local storage.<br> ![high_score](assets/media/chrome_images/game_highscore.webp)|
-|4|Test Pass|As a user,<br> I want to be able to save a maze <br> so that I can use it in another program or come back to it. <br> <br> I know I am done when google sheets can view a maze.<br><br>Evidence:<br>The user can open the high score modal and it loads the scores from local storage.<br> ![high_score](assets/media/chrome_images/game_highscore.webp)|
-|5|Test Pass|As a user,<br> I want to be able to load a maze <br> so that I can come back to it and edit it. <br> <br> I know I am done when a user can view a worksheet from google sheets.<br><br>Evidence:<br>The user can open the high score modal and it loads the scores from local storage.<br> ![high_score](assets/media/chrome_images/game_highscore.webp)|
-|6|Test Pass|As a user,<br> I want to be able to create a graph <br> so that I can plan a route. <br> <br> I know I am done when a user can view all the connetions in an array.<br><br>Evidence:<br>The user can open the high score modal and it loads the scores from local storage.<br> ![high_score](assets/media/chrome_images/game_highscore.webp)|
-|7|Test Pass|As a user,<br> I want to be able to find the shorest path between two nodes <br> so that I can find a quick route. <br> <br> I know I am done when a user can view all the steps to get from one node to another.<br><br>Evidence:<br>The user can open the high score modal and it loads the scores from local storage.<br> ![high_score](assets/media/chrome_images/game_highscore.webp)|
-|8|Test Pass|As a user,<br> I want to be able to save a graph <br> so that I can use it in another program or come back to it. <br> <br> I know I am done when google sheets can view a maze.<br><br>Evidence:<br>The user can open the high score modal and it loads the scores from local storage.<br> ![high_score](assets/media/chrome_images/game_highscore.webp)|
-|9|Test Pass|As a user,<br> I want to be able to load a graph <br> so that I can come back to it and edit it. <br> <br> I know I am done when a user can view a worksheet from google sheets.<br><br>Evidence:<br>The user can open the high score modal and it loads the scores from local storage.<br> ![high_score](assets/media/chrome_images/game_highscore.webp)|
-|10|Test Pass|As a user,<br> I want to be able to edit a graph <br> so that I can change it to my prefernces. <br> <br> I know I am done when a user can add and delete nodes, they will also be able to add and delete connections.<br><br>Evidence:<br>The user can open the high score modal and it loads the scores from local storage.<br> ![high_score](assets/media/chrome_images/game_highscore.webp)|
+### Manual Testing & User Story Testing
+[Click here](TESTING.md)
 
 ### Validatior Testing
 
@@ -213,7 +317,9 @@ Code instutie for the deployment terminal
 
 https://patorjk.com/software/taag/#p=display&f=Doom&t=Route-Me
 
+https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
 
+https://en.wikipedia.org/wiki/Maze_generation_algorithm
 
 -----
 Happy coding!
