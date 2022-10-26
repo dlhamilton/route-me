@@ -1,11 +1,15 @@
 # Route Me Testing
 
+[<< Back to ReadMe](README.md)
+
 ## Manual Testing
 
 Below are the test to check all validation and operation of the program.
 
+### Main menu tests
 <table>
     <tr>
+        <th>Test Number</th>
         <th>Test</th>
         <th>Test data</th>
         <th>Expected result</th>
@@ -13,13 +17,131 @@ Below are the test to check all validation and operation of the program.
         <th>Test result</th>
     </tr>
     <tr>
-        <td>Test</td>
-        <td>Test data</td>
-        <td>Expected result</td>
-        <td>Actual result</td>
-        <td>Test result</td>
+        <td>1</td>
+        <td>Program starting</td>
+        <td>n/a</td>
+        <td>Loads main menu</td>
+        <td>Main menu is shown to screen</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Main Menu Validation</td>
+        <td>input " "</td>
+        <td>Error message</td>
+        <td>Error messge and interates the question</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>Main Menu Validation</td>
+        <td>input "a"</td>
+        <td>Error message</td>
+        <td>Error messge and interates the question</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>Main Menu Validation</td>
+        <td>input 20</td>
+        <td>Error message</td>
+        <td>Error messge and interates the question</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td>Main Menu Validation</td>
+        <td>input "$"</td>
+        <td>Error message</td>
+        <td>Error messge and interates the question</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td>Main Menu Validation</td>
+        <td>input 0</td>
+        <td>exits the program</td>
+        <td>shows the exit screen</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>7</td>
+        <td>Main Menu Validation</td>
+        <td>input 1</td>
+        <td>Starts to create the maze</td>
+        <td>Ask the user for the name of the maze</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>8</td>
+        <td>Main Menu Validation</td>
+        <td>input 2</td>
+        <td>Starts to create the graph</td>
+        <td>Ask the user for the name of the graph</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>9</td>
+        <td>Main Menu Validation</td>
+        <td>input 3</td>
+        <td>Starts to load in a maze</td>
+        <td>shows the user all the saved mazes</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>10</td>
+        <td>Main Menu Validation</td>
+        <td>input 4</td>
+        <td>Starts to load in a graph</td>
+        <td>shows the user all the saved graphs</td>
+        <td>Pass</td>
     </tr>
 <table>
+
+### Maze tests
+
+<table>
+    <tr>
+        <th>Test Number</th>
+        <th>Test</th>
+        <th>Test data</th>
+        <th>Expected result</th>
+        <th>Actual result</th>
+        <th>Test result</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Maze name validating</td>
+        <td>input "test"</td>
+        <td>Accepts the name and move to next screen</td>
+        <td>asks the user to enter the maze size</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Maze name validating</td>
+        <td>input 2</td>
+        <td>Error message</td>
+        <td>Error messge and interates the question</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>Maze name validating</td>
+        <td>input ""</td>
+        <td>Error message</td>
+        <td>Error messge and interates the question</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>Maze name validating</td>
+        <td>input "£"</td>
+        <td>Error message</td>
+        <td>Error messge and interates the question</td>
+        <td>Pass</td>
+    </tr>
+</table>
 
 Test the pathing works
 

@@ -115,7 +115,7 @@ While there are walls in the list:
 ### Solve maze/ Unsolve maze
 Option 1 in the maze menu will work out the path to complete the maze. It uses a recursive method to check all possible routes until it reaches the exit of the maze. It uses a depth-first approach.
 
-```
+```python
 def __create_path(self, path, current, last, goal):
         '''
         recursive method to find a path to the exit point in the
@@ -177,7 +177,7 @@ Option 2 of the menu will save the maze to google sheets. It takes the name of t
 ![Save Maze](assets/media/saving_maze_img.png)
 
 ### Load a maze
-Option 3 in the main menu will show all the available sheets that can be loaded. The user will then be able to enter the sheet name the maze will be loaded in.
+Option 3 in the main menu will show all the available sheets that can be loaded. The user will then be able to enter the sheet name, then the maze will be loaded in.
  
 ![Load Maze](assets/media/loading_maze_img.png)
 
@@ -188,21 +188,28 @@ Once a name that starts with a letter has been entered it will create the graph.
 
 ### Add node
 Can add a node to the graph. It will ask the user to enter the name for the node and will check to make sure it doesnt alredy exist in the graph.
+![Add Graph node]()
 
 ### Add/edit link
 Can add a link between to nodes. It will ask for the name of the first node then the name of the second node. once it has validated both names it will ask the user to enter the weight between the nodes then finally create the link.
+![Add Link]()
 
 ### Delete node
-This will remove the node from the graph and all links associated to it. it will ask the user for the name of the node to remove. 
+This will remove the node from the graph and all links associated to it. it will ask the user for the name of the node to remove.
+![Delete Graph node]()
 
 ### Delete link
 Can remove a link between to nodes. It will ask for the name of the first node then the name of the second node. once it has validated both names it will set the link weight to 0.
+![Delete Link]()
 
 ### Show graph
-This will show all the details for the graph and will ask the user if they want to view the complete matrix. 
+This will show all the details for the graph and will ask the user if they want to view the complete matrix.
+Delete
+![Show graph]()
 
 ### Show connections for one node
 Will ask the user to enter the name of the node they want to view. It will then show all the weights and connections for the node.
+![Show Links]()
 
 ### Find the shorest path
 
@@ -245,23 +252,68 @@ This prints out the path that was taken to get to the destination.
 
 These can be seen in the GameGraph class in methods "dijkstra_path" and "__print_short_path"
 
+![Graph shortest path]()
+
 ### Quick fill the graph with sample data
+This will add sample data to the graph. 
+The sample data is shown below
+```python
+self.graph_node_names = ["Zero", "One", "Two", "Three", "Four", "Five",
+                                 "six", "seven", "eight"]
+        self.graph_nodes = [[0, 4, 0, 0, 0, 0, 0, 8, 0],
+                            [4, 0, 8, 0, 0, 0, 0, 11, 0],
+                            [0, 8, 0, 7, 0, 4, 0, 0, 2],
+                            [0, 0, 7, 0, 9, 14, 0, 0, 0],
+                            [0, 0, 0, 9, 0, 10, 0, 0, 0],
+                            [0, 0, 4, 14, 10, 0, 2, 0, 0],
+                            [0, 0, 0, 0, 0, 2, 0, 1, 6],
+                            [8, 11, 0, 0, 0, 0, 1, 0, 7],
+                            [0, 0, 2, 0, 0, 0, 6, 7, 0]
+                            ]
+```
+
+![Quick fill Graph]()
 
 ### Save a graph
+Option 5 of the menu will save the graph to google sheets. It takes the name of the graph and creates a new worksheet with the same name then will pass the array graph data to the sheets. If the user has attemped to solve the maze it will also pass the current coordinate of where the user is up to.
+
+![Save Graph]()
 
 ### Load a graph
+Option 4 in the main menu will show all the available sheets that can be loaded. The user will then be able to enter the sheet name. Then the graph will be loaded in.
+![Load graph]()
+
+***
 
 ## Future features
 
 Live solving for maze.
 
+None and zero.
+
 Different with and height for maze.
 
 Spanning tree
 
-None and zero.
+***
+
+## Class diagram
+
+![Class Diagram](assets/media/routeme_uml_class.png)
 
 ## Data modeling
+The google sheet has a required worksheet and will add worksheets as new graphs and mazes are saved. The name iof the google sheet is "route_me_data"
+
+### "saves" worksheet
+not finished
+
+### Maze worksheet
+not finished
+
+### Graph worksheet
+not finished
+
+***
 
 ## Testing
 
@@ -275,6 +327,8 @@ None and zero.
 https://stackoverflow.com/questions/39188827/trying-to-understand-python-loop-using-underscore-and-input
 
 finding max
+
+***
 
 ## Deployment
 
@@ -300,7 +354,7 @@ finding max
 4. Above the list of files click the button that says 'Gitpod'.
 
 ### Remote Deployment 
- The site was deployed to Heroku. If you have forked/cloned the repository the steps to deploy are:
+ The prgoram was deployed to Heroku. If you have forked/cloned the repository the steps to deploy are:
  1. On Heroku, cretae a new app.
  2. Set the buildbacks to Python and NodeJs in that order .
  3. Link your Heroku app to you repository.
@@ -308,6 +362,11 @@ finding max
  5. The page will then provide the url to the python terminal.
 
  The live link can be found here - [Route Me](https://github.com/dlhamilton/route-me)
+
+### Google Sheet
+The program uses a google sheet to store saved graphs and mazes. 
+
+Not finished
 
 ***
 
