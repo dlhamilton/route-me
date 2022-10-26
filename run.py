@@ -21,6 +21,7 @@ Functions:
     get_saved_file_names(int)
     load_graph(str) -> object
     load_maze(str) -> object
+    exit_message
     main()
 
 Variables:
@@ -77,7 +78,6 @@ def show_graph_menu():
     '''
     show the menu for the graph to the console
     '''
-    print()
     print(f"{colored('--------', 'cyan')} Graph Menu "
           f"{colored('--------', 'cyan')}")
     print(warning_text_color(
@@ -156,6 +156,9 @@ def menu_option_2(the_graph=None):
             graph_name = input("Please enter the name of the graph:\n")
             name_valid = valid_user_input(graph_name)
         the_graph = GameGraph(graph_name)
+    print(positive_text_color("Graph ready!"))
+    press_enter()
+    clear_terminal()
     show_graph_menu()
     graph_menu_option = get_number_option("graph menu", 0, 9)
     while graph_menu_option != 0:
@@ -177,6 +180,8 @@ def menu_option_2(the_graph=None):
             the_graph.show_connections()
         elif graph_menu_option == 9:
             the_graph.dijkstra_path()
+        press_enter()
+        clear_terminal()
         show_graph_menu()
         graph_menu_option = get_number_option("graph menu", 0, 9)
     the_graph = None
@@ -209,8 +214,10 @@ def get_saved_file_names(save_type):
     -------
     None
     '''
+    print(warning_text_color("loading avaliable files..."))
     saved_sheets = SHEET.worksheet('saves')
     saved_names = saved_sheets.col_values(save_type)
+    clear_terminal()
     if len(saved_names) != 0:
         print(heading_text_color("Load in file"))
         print(warning_text_color(
@@ -239,6 +246,7 @@ def get_saved_file_names(save_type):
                 print(negative_text_color("This sheet could not be found!"))
     else:
         print(negative_text_color("No saved sheets"))
+        press_enter()
 
 
 def load_graph(sheet_name):

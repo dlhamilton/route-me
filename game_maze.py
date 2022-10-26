@@ -851,6 +851,7 @@ class GameMaze:
                     end_solver = True
                 else:
                     print(negative_text_color("Invalid move command!"))
+                    press_enter()
                 self.solver_current = current
                 clear_terminal()
                 self.draw_maze()

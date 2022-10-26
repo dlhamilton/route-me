@@ -103,6 +103,7 @@ class GameGraph:
         -------
         None
         '''
+        print(heading_text_color("Adding a node"))
         name = input("Please enter the name of the node:\n")
         name_in_array = self.__get_node_index(name)
         if name_in_array == -1:
@@ -113,6 +114,7 @@ class GameGraph:
             self.graph_nodes.append(temp_array)
             for none in range(len(self.graph_nodes)-1):
                 self.graph_nodes[none].append(0)
+            print(positive_text_color("Node added!"))
         else:
             print(negative_text_color(f"{name} is already in the graph!"))
 
@@ -231,6 +233,7 @@ class GameGraph:
                             [8, 11, 0, 0, 0, 0, 1, 0, 7],
                             [0, 0, 2, 0, 0, 0, 6, 7, 0]
                             ]
+        print(positive_text_color("Data added!"))
 
     def delete_node(self):
         '''
@@ -253,6 +256,7 @@ class GameGraph:
                 del self.graph_nodes[node_index][node_name_index]
             del self.graph_node_names[node_name_index]
             del self.graph_nodes[node_name_index]
+            print(positive_text_color("Node removed!"))
         else:
             print(negative_text_color("Error: Name not found in graph"))
 
@@ -339,7 +343,6 @@ class GameGraph:
                 self.__print_short_path(total_distance, previous_node,
                                         start_name_index, end_name_index,
                                         visited[end_name_index])
-
             else:
                 print(negative_text_color("Error: Name not found in graph"))
         else:
@@ -384,14 +387,14 @@ class GameGraph:
                 the_node = previous_node[the_node]
             solution_name.insert(0, self.graph_node_names[start_index])
             print(solution_name)
-            last_node = start_index
+            last = start_index
 
             for index, node in enumerate(solution):
-                print(f"{index+1}) {self.graph_node_names[last_node]} to "
+                print(f"{index+1}) {self.graph_node_names[last]} to "
                       f"{self.graph_node_names[node]} ("
-                      f"{highlight_text_color('weight = ')}"
-                      f"{self.graph_nodes[last_node][node]})")
-                last_node = node
+                      f"{'weight = '}"
+                      f"{highlight_text_color(self.graph_nodes[last][node])})")
+                last = node
         else:
             print(negative_text_color(
                 f"There is no route between "
