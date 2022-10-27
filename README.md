@@ -6,6 +6,14 @@ Users can create a graph and find the shortest route to their target. Users can 
 
 ![Program Screen](assets/media/main_menu_img.png)
 
+## About Route-Me
+
+### What is a maze?
+
+### What is a graph? 
+
+-----
+
 ## How to use it
 
 This program is designed to help you find the quickest way from a start position to a destination. It can also create and solve mazes. When you start the program you will be taken to the Main menu. Use the instructions and image below to help navigate.
@@ -254,6 +262,124 @@ This prints out the path that was taken to get to the destination.
 
 These can be seen in the GameGraph class in methods "dijkstra_path" and "__print_short_path"
 
+#### dijkstra_path
+
+```python
+    def dijkstra_path(self):
+        '''
+        find the shortest path to a node
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        '''
+        start_name = input("Please enter the name of the start node:\n")
+        start_name_index = self.__get_node_index(start_name)
+        if start_name_index != -1:
+            end_name = input("Please enter the name of the "
+                             "destination node:\n")
+            end_name_index = self.__get_node_index(end_name)
+            if end_name_index != -1:
+
+                total_distance = [sys.maxsize] * len(self.graph_node_names)
+                previous_node = [None] * len(self.graph_node_names)
+                total_distance[start_name_index] = 0
+                visited = [False]*len(self.graph_node_names)
+
+                for _ in range(len(self.graph_node_names)):
+                    min_number = sys.maxsize
+
+                    for node in range(len(self.graph_node_names)):
+                        if total_distance[node] < min_number and \
+                                visited[node] is False:
+                            min_number = total_distance[node]
+                            min_index = node
+                    current_node = min_index
+
+                    visited[current_node] = True
+
+                    for node in range(len(self.graph_node_names)):
+                        if self.graph_nodes[current_node][node] > 0 and \
+                            visited[node] is False and \
+                            total_distance[node] > \
+                                total_distance[current_node] + \
+                                self.graph_nodes[current_node][node]:
+                            total_distance[node] = \
+                                total_distance[current_node] + \
+                                self.graph_nodes[current_node][node]
+                            previous_node[node] = current_node
+                self.__print_short_path(total_distance, previous_node,
+                                        start_name_index, end_name_index,
+                                        visited[end_name_index])
+            else:
+                print(negative_text_color("Error: Name not found in graph"))
+        else:
+            print(negative_text_color("Error: Name not found in graph"))
+
+```
+
+#### __print_short_path
+```python
+def __print_short_path(self, total_distance, previous_node, start_index,
+                           end_index, reachable):
+        '''
+        write out the instructions on how to follow the shortest path
+
+        Parameters
+        ----------
+        total_distance: int
+            the total distance of the path
+        previous_node: int
+            index of the node that was last visited
+        start_index: int
+            index of the start node
+        end_index: int
+            index of the end node
+        reachable: boolean
+            true if the start and end have a path to link
+
+        Returns
+        -------
+        None
+        '''
+        clear_terminal()
+        print(heading_text_color("Quickest route"))
+        if reachable is True:
+            print(f"{self.graph_node_names[start_index]} to "
+                  f"{self.graph_node_names[end_index]} has "
+                  f"weight of {total_distance[end_index]} "
+                  )
+            the_node = end_index
+            print()
+            print(highlight_text_color("The steps to destination"))
+            solution = []
+            solution_name = []
+            while the_node != start_index:
+                solution.insert(0, the_node)
+                solution_name.insert(0, self.graph_node_names[the_node])
+                the_node = previous_node[the_node]
+            solution_name.insert(0, self.graph_node_names[start_index])
+            print(solution_name)
+            last = start_index
+            print()
+            for index, node in enumerate(solution):
+                print(f"{index+1}) {self.graph_node_names[last]} to "
+                      f"{self.graph_node_names[node]} ("
+                      f"{'weight = '}"
+                      f"{highlight_text_color(self.graph_nodes[last][node])})")
+                last = node
+        else:
+            print(negative_text_color(
+                f"There is no route between "
+                f"{self.graph_node_names[start_index]} and "
+                f"{self.graph_node_names[end_index]}"))
+        print()
+```
+
 ![Graph shortest path](assets/media/route_img.png)
 
 ### Quick fill the graph with sample data
@@ -297,6 +423,8 @@ Option 3 in the maze menu allows the user to solve a maze. They can use WASD to 
 
 help function
 
+show names of nodes when asking for node names. use mod.
+
 None and zero.
 
 Different with and height for maze.
@@ -310,6 +438,8 @@ key press
 ## Class diagram
 
 ![Class Diagram](assets/media/routeme_uml_class.png)
+
+***
 
 ## Data modeling
 The google sheet has a required worksheet to store the names of the saved mazes and graphs. It will add worksheets when a new graphs or maze has been saved. The name of the google sheet is "route_me_data"
@@ -391,8 +521,8 @@ In my algorithm to find the shortest path I needed to set the weight between the
  2. input a name for your app
  3. Click on the settings tab
  4. Scroll to the Config Vars and click on the "Reveal Config Vars"
- 5. Input CREDS and the content of the Google API creds file.
- 6. Add another config, PORT and 8000.
+ 5. Input CREDS into the key field and the content of the Google API creds file into the value area.
+ 6. Add another config, PORT into key and 8000 into value.
  7. Set the buildbacks to Python and NodeJs in that order .
  8. Link your Heroku app to you repository.
  9. Click on Deploy.
