@@ -27,7 +27,7 @@ Below are the test to check all validation and operation of the program.
     <tr>
         <td>2</td>
         <td>Main Menu Validation</td>
-        <td>input " "</td>
+        <td>Input " "</td>
         <td>Error message</td>
         <td>Error messge and interates the question</td>
         <td>Pass</td>
@@ -35,7 +35,7 @@ Below are the test to check all validation and operation of the program.
     <tr>
         <td>3</td>
         <td>Main Menu Validation</td>
-        <td>input "a"</td>
+        <td>Input "a"</td>
         <td>Error message</td>
         <td>Error messge and interates the question</td>
         <td>Pass</td>
@@ -43,7 +43,7 @@ Below are the test to check all validation and operation of the program.
     <tr>
         <td>4</td>
         <td>Main Menu Validation</td>
-        <td>input 20</td>
+        <td>Input 20</td>
         <td>Error message</td>
         <td>Error messge and interates the question</td>
         <td>Pass</td>
@@ -51,7 +51,7 @@ Below are the test to check all validation and operation of the program.
     <tr>
         <td>5</td>
         <td>Main Menu Validation</td>
-        <td>input "$"</td>
+        <td>Input "$"</td>
         <td>Error message</td>
         <td>Error messge and interates the question</td>
         <td>Pass</td>
@@ -59,7 +59,7 @@ Below are the test to check all validation and operation of the program.
     <tr>
         <td>6</td>
         <td>Main Menu Validation</td>
-        <td>input 0</td>
+        <td>Input 0</td>
         <td>exits the program</td>
         <td>shows the exit screen</td>
         <td>Pass</td>
@@ -67,7 +67,7 @@ Below are the test to check all validation and operation of the program.
     <tr>
         <td>7</td>
         <td>Main Menu Validation</td>
-        <td>input 1</td>
+        <td>Input 1</td>
         <td>Starts to create the maze</td>
         <td>Ask the user for the name of the maze</td>
         <td>Pass</td>
@@ -75,7 +75,7 @@ Below are the test to check all validation and operation of the program.
     <tr>
         <td>8</td>
         <td>Main Menu Validation</td>
-        <td>input 2</td>
+        <td>Input 2</td>
         <td>Starts to create the graph</td>
         <td>Ask the user for the name of the graph</td>
         <td>Pass</td>
@@ -83,7 +83,7 @@ Below are the test to check all validation and operation of the program.
     <tr>
         <td>9</td>
         <td>Main Menu Validation</td>
-        <td>input 3</td>
+        <td>Input 3</td>
         <td>Starts to load in a maze</td>
         <td>shows the user all the saved mazes</td>
         <td>Pass</td>
@@ -91,14 +91,14 @@ Below are the test to check all validation and operation of the program.
     <tr>
         <td>10</td>
         <td>Main Menu Validation</td>
-        <td>input 4</td>
+        <td>Input 4</td>
         <td>Starts to load in a graph</td>
         <td>shows the user all the saved graphs</td>
         <td>Pass</td>
     </tr>
 <table>
 
-### Maze tests
+### Maze create tests
 
 <table>
     <tr>
@@ -112,7 +112,7 @@ Below are the test to check all validation and operation of the program.
     <tr>
         <td>1</td>
         <td>Maze name validating</td>
-        <td>input "test"</td>
+        <td>Input "test"</td>
         <td>Accepts the name and move to next screen</td>
         <td>asks the user to enter the maze size</td>
         <td>Pass</td>
@@ -120,7 +120,7 @@ Below are the test to check all validation and operation of the program.
     <tr>
         <td>2</td>
         <td>Maze name validating</td>
-        <td>input 2</td>
+        <td>Input 2</td>
         <td>Error message</td>
         <td>Error messge and interates the question</td>
         <td>Pass</td>
@@ -128,7 +128,7 @@ Below are the test to check all validation and operation of the program.
     <tr>
         <td>3</td>
         <td>Maze name validating</td>
-        <td>input ""</td>
+        <td>Input ""</td>
         <td>Error message</td>
         <td>Error messge and interates the question</td>
         <td>Pass</td>
@@ -136,12 +136,119 @@ Below are the test to check all validation and operation of the program.
     <tr>
         <td>4</td>
         <td>Maze name validating</td>
-        <td>input "£"</td>
+        <td>Input "£"</td>
         <td>Error message</td>
         <td>Error messge and interates the question</td>
         <td>Pass</td>
     </tr>
+    <tr>
+        <td>5</td>
+        <td>Maze size validating</td>
+        <td>Input "£"</td>
+        <td>Error message</td>
+        <td>Error messge and interates the question</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td>Maze size validating</td>
+        <td>Input 0</td>
+        <td>Error message</td>
+        <td>Error messge and interates the question</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>7</td>
+        <td>Maze size validating</td>
+        <td>Input "a"</td>
+        <td>Error message</td>
+        <td>Error messge and interates the question</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>8</td>
+        <td>Maze size validating</td>
+        <td>Input 12</td>
+        <td>Build the maze with the correct size</td>
+        <td>Tells the user to press enter to see maze</td>
+        <td>Pass</td>
+    </tr>
 </table>
+
+### Maze menu tests
+
+<table>
+    <tr>
+        <th>Test Number</th>
+        <th>Test</th>
+        <th>Test data</th>
+        <th>Expected result</th>
+        <th>Actual result</th>
+        <th>Test result</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Maze menu validating</td>
+        <td>Input "£"</td>
+        <td>Error message</td>
+        <td>Error messge and interates the question</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Maze menu validating</td>
+        <td>Input -1</td>
+        <td>Error message</td>
+        <td>Error messge and interates the question</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>Maze menu validating</td>
+        <td>Input "a"</td>
+        <td>Error message</td>
+        <td>Error messge and interates the question</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>Maze menu validating</td>
+        <td>Input 1</td>
+        <td>If the mave has not been solved will show the path. If it is solved it will remove the path</td>
+        <td>Removes and add the solve path at the correct condition</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td>Maze menu validating</td>
+        <td>Input 2</td>
+        <td>Should save the maze data to google sheets</td>
+        <td>Starts the save process</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td>Maze menu validating</td>
+        <td>Input 3</td>
+        <td>the user can start trying to solve the maze</td>
+        <td>Starts the user solving process</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>7</td>
+        <td>Maze menu validating</td>
+        <td>Input 0</td>
+        <td>Takes the user back to the main menu</td>
+        <td>Takes the user back to the main menu</td>
+        <td>Pass</td>
+    </tr>
+</table>
+
+### Solve maze tests
+
+### Save maze tests
+
+### User solve tests
 
 Test the pathing works
 

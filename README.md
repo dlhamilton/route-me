@@ -101,7 +101,7 @@ The graph menu is the menu which shows all the things yoiu can do to a graph onc
 ### Create Maze
 The user can give the maze a name and then set the size of the maze. Once a name that starts with a letter has been entered and a maze size between 10 and 40 has been entered it will create the maze. the maze is created using a random prims algorithm.
 
-**Prims Algorithm **
+**Prims Algorithm**
 Start with a grid full of walls.
 Pick a random cell, mark it as part of the maze. Add the walls of the cell to the wall list.
 While there are walls in the list:
@@ -188,28 +188,30 @@ Once a name that starts with a letter has been entered it will create the graph.
 
 ### Add node
 Can add a node to the graph. It will ask the user to enter the name for the node and will check to make sure it doesnt alredy exist in the graph.
-![Add Graph node]()
+![Add Graph node](assets/media/add_node_img.png)
 
 ### Add/edit link
 Can add a link between to nodes. It will ask for the name of the first node then the name of the second node. once it has validated both names it will ask the user to enter the weight between the nodes then finally create the link.
-![Add Link]()
+![Add Link](assets/media/add_link_img.png)
 
 ### Delete node
 This will remove the node from the graph and all links associated to it. it will ask the user for the name of the node to remove.
-![Delete Graph node]()
+![Delete Graph node](assets/media/delete_node_img.png)
 
 ### Delete link
 Can remove a link between to nodes. It will ask for the name of the first node then the name of the second node. once it has validated both names it will set the link weight to 0.
-![Delete Link]()
+![Delete Link](assets/media/delete_link_img.png)
 
 ### Show graph
-This will show all the details for the graph and will ask the user if they want to view the complete matrix.
+This will show all the details for the graph and will ask the user if they want to view the complete matrix. The user can press '0' to go back to the menu or '1' to view the full matrix.
 Delete
-![Show graph]()
+![Show graph](assets/media/graph_details_img1.png)
+If option 1 is selected by the user it will show the matrix like below:
+![Show graph](assets/media/graph_details_img2.png)
 
 ### Show connections for one node
 Will ask the user to enter the name of the node they want to view. It will then show all the weights and connections for the node.
-![Show Links]()
+![Show Links](assets/media/show_connected_img.png)
 
 ### Find the shorest path
 
@@ -252,7 +254,7 @@ This prints out the path that was taken to get to the destination.
 
 These can be seen in the GameGraph class in methods "dijkstra_path" and "__print_short_path"
 
-![Graph shortest path]()
+![Graph shortest path](assets/media/route_img.png)
 
 ### Quick fill the graph with sample data
 This will add sample data to the graph. 
@@ -272,28 +274,36 @@ self.graph_node_names = ["Zero", "One", "Two", "Three", "Four", "Five",
                             ]
 ```
 
-![Quick fill Graph]()
+![Quick fill Graph](assets/media/fill_graph_img.png)
 
 ### Save a graph
 Option 5 of the menu will save the graph to google sheets. It takes the name of the graph and creates a new worksheet with the same name then will pass the array graph data to the sheets. If the user has attemped to solve the maze it will also pass the current coordinate of where the user is up to.
 
-![Save Graph]()
+![Save Graph](assets/media/save_graph_img.png)
 
 ### Load a graph
 Option 4 in the main menu will show all the available sheets that can be loaded. The user will then be able to enter the sheet name. Then the graph will be loaded in.
-![Load graph]()
+
+![Load graph2](assets/media/load_graph_img2.png)
+
+### Live solving for maze
+Option 3 in the maze menu allows the user to solve a maze. They can use WASD to control the direction and draw a path in the maze. 
+
+![Solve Maze](assets/media/solve_maze.png)
 
 ***
 
 ## Future features
 
-Live solving for maze.
+help function
 
 None and zero.
 
 Different with and height for maze.
 
 Spanning tree
+
+key press
 
 ***
 
@@ -302,16 +312,24 @@ Spanning tree
 ![Class Diagram](assets/media/routeme_uml_class.png)
 
 ## Data modeling
-The google sheet has a required worksheet and will add worksheets as new graphs and mazes are saved. The name iof the google sheet is "route_me_data"
+The google sheet has a required worksheet to store the names of the saved mazes and graphs. It will add worksheets when a new graphs or maze has been saved. The name of the google sheet is "route_me_data"
+![Sheets name](assets/media/sheet_name.png)
 
 ### "saves" worksheet
-not finished
+saves is a worksheet that stores the names of the mazes and graphs. When the user wants to load in a sheet it will read in the names. Column A contains all the maze names and column b has all the graph names. This is appened to when a user saves a new file. 
+![saves worsheet](assets/media/sheet_saves.png)
 
 ### Maze worksheet
-not finished
+When a maze is being saved it will store the the characters that are in the array to individual cells. The name of the worksheet will be the name of the maze. If the user has attempted to solve the maze then the current coordinate of the solver will also be stored in the last cells in column A and B. A being the X coordinate and B being the Y.
+![Maze worsheet](assets/media/saved_maze.png)
 
 ### Graph worksheet
-not finished
+The graph stores all the names of the nodes in row 1. It then stores the connections for each node below the node name.
+![Graph worsheet](assets/media/saved_graph.png)
+
+### Future Improvements
+
+Although Google Sheets enables the program to function and stores the dat that is required it could be made more efficient if the data was saved in a relational database. This is an improvement that can be added in the future.   
 
 ***
 
@@ -321,12 +339,25 @@ not finished
 [Click here](TESTING.md)
 
 ### Validatior Testing
+Not complete
 
 ### Solved Bugs
 
-https://stackoverflow.com/questions/39188827/trying-to-understand-python-loop-using-underscore-and-input
+#### variable not used
+A warning that kept appearing in my code was that I was looping but not using the variable for example:
+```python
+for node in range(len(self.nodes)):
+    # do something
+```
 
-finding max
+To stop this I was able to use the underscore value so that the warning is removed
+```python
+for _ in range(len(self.nodes)):
+    # do something
+```
+
+#### infinity
+In my algorithm to find the shortest path I needed to set the weight between the nodes to infinite. I used the import sys so I can use INT_MAX to set it to the max int size. 
 
 ***
 
@@ -352,21 +383,52 @@ finding max
 2. Download the Gitpod browser extension.
 3. On GitHub.com, navigate to the [dlhamilton/route_me](https://github.com/dlhamilton/route-me) repository.
 4. Above the list of files click the button that says 'Gitpod'.
+5. Once open you will need to install the libraries, you can do this by typing "pip3 install -r requirements.txt" into the terminal
 
 ### Remote Deployment 
  The prgoram was deployed to Heroku. If you have forked/cloned the repository the steps to deploy are:
- 1. On Heroku, cretae a new app.
- 2. Set the buildbacks to Python and NodeJs in that order .
- 3. Link your Heroku app to you repository.
- 4. Click on Deploy.
- 5. The page will then provide the url to the python terminal.
+ 1. On Heroku, create a new app.
+ 2. input a name for your app
+ 3. Click on the settings tab
+ 4. Scroll to the Config Vars and click on the "Reveal Config Vars"
+ 5. Input CREDS and the content of the Google API creds file.
+ 6. Add another config, PORT and 8000.
+ 7. Set the buildbacks to Python and NodeJs in that order .
+ 8. Link your Heroku app to you repository.
+ 9. Click on Deploy.
+ 10. The page will then provide the url to the python terminal.
 
  The live link can be found here - [Route Me](https://github.com/dlhamilton/route-me)
 
 ### Google Sheet
-The program uses a google sheet to store saved graphs and mazes. 
+The program uses a Google Sheets to store saved graphs and mazes. 
 
-Not finished
+1. Sign up to a [Google Account](https://support.google.com/accounts/answer/27441?hl=en#)
+2. Open Google Sheets and create a new spreadsheet. [Click here for Google Sheets](https://docs.google.com/spreadsheets/)
+3. Change the name of the spreadsheet to 'route_me_data'
+    ```python
+    SHEET = GSPREAD_CLIENT.open('route_me_data')
+    ```
+4. You now need to change the name of the worksheet to 'saves'
+5. The google sheet is now complete
+
+Now you need to get the API credentials  from the [Google Cloud Platform](https://console.cloud.google.com/)
+
+1. Create a new project and give it a name.
+2. Select APIs and services from the navigation pane. 
+3. Now click Library
+4. Search for the Google Sheets and click enable.
+5. Search for the google Drive API and click enable.
+6. Click create credentials and from the drop down select Google dRIVE api.
+7. From the form select Application data
+8. Then click No for "are you planning to use this API with compute Engine, Kubernetes engine, App engine or cloud Functions?"
+9. Press Create and Continue.
+10. Select a role of Editor from the options and click "Done"
+11. Navigate to the service account on the credentials page. 
+12. On the tab click KEYS then ADD KEY.
+13. The Key type will need to be JSON
+14. Copy the downloaded JSON file into your repository and name it "creds.json"
+15. ADD THE "creds.json" FILE TO .gitignore FILE. DO NOT SHARE PUBLICLY.
 
 ***
 
@@ -374,11 +436,16 @@ Not finished
 
 Code instutie for the deployment terminal
 
+Used to get the timing for the tube map graph data
+http://www.london-tubemap.com/assets/tubemap_journey-times_2.pdf
+
+Used to build the title logo for Route-Me
 https://patorjk.com/software/taag/#p=display&f=Doom&t=Route-Me
 
+The algorithm to work out the shortest path
 https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
 
+The algorithm to create the maze. The algorithm used was Prims
 https://en.wikipedia.org/wiki/Maze_generation_algorithm
 
 -----
-Happy coding!
