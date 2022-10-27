@@ -288,7 +288,6 @@ Below are the test to check all validation and operation of the program.
 ***
 
 ### Save maze tests
-
 <table>
     <tr>
         <th>Test Number</th>
@@ -609,27 +608,398 @@ Below are the test to check all validation and operation of the program.
 
 ***
 ### Add node testing
+<table>
+    <tr>
+        <th>Test Number</th>
+        <th>Test</th>
+        <th>Test data</th>
+        <th>Expected result</th>
+        <th>Actual result</th>
+        <th>Test result</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Graph node validating</td>
+        <td>Input "one"</td>
+        <td>Accepts the name and says the node was added</td>
+        <td>Node added to graph</td>
+        <td>Pass</td>
+    </tr>
+</table>
 
 ### Add link testing
+<table>
+    <tr>
+        <th>Test Number</th>
+        <th>Test</th>
+        <th>Test data</th>
+        <th>Expected result</th>
+        <th>Actual result</th>
+        <th>Test result</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Graph name validating</td>
+        <td>Input "a" (name not in graph)</td>
+        <td>Error message</td>
+        <td>Error message and returned to the graph menu</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Graph name validating</td>
+        <td>Input "one" (name in graph)</td>
+        <td>Ask for name of connecting node</td>
+        <td>Ask the user to type in the connecting node</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>Graph weight validating</td>
+        <td>Input -4</td>
+        <td>Error message</td>
+        <td>Error message and re-ask the question</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>Graph weight validating</td>
+        <td>Input "a"</td>
+        <td>Error message</td>
+        <td>Error message and re-ask the question</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>5</td>
+        <td>Graph weight validating</td>
+        <td>Input 599</td>
+        <td>Error message</td>
+        <td>Error message and re-ask the question</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>6</td>
+        <td>Graph weight validating</td>
+        <td>Input 6</td>
+        <td>Adds the link</td>
+        <td>Link added to graph and message to confirm</td>
+        <td>Pass</td>
+    </tr>
+</table>
 
 ### Delete link testng
+<table>
+    <tr>
+        <th>Test Number</th>
+        <th>Test</th>
+        <th>Test data</th>
+        <th>Expected result</th>
+        <th>Actual result</th>
+        <th>Test result</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Graph name validating</td>
+        <td>Input "a" (name not in graph)</td>
+        <td>Error message</td>
+        <td>Error message and returned to the graph menu</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Graph name validating</td>
+        <td>Input "one" (name in graph)</td>
+        <td>Ask for name of connecting node</td>
+        <td>Ask the user to type in the connecting node</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>Graph link validating</td>
+        <td>n/a</td>
+        <td>Link removed from graph</td>
+        <td>Link removed from graph and message to confirm</td>
+        <td>Pass</td>
+    </tr>
+    </table>
 
 ### Delete node testing
+<table>
+    <tr>
+        <th>Test Number</th>
+        <th>Test</th>
+        <th>Test data</th>
+        <th>Expected result</th>
+        <th>Actual result</th>
+        <th>Test result</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Graph node validating</td>
+        <td>Input "one" (name in graph)</td>
+        <td>Accepts the name and says the node was deleted</td>
+        <td>Node removed from graph and all links associated with it</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Graph node validating</td>
+        <td>Input "a" (name not in graph)</td>
+        <td>Error message</td>
+        <td>Error message and returned to the graph menu</td>
+        <td>Pass</td>
+    </tr>
+</table>
 
-### Save grph testing
+### Save graph testing
+<table>
+    <tr>
+        <th>Test Number</th>
+        <th>Test</th>
+        <th>Test data</th>
+        <th>Expected result</th>
+        <th>Actual result</th>
+        <th>Test result</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Saving graph</td>
+        <td>Graph with the same name in Google sheet</td>
+        <td>Error message and ask for new file name</td>
+        <td>Error messge and asks for a new file name</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Saving graph - new sheet name</td>
+        <td>Input "£"</td>
+        <td>Error message</td>
+        <td>Error messge and interates the question</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>Saving graph</td>
+        <td>Graph with unique name</td>
+        <td>Adds data to Google sheets</td>
+        <td>Saved to Google sheets and confirmtion message</td>
+        <td>Pass</td>
+    </tr>
+<table>
 
 ### Show graph details teting
+<table>
+    <tr>
+        <th>Test Number</th>
+        <th>Test</th>
+        <th>Test data</th>
+        <th>Expected result</th>
+        <th>Actual result</th>
+        <th>Test result</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Show graph details</td>
+        <td>n/a</td>
+        <td>The name of the graph and node names shown.</td>
+        <td>Details shown to user</td>
+        <td>Pass</td>
+    </tr>
+     <tr>
+        <td>3</td>
+        <td>Graph show validating</td>
+        <td>Input 1</td>
+        <td>Will show the graph matrix</td>
+        <td>Shows all the graphs details in the matrix</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>Graph show validating</td>
+        <td>Input 0</td>
+        <td>Will go back to the menu</td>
+        <td>Goes back to the menu</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>Graph show validating</td>
+        <td>Input "d"</td>
+        <td>Error message</td>
+        <td>Error message and asks the question again</td>
+        <td>Pass</td>
+    </tr>
+</table>
+<br>
+
+Example:
+![Show graph](assets/media/graph_details_img1.png)
+If option 1 is selected by the user it will show the matrix like below:
+![Show graph](assets/media/graph_details_img2.png)
+
 
 ### Fill sample data testing
+<table>
+    <tr>
+        <th>Test Number</th>
+        <th>Test</th>
+        <th>Test data</th>
+        <th>Expected result</th>
+        <th>Actual result</th>
+        <th>Test result</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Fill the graph with sample data</td>
+        <td>n/a</td>
+        <td>The graph adds the data that is hard coded</td>
+        <td>Correct data is added to the graph and message to confirm</td>
+        <td>Pass</td>
+    </tr>
+</table>
 
 ### Show connections testing
+<table>
+    <tr>
+        <th>Test Number</th>
+        <th>Test</th>
+        <th>Test data</th>
+        <th>Expected result</th>
+        <th>Actual result</th>
+        <th>Test result</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Graph node validating</td>
+        <td>Input "one" (name in graph)</td>
+        <td>Accepts the name and shows the links associated with the node</td>
+        <td>All the links to the node are shown with the weights.</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Graph node validating</td>
+        <td>Input "a" (name not in graph)</td>
+        <td>Error message</td>
+        <td>Error message and returned to the graph menu</td>
+        <td>Pass</td>
+    </tr>
+</table>
 
 ### Find shortest route testing
+<table>
+    <tr>
+        <th>Test Number</th>
+        <th>Test</th>
+        <th>Test data</th>
+        <th>Expected result</th>
+        <th>Actual result</th>
+        <th>Test result</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Graph name validating</td>
+        <td>Input "a" (name not in graph)</td>
+        <td>Error message</td>
+        <td>Error message and returned to the graph menu</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Graph name validating</td>
+        <td>Input "one" (name in graph)</td>
+        <td>Ask for name of connecting node</td>
+        <td>Ask the user to type in the connecting node</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>Graph name validating</td>
+        <td>Input "two" (name in graph)</td>
+        <td>show the quickest path</td>
+        <td>shows the quickest path with the nodes it needs to take</td>
+        <td>Pass</td>
+    </tr>
+</table>
+
+<br>
+
+Example:
+
+![tfl plan](assets/media/tfl_map_img.png)
+![Test result](assets/media/route_test_img.png)
 
 ### Load maze testing
+<table>
+    <tr>
+        <th>Test Number</th>
+        <th>Test</th>
+        <th>Test data</th>
+        <th>Expected result</th>
+        <th>Actual result</th>
+        <th>Test result</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Shows saved mazes</td>
+        <td>n/a</td>
+        <td>Shows all the mazes from Google sheets</td>
+        <td>Shows the saved mazes and ask the user to enter the sheet name they want to open</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Saved mazes name validation</td>
+        <td>name in Google sheets</td>
+        <td>Loads the maze in</td>
+        <td>Maze data is loaded from Google sheets and maze menu is shown</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>Saved mazes name validation</td>
+        <td>Name not in Google sheets</td>
+        <td>Error message</td>
+        <td>Error message and goes back to the main menu</td>
+        <td>Pass</td>
+    </tr>
+</table>
 
 ### Load graph testing
-
+<table>
+    <tr>
+        <th>Test Number</th>
+        <th>Test</th>
+        <th>Test data</th>
+        <th>Expected result</th>
+        <th>Actual result</th>
+        <th>Test result</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Shows saved graphs</td>
+        <td>n/a</td>
+        <td>shows all the graphs from Google sheets</td>
+        <td>Shows the saved graphs and ask the user to enter the sheet name they want to open</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Saved graphs name validation</td>
+        <td>name in Google sheets</td>
+        <td>Loads the maze in</td>
+        <td>Maze data is loaded from Google sheets and maze menu is shown</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>Saved graphs name validation</td>
+        <td>name not in Google sheets</td>
+        <td>Error message</td>
+        <td>Error message and goes back to the main menu</td>
+        <td>Pass</td>
+    </tr>
+</table>
 -----
 
 ## User Story Testing

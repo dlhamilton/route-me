@@ -212,7 +212,7 @@ Can remove a link between to nodes. It will ask for the name of the first node t
 
 ### Show graph
 This will show all the details for the graph and will ask the user if they want to view the complete matrix. The user can press '0' to go back to the menu or '1' to view the full matrix.
-Delete
+
 ![Show graph](assets/media/graph_details_img1.png)
 If option 1 is selected by the user it will show the matrix like below:
 ![Show graph](assets/media/graph_details_img2.png)
@@ -443,6 +443,8 @@ key press
 
 ## Data modeling
 The google sheet has a required worksheet to store the names of the saved mazes and graphs. It will add worksheets when a new graphs or maze has been saved. The name of the google sheet is "route_me_data"
+
+<br>
 ![Sheets name](assets/media/sheet_name.png)
 
 ### "saves" worksheet
@@ -469,7 +471,13 @@ Although Google Sheets enables the program to function and stores the dat that i
 [Click here](TESTING.md)
 
 ### Validatior Testing
-Not complete
+The standard testing [PEP8 Online](http://pep8online.com/) is currently down so I used the PEP8 validator extension within gitpod. 
+There are 0 critical error.
+The 3 warnings shown are related to .gitpod.yml. These warnings are from the template files from Code Institute.
+
+![Validator Results](assets/media/pep8_img.png)
+
+-----
 
 ### Solved Bugs
 
