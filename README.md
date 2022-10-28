@@ -9,8 +9,46 @@ Users can create a graph and find the shortest route to their target. Users can 
 ## About Route-Me
 
 ### What is a maze?
+#### Definition
+A maze is a path or collection of paths, typically from an entrance to a goal. The word is used to refer both to branching tour puzzles through which the solver must find a route.
+#### Solving
+Maze solving is the act of finding a route through the maze from the start to finish. Some maze solving methods are designed to be used inside the maze by a traveler with no prior knowledge of the maze, whereas others are designed to be used by a person or computer program that can see the whole maze at once.
+<br>
+In this program you can:
+
+- Create a maze. 
+
+- See the solution to a maze.
+
+- Try and solve a maze.
+
+- Save a maze to come back to solve it later.
+
 
 ### What is a graph? 
+#### Definition
+A Graph is a non-linear data structure consisting of vertices and edges. The vertices and edges are sometimes also referred to as nodes and links. links are lines or arcs that connect any two nodes in the graph. 
+<br>
+Each link/edge will have a weight, they can also have a direction. This could be the distance, cost, time taken to get from one node to another. Below are some graph examples to help understand graphs and also how this program can be used. 
+<br>
+*Maps Navigation*<br>
+It can be used to find the quickest route to a destination. An example would be that Nodes would be junctions and the links/edges would be roads. The edges could have directions and the weights can be the time it takes to get to the next junction. This can then work out the quickest path too get from the start to the destination.
+<br>
+*Social Media Links*<br>
+This could be used to store each user as a node and the links/edges would be the realtionship between users. This could then be able to see how many degrees of seperation you have from certain users and then suggestion other users to connect to based on the connections you currently have.
+<br>
+*World Wide Web & Networks*<br>
+The web can be seen as a collection of documents connected with hyperlinks. A web page could be a node and a link/edge could be the hyperlinks.
+<br>
+You could also connect a network together, consisting of routers and computers. You could then work out the shortest path to send packets over a network. The nodes will be the routers and computers. The links will be the connections and the weight could be the time it takes the packet to travel. The other use could be to work out the minimum amount of connections needed to connect all the computers and routers in the network. 
+<br>
+*Product Recommendations (Advertisting)*<br>
+This use for the graph could be used to recommend products to users. The nodes could be customers or products and the links are connections to these products. The graph coould then find users with simliar graphs and see what products are not in the user that is simliars graph and recommned these products to the user. 
+<br>
+It could also track advert and recommened product clicks. The nodes can be products and the link is the hyperlink to another product that was shown on the webpage. The clicks can be tracked and the weight for each link will be how many times that linked was clicked from the previous page (node). This will allow a comapny to work out what products are getting a lot of attention and what items are working well as being advertised from one page to another.
+
+*London Tube Map*<br>
+The london tube map can have the stations as nodes and the lines/ tracks as links/edges. You can then work out the quickest route from one stop to another. You could also work out alternive routes if a station is closed. an examopel of this is store in Google sheets. Load in "tube_map" to use the small zone 1 and 2 London tube map example. 
 
 -----
 
