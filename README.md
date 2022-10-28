@@ -48,7 +48,7 @@ This use for the graph could be used to recommend products to users. The nodes c
 It could also track advert and recommened product clicks. The nodes can be products and the link is the hyperlink to another product that was shown on the webpage. The clicks can be tracked and the weight for each link will be how many times that linked was clicked from the previous page (node). This will allow a comapny to work out what products are getting a lot of attention and what items are working well as being advertised from one page to another.
 
 *London Tube Map*<br>
-The london tube map can have the stations as nodes and the lines/ tracks as links/edges. You can then work out the quickest route from one stop to another. You could also work out alternive routes if a station is closed. an examopel of this is store in Google sheets. Load in "tube_map" to use the small zone 1 and 2 London tube map example. 
+The london tube map can have the stations as nodes and the lines/ tracks as links/edges. You can then work out the quickest route from one stop to another. You could also work out alternative routes if a station is closed. an example of this is stored in Google sheets. Load in "tube_map" to use the zone 1 and 2 London tube map example. 
 
 -----
 
@@ -479,6 +479,34 @@ key press
 
 ***
 
+## Modules and Libraries 
+### Modules
+- run.py
+- game_maze.py
+- game_graph.py
+- util.py
+
+### Libraries
+- cachetools==5.2.0
+- colorama==0.4.5
+- evdev==1.6.0
+- google-auth==2.13.0
+- google-auth-oauthlib==0.5.3
+- gspread==5.6.0
+- gspread-formatting==1.1.1
+- keyboard==0.13.5
+- oauthlib==3.2.2
+- prettytable==3.4.1
+- pyasn1==0.4.8
+- pyasn1-modules==0.2.8
+- pynput==1.7.6
+- python-xlib==0.31
+- requests-oauthlib==1.3.1
+- rsa==4.9
+- termcolor==2.0.1
+
+***
+
 ## Data modeling
 The google sheet has a required worksheet to store the names of the saved mazes and graphs. It will add worksheets when a new graphs or maze has been saved. The name of the google sheet is "route_me_data"
 
@@ -608,9 +636,10 @@ Now you need to get the API credentials  from the [Google Cloud Platform](https:
 
 ***
 
-## Credits
+## Credits / Acknowledgement 
 
 Code instutie for the deployment terminal
+https://codeinstitute.net/
 
 Used to get the timing for the tube map graph data
 http://www.london-tubemap.com/assets/tubemap_journey-times_2.pdf
@@ -623,5 +652,8 @@ https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
 
 The algorithm to create the maze. The algorithm used was Prims
 https://en.wikipedia.org/wiki/Maze_generation_algorithm
+
+This helped me to design my flow charts and class diagrams
+https://lucid.app/
 
 -----
