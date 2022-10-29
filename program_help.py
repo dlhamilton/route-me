@@ -17,7 +17,7 @@ Variables:
 
 '''
 from util import (warning_text_color, clear_terminal, highlight_text_color,
-                  press_enter, heading_text_color)
+                  press_enter, heading_text_color, positive_text_color)
 
 
 def help_popup(menu_call):
@@ -39,9 +39,7 @@ def help_popup(menu_call):
     None
     '''
     clear_terminal()
-    print(f"{highlight_text_color('===========================')}"
-          f"{warning_text_color(' Help Information ')}"
-          f"{highlight_text_color('===========================')}")
+    show_help_heading()
 
     if menu_call == 1:
         main_menu_help()
@@ -49,11 +47,26 @@ def help_popup(menu_call):
         maze_menu_help()
     elif menu_call == 3:
         graph_menu_help()
-
-    print(f"{highlight_text_color('=====================================')}"
-          f"{highlight_text_color('===================================')}")
+    show_help_footer
     if menu_call != 3:
         press_enter()
+
+
+def show_help_heading():
+    '''
+    Will show the heading for the help
+    '''
+    print(f"{highlight_text_color('===========================')}"
+          f"{warning_text_color(' Help Information ')}"
+          f"{highlight_text_color('===========================')}")
+
+
+def show_help_footer():
+    '''
+    Will show the footing for the help
+    '''
+    print(f"{highlight_text_color('=====================================')}"
+          f"{highlight_text_color('===================================')}")
 
 
 def main_menu_help():
@@ -77,8 +90,7 @@ def main_menu_help():
           "nodes and links. links are lines or arcs that connect any two " +
           "nodes in the graph. Each link/edge will have a weight, they can " +
           "also have a direction. This could be the distance, cost, time " +
-          "taken to get from one node to another. Below is an example to " +
-          "help understand graphs and also how this program can be used.")
+          "taken to get from one node to another. Below is an example.")
     print()
     print("The london tube map can have the stations as nodes and the " +
           "lines/ tracks as links/edges. You can then work out the quickest " +
@@ -86,6 +98,14 @@ def main_menu_help():
           "alternative routes if a station is closed. an example of this is " +
           "stored in Google sheets. Load in 'tube_map' to use the zone 1 " +
           "and 2 London tube map example.")
+    print()
+    print(positive_text_color("Press enter to see page 2"))
+    print()
+    press_enter()
+    clear_terminal()
+    show_help_heading()
+    print()
+    print(positive_text_color("Page 2"))
     print()
     print(heading_text_color("\033[4m" + "Option 3 - Load Maze from file" +
           "\033[0m"))
@@ -155,6 +175,13 @@ def graph_menu_help():
     print("This will save the current state of your graph so you can load " +
           "it in at another time")
     print()
+    print(positive_text_color("Press enter to see page 2"))
+    press_enter()
+    clear_terminal()
+    show_help_heading()
+    print()
+    print(positive_text_color("Page 2"))
+    print()
     print(heading_text_color("\033[4m" + "Option 6 - Show Graph Details" +
           "\033[0m"))
     print("This will show all the details for the graph and will ask you" +
@@ -176,3 +203,4 @@ def graph_menu_help():
           "node in the graph. It will tell you the steps to take inorder to " +
           "get there.")
     print()
+    show_help_footer()
