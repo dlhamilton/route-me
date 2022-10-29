@@ -148,6 +148,12 @@ The maze menu is the menu which shows all the things yoiu can do to a maze once 
 The graph menu is the menu which shows all the things yoiu can do to a graph once it is created. The user will choose from 10 options in a numerical menu:
 ![Graph menu](assets/media/graph_menu_img.png)
 
+### Help Messages
+On the menu you can press 'h' which will show the help message to give more information for the user. It gives a better understanding on all the terms and key words.
+![Graph menu](assets/media/help_img_1.png)
+![Graph menu](assets/media/help_img_2.png)
+![Graph menu](assets/media/help_img_3.png)
+
 ### Create Maze
 The user can give the maze a name and then set the size of the maze. Once a name that starts with a letter has been entered and a maze size between 10 and 40 has been entered it will create the maze. the maze is created using a random prims algorithm.
 

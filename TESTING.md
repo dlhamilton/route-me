@@ -1000,6 +1000,42 @@ Example:
         <td>Pass</td>
     </tr>
 </table>
+
+### Help message testing
+<table>
+    <tr>
+        <th>Test Number</th>
+        <th>Test</th>
+        <th>Test data</th>
+        <th>Expected result</th>
+        <th>Actual result</th>
+        <th>Test result</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Shows help message</td>
+        <td>Input 'h' on main menu</td>
+        <td>Shows the help message for the main menu</td>
+        <td>The main menu help is shown</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Shows help message</td>
+        <td>Input 'h' on maze menu</td>
+        <td>Shows the help message for the maze menu</td>
+        <td>The maze menu help is shown</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>Shows help message</td>
+        <td>Input 'h' on graph menu</td>
+        <td>Shows the help message for the graph menu</td>
+        <td>The graph menu help is shown</td>
+        <td>Pass</td>
+    </tr>
+</table>
 -----
 
 ## User Story Testing

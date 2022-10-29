@@ -94,8 +94,7 @@ def main_menu_help():
     print()
     print("The london tube map can have the stations as nodes and the " +
           "lines/ tracks as links/edges. You can then work out the quickest " +
-          "route from one stop to another. You could also work out " +
-          "alternative routes if a station is closed. an example of this is " +
+          "route from one stop to another. An example of this is " +
           "stored in Google sheets. Load in 'tube_map' to use the zone 1 " +
           "and 2 London tube map example.")
     print()
