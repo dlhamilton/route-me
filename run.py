@@ -36,6 +36,7 @@ from game_maze import GameMaze
 from util import (positive_text_color, warning_text_color, negative_text_color,
                   highlight_text_color, heading_text_color, valid_user_input,
                   get_number_option, SHEET, clear_terminal, press_enter)
+from program_help import help_popup
 # reset colour back to default
 init(autoreset=True)
 
@@ -54,6 +55,7 @@ def show_menu():
     print("3) Load Maze from file")
     print("4) Load Graph from file")
     print("0) Exit")
+    print(heading_text_color("Press 'H' for help and to get more details"))
     print(f"{colored('========================','cyan')}")
 
 
@@ -71,6 +73,7 @@ def show_maze_menu():
     print("2) Save maze to file")
     print("3) User Solve Maze")
     print("0) Back to Main menu")
+    print(heading_text_color("Press 'H' for help and to get more details"))
     print(f"{colored('=========================','cyan')}")
 
 
@@ -93,6 +96,7 @@ def show_graph_menu():
     print("8) Show Connections for Node")
     print("9) Find Shortest Route")
     print("0) Back to Main menu")
+    print(heading_text_color("Press 'H' for help and to get more details"))
     print(f"{colored('============================','cyan')}")
 
 
@@ -130,6 +134,8 @@ def menu_option_1(the_maze=None):
             the_maze.save_maze()
         elif maze_menu_option == 3:
             the_maze.user_solve_maze()
+        elif maze_menu_option == 900:
+            help_popup(2)
         clear_terminal()
         the_maze.draw_maze()
         show_maze_menu()
@@ -181,6 +187,8 @@ def menu_option_2(the_graph=None):
             the_graph.show_connections()
         elif graph_menu_option == 9:
             the_graph.dijkstra_path()
+        elif graph_menu_option == 900:
+            help_popup(3)
         press_enter()
         clear_terminal()
         show_graph_menu()
@@ -224,10 +232,12 @@ def get_saved_file_names(save_type):
         print(warning_text_color(
             "Type the name of the file you want to load, then click enter.."))
         print(warning_text_color("Press '0' to go back"))
+        print()
         print("Files available to load:")
         print(highlight_text_color("========================"))
         for name in saved_names:
             print(name)
+        print(highlight_text_color("========================"))
         print()
         file_name_enetered = input("Please enter the file name you want " +
                                    "to open (case sensitive) \n")
@@ -339,6 +349,8 @@ def main():
             get_saved_file_names(1)
         elif menu_option == 4:
             get_saved_file_names(2)
+        elif menu_option == 900:
+            help_popup(1)
         clear_terminal()
         show_app_title()
         print("Welcome to Route-me the best way to find the quickest route.\n")

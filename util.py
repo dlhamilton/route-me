@@ -176,18 +176,23 @@ def get_number_option(menu_name, start, end):
     while invalid_option:
         try:
             invalid_option = True
-            menu_option = int(input(f"Please enter your {menu_name} "
-                                    f"choice ({start} - {end}):\n"))
+            menu_option = input(f"Please enter your {menu_name} "
+                                f"choice ({start} - {end}):\n")
+            menu_option_int = int(menu_option)
         except ValueError:
-            print(negative_text_color(f"Not a valid number - Please enter a "
-                  f"number between {start} and {end}"))
+            if menu_option.upper() == "H":
+                menu_option_int = 900
+                invalid_option = False
+            else:
+                print(negative_text_color(f"Not a valid number - Please enter"
+                      f" a number between {start} and {end}"))
         else:
-            if menu_option >= start and menu_option <= end:
+            if menu_option_int >= start and menu_option_int <= end:
                 invalid_option = False
             else:
                 print(negative_text_color(f'Number option not avaliable '
                       f'- Please enter a number between {start} and {end}'))
-    return menu_option
+    return menu_option_int
 
 
 def clear_terminal():

@@ -35,7 +35,7 @@ Each link/edge will have a weight, they can also have a direction. This could be
 It can be used to find the quickest route to a destination. An example would be that Nodes would be junctions and the links/edges would be roads. The edges could have directions and the weights can be the time it takes to get to the next junction. This can then work out the quickest path too get from the start to the destination.
 <br>
 *Social Media Links*<br>
-This could be used to store each user as a node and the links/edges would be the realtionship between users. This could then be able to see how many degrees of seperation you have from certain users and then suggestion other users to connect to based on the connections you currently have.
+This could be used to store each user as a node and the links/edges would be the realtionship between users. This could then be able to see how many degrees of separation you have from certain users and then suggest other users to connect to based on the connections you currently have.
 <br>
 *World Wide Web & Networks*<br>
 The web can be seen as a collection of documents connected with hyperlinks. A web page could be a node and a link/edge could be the hyperlinks.
@@ -43,9 +43,13 @@ The web can be seen as a collection of documents connected with hyperlinks. A we
 You could also connect a network together, consisting of routers and computers. You could then work out the shortest path to send packets over a network. The nodes will be the routers and computers. The links will be the connections and the weight could be the time it takes the packet to travel. The other use could be to work out the minimum amount of connections needed to connect all the computers and routers in the network. 
 <br>
 *Product Recommendations (Advertisting)*<br>
-This use for the graph could be used to recommend products to users. The nodes could be customers or products and the links are connections to these products. The graph coould then find users with simliar graphs and see what products are not in the user that is simliars graph and recommned these products to the user. 
+This use for the graph could be used to recommend products to users. The nodes could be customers or products and the links are connections to these products. The graph could then find users with simliar node links and see what products are not in the users links and recommned these products to the user.
+
+For example - User A could click on a link to a pair of shoes, they then click on an advert linking to a hat and then click on a link to a bag that was on the site. 
+
+User B could then view the same shoes as user A, the system will then recommend the hat as a link becuase a previous user looking at the same product clicked on it.  
 <br>
-It could also track advert and recommened product clicks. The nodes can be products and the link is the hyperlink to another product that was shown on the webpage. The clicks can be tracked and the weight for each link will be how many times that linked was clicked from the previous page (node). This will allow a comapny to work out what products are getting a lot of attention and what items are working well as being advertised from one page to another.
+It could also track adverts and recommened product clicks. The nodes can be products and the link is the hyperlink to another product that was shown on the webpage. The clicks can be tracked and the weight for each link will be how many times that linked was clicked from the previous page (node). This will allow a comapny to work out what products are getting a lot of attention and what items are working well as being advertised from one page to another.
 
 *London Tube Map*<br>
 The london tube map can have the stations as nodes and the lines/ tracks as links/edges. You can then work out the quickest route from one stop to another. You could also work out alternative routes if a station is closed. an example of this is stored in Google sheets. Load in "tube_map" to use the zone 1 and 2 London tube map example. 
