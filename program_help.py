@@ -10,6 +10,11 @@ Classes:
 Functions:
 
     help_popup(int)
+    show_help_heading()
+    show_help_footer()
+    main_menu_help()
+    maze_menu_help()
+    graph_menu_help()
 
 Variables:
 

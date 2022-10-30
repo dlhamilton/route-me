@@ -505,6 +505,7 @@ Different width and height for maze.
 - game_maze.py
 - game_graph.py
 - util.py
+- program_help.py
 
 ### Libraries
 - cachetools==5.2.0

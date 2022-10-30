@@ -20,7 +20,7 @@ import gspread
 from prettytable import PrettyTable
 from util import (positive_text_color, warning_text_color, negative_text_color,
                   highlight_text_color, heading_text_color, valid_user_input,
-                  get_number_option, SHEET, clear_terminal)
+                  get_number_option, SHEET, clear_terminal, press_enter)
 
 
 class GameGraph:
@@ -78,11 +78,21 @@ class GameGraph:
     min_spanning_tree:
         will construct and print the minimum span using the graph array.
 
-    _get_min_distance(distances, processed):
+    __get_min_distance(distances, processed):
         find the minimum disatnce between all the nodes not processed
 
-     __show_span(previous):
+    __show_span(previous):
         will print out the spanning tree for the user
+
+    __show_all_node_names():
+        will print out the names of all the nodes
+
+    __show_complete_link_message(link_weight, first_ind, second_ind)
+        will print out the confirmation message when a link has been edited
+
+    __output_connections(nni, ind):
+        will print out the connections of a certain node
+
 
     '''
     def __init__(self, name):
@@ -114,6 +124,7 @@ class GameGraph:
         -------
         None
         '''
+        clear_terminal()
         print(heading_text_color("Adding a node"))
         name = input("Please enter the name of the node:\n")
         name_in_array = self.__get_node_index(name)
@@ -143,45 +154,59 @@ class GameGraph:
         -------
         None
         '''
-        print(heading_text_color(f"{mode} the link between nodes"))
-        first_name = input("Please enter the name of the first node:\n")
-        first_name_index = self.__get_node_index(first_name)
-        if first_name_index != -1:
-            second_name = input("Please enter the name of the second node:\n")
-            second_name_index = self.__get_node_index(second_name)
-            if second_name_index != -1:
-                if first_name_index != second_name_index:
-                    print(highlight_text_color(
-                        f"{mode} link between "
-                        f"{self.graph_node_names[first_name_index]} "
-                        f"to {self.graph_node_names[second_name_index]}"))
-                    if mode == "Delete":
-                        link_weight = -1
-                    else:
-                        link_weight = get_number_option("node weight", 0, 100)
-                    self.graph_nodes[first_name_index][second_name_index] = \
-                        link_weight
-                    self.graph_nodes[second_name_index][first_name_index] = \
-                        link_weight
-                    if link_weight != -1:
+        check_one = False
+        check_two = False
+
+        while check_one is False:
+            check_one = True
+            clear_terminal()
+            print(heading_text_color(f"{mode} the link between nodes"))
+            first_name = input("Please enter the name of the first node:\n")
+            first_ind = self.__get_node_index(first_name)
+            if first_ind > -1:
+                while check_two is False:
+                    check_two = True
+                    second_name = input("Please enter the name of "
+                                        "the second node:\n")
+                    second_ind = self.__get_node_index(second_name)
+                    if second_ind > -1:
+                        if first_ind != second_ind:
+                            print(highlight_text_color(
+                                f"{mode} link between "
+                                f"{self.graph_node_names[first_ind]} "
+                                f"to {self.graph_node_names[second_ind]}"))
+                            if mode == "Delete":
+                                link_weight = -1
+                            else:
+                                link_weight = get_number_option("node weight",
+                                                                0, 100)
+                            self.graph_nodes[first_ind][second_ind] = \
+                                link_weight
+                            self.graph_nodes[second_ind][first_ind] = \
+                                link_weight
+                            self.__show_complete_link_message(link_weight,
+                                                              first_ind,
+                                                              second_ind)
+                        else:
+                            print(negative_text_color("Error: Cannot change "
+                                                      "link node to itself"))
+                    elif second_ind == -2:
+                        check_two = False
+                        press_enter()
+                        clear_terminal()
+                        print(heading_text_color(f"{mode} the "
+                                                 "link between nodes"))
                         print(
-                            f"{positive_text_color('Link Change Complete - ')}"
-                            f"{self.graph_node_names[first_name_index]} to "
-                            f"{self.graph_node_names[second_name_index]} "
-                            f"weight {link_weight}")
+                            f"First node is: "
+                            f"{self.graph_node_names[first_ind]}")
                     else:
-                        print(
-                            f"{positive_text_color('Link Change Complete - ')}"
-                            f"{self.graph_node_names[first_name_index]} to "
-                            f"{self.graph_node_names[second_name_index]} "
-                            f"removed!")
-                else:
-                    print(negative_text_color("Error: Cannot change link node "
-                                              "to itself"))
+                        print(negative_text_color("Error: Name not "
+                                                  "found in graph"))
+            elif first_ind == -2:
+                check_one = False
+                press_enter()
             else:
                 print(negative_text_color("Error: Name not found in graph"))
-        else:
-            print(negative_text_color("Error: Name not found in graph"))
 
     def __get_node_index(self, search_string):
         '''
@@ -198,10 +223,14 @@ class GameGraph:
         -------
         index of the node (-1 if not found)
         '''
-        for name in self.graph_node_names:
-            if name.upper() == search_string.upper():
-                return self.graph_node_names.index(name)
-        return -1
+        if search_string != "123":
+            for name in self.graph_node_names:
+                if name.upper() == search_string.upper():
+                    return self.graph_node_names.index(name)
+            return -1
+        else:
+            self.__show_all_node_names()
+            return -2
 
     def show_graph_status(self):
         '''
@@ -279,18 +308,25 @@ class GameGraph:
         -------
         None
         '''
-        print(heading_text_color("Delete node"))
-        node_name = input("Please enter the name of the node:\n")
-        node_name_index = self.__get_node_index(node_name)
-        if node_name_index != -1:
-            count = len(self.graph_nodes)
-            for node_index in range(count):
-                del self.graph_nodes[node_index][node_name_index]
-            del self.graph_node_names[node_name_index]
-            del self.graph_nodes[node_name_index]
-            print(positive_text_color("Node removed!"))
-        else:
-            print(negative_text_color("Error: Name not found in graph"))
+        check_one = False
+        while check_one is False:
+            check_one = True
+            clear_terminal()
+            print(heading_text_color("Delete node"))
+            node_name = input("Please enter the name of the node:\n")
+            node_name_index = self.__get_node_index(node_name)
+            if node_name_index > -1:
+                count = len(self.graph_nodes)
+                for node_index in range(count):
+                    del self.graph_nodes[node_index][node_name_index]
+                del self.graph_node_names[node_name_index]
+                del self.graph_nodes[node_name_index]
+                print(positive_text_color("Node removed!"))
+            elif node_name_index == -2:
+                check_one = False
+                press_enter()
+            else:
+                print(negative_text_color("Error: Name not found in graph"))
 
     def show_connections(self):
         '''
@@ -304,26 +340,29 @@ class GameGraph:
         -------
         None
         '''
-        print(heading_text_color("Show connected nodes"))
-        node_name = input("Please enter the name of the node:\n")
-        node_name_index = self.__get_node_index(node_name)
-        if node_name_index != -1:
-            has_link = False
-            for ind, node in enumerate(self.graph_nodes[node_name_index]):
-                if node != -1:
-                    has_link = True
-                    nni = node_name_index
-                    print(
-                        f"{warning_text_color(self.graph_node_names[nni])} to "
-                        f"{positive_text_color(self.graph_node_names[ind])} "
-                        f"-- weight: "
-                        f"{highlight_text_color(self.graph_nodes[nni][ind])}")
-            if has_link is False:
-                print(warning_text_color(
-                    f"{self.graph_node_names[node_name_index]} has no "
-                    f"links to other nodes"))
-        else:
-            print(negative_text_color("Error: Name not found in graph"))
+        check_one = False
+        while check_one is False:
+            check_one = True
+            clear_terminal()
+            print(heading_text_color("Show connected nodes"))
+            node_name = input("Please enter the name of the node:\n")
+            node_name_index = self.__get_node_index(node_name)
+            if node_name_index > -1:
+                has_link = False
+                for ind, node in enumerate(self.graph_nodes[node_name_index]):
+                    if node != -1:
+                        has_link = True
+                        nni = node_name_index
+                        self.__output_connections(nni, ind)
+                if has_link is False:
+                    print(warning_text_color(
+                        f"{self.graph_node_names[node_name_index]} has no "
+                        f"links to other nodes"))
+            elif node_name_index == -2:
+                check_one = False
+                press_enter()
+            else:
+                print(negative_text_color("Error: Name not found in graph"))
 
     def dijkstra_path(self):
         '''
@@ -337,48 +376,70 @@ class GameGraph:
         -------
         None
         '''
-        start_name = input("Please enter the name of the start node:\n")
-        start_name_index = self.__get_node_index(start_name)
-        if start_name_index != -1:
-            end_name = input("Please enter the name of the "
-                             "destination node:\n")
-            end_name_index = self.__get_node_index(end_name)
-            if end_name_index != -1:
+        check_one = False
+        check_two = False
 
-                total_distance = [sys.maxsize] * len(self.graph_node_names)
-                previous_node = [None] * len(self.graph_node_names)
-                total_distance[start_name_index] = 0
-                visited = [False]*len(self.graph_node_names)
+        while check_one is False:
+            check_one = True
+            clear_terminal()
+            print(heading_text_color("Shortest route"))
+            start_name = input("Please enter the name of the start node:\n")
+            start_name_index = self.__get_node_index(start_name)
+            if start_name_index > -1:
+                while check_two is False:
+                    check_two = True
+                    end_name = input("Please enter the name of the "
+                                     "destination node:\n")
+                    end_name_index = self.__get_node_index(end_name)
+                    if end_name_index > -1:
+                        total_distance = [sys.maxsize] * \
+                            len(self.graph_node_names)
+                        previous_node = [None] * len(self.graph_node_names)
+                        total_distance[start_name_index] = 0
+                        visited = [False]*len(self.graph_node_names)
 
-                for _ in range(len(self.graph_node_names)):
-                    min_number = sys.maxsize
+                        for _ in range(len(self.graph_node_names)):
+                            min_number = sys.maxsize
 
-                    for node in range(len(self.graph_node_names)):
-                        if total_distance[node] < min_number and \
-                                visited[node] is False:
-                            min_number = total_distance[node]
-                            min_index = node
-                    current_node = min_index
+                            for node in range(len(self.graph_node_names)):
+                                if total_distance[node] < min_number and \
+                                        visited[node] is False:
+                                    min_number = total_distance[node]
+                                    min_index = node
+                            current_node = min_index
 
-                    visited[current_node] = True
+                            visited[current_node] = True
 
-                    for node in range(len(self.graph_node_names)):
-                        if self.graph_nodes[current_node][node] >= 0 and \
-                            visited[node] is False and \
-                            total_distance[node] > \
-                                total_distance[current_node] + \
-                                self.graph_nodes[current_node][node]:
-                            total_distance[node] = \
-                                total_distance[current_node] + \
-                                self.graph_nodes[current_node][node]
-                            previous_node[node] = current_node
-                self.__print_short_path(total_distance, previous_node,
-                                        start_name_index, end_name_index,
-                                        visited[end_name_index])
+                            for node in range(len(self.graph_node_names)):
+                                if self.graph_nodes[current_node][node] >= 0 \
+                                     and visited[node] is False and \
+                                        total_distance[node] > \
+                                        total_distance[current_node] + \
+                                        self.graph_nodes[current_node][node]:
+                                    total_distance[node] = \
+                                        total_distance[current_node] + \
+                                        self.graph_nodes[current_node][node]
+                                    previous_node[node] = current_node
+                        self.__print_short_path(total_distance, previous_node,
+                                                start_name_index,
+                                                end_name_index,
+                                                visited[end_name_index])
+                    elif end_name_index == -2:
+                        check_two = False
+                        press_enter()
+                        clear_terminal()
+                        print(heading_text_color("Shortest route"))
+                        print(
+                            f"Start node is: "
+                            f"{self.graph_node_names[start_name_index]}")
+                    else:
+                        print(negative_text_color("Error: Name not found "
+                                                  "in graph"))
+            elif start_name_index == -2:
+                check_one = False
+                press_enter()
             else:
                 print(negative_text_color("Error: Name not found in graph"))
-        else:
-            print(negative_text_color("Error: Name not found in graph"))
 
     def __print_short_path(self, total_distance, previous_node, start_index,
                            end_index, reachable):
@@ -403,7 +464,7 @@ class GameGraph:
         None
         '''
         clear_terminal()
-        print(heading_text_color("Quickest route"))
+        print(heading_text_color("Shortest route"))
         if reachable is True:
             print(f"{self.graph_node_names[start_index]} to "
                   f"{self.graph_node_names[end_index]} has "
@@ -596,3 +657,72 @@ class GameGraph:
                                 positive_text_color(node_to),
                                 highlight_text_color(node_weight)])
         print(graph_table)
+
+    def __show_all_node_names(self):
+        '''
+        will print out the names of all the nodes
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        '''
+        for node_name in self.graph_node_names:
+            print(node_name)
+
+    def __show_complete_link_message(self, link_weight, first_ind, second_ind):
+        '''
+        will print out the confirmation message when a link has been edited
+
+        Parameters
+        ----------
+        link_weight:
+            the new weight of the link to decide what message to output
+
+        first_ind:
+            The index that the link starts at
+
+        second_ind:
+            The index that the link ends at
+
+        Returns
+        -------
+        None
+        '''
+        if link_weight != -1:
+            print(
+                f"{positive_text_color('Link Change Complete - ')}"
+                f"{self.graph_node_names[first_ind]} to "
+                f"{self.graph_node_names[second_ind]} "
+                f"weight {link_weight}")
+        else:
+            print(
+                f"{positive_text_color('Link Change Complete - ')}"
+                f"{self.graph_node_names[first_ind]} to "
+                f"{self.graph_node_names[second_ind]} "
+                f"removed!")
+
+    def __output_connections(self, nni, ind):
+        '''
+        will print out the connections of a certain node
+
+        Parameters
+        ----------
+        nni:
+            node name index, the inex of the niode being iterated
+
+        ind:
+            index of the node that is connected to nni
+
+        Returns
+        -------
+        None
+        '''
+        print(
+            f"{warning_text_color(self.graph_node_names[nni])} to "
+            f"{positive_text_color(self.graph_node_names[ind])} "
+            f"-- weight: "
+            f"{highlight_text_color(self.graph_nodes[nni][ind])}")

@@ -21,7 +21,7 @@ Functions:
     get_saved_file_names(int)
     load_graph(str) -> object
     load_maze(str) -> object
-    exit_message
+    exit_message()
     main()
 
 Variables:
@@ -258,6 +258,7 @@ def get_saved_file_names(save_type):
         else:
             if file_name_enetered != '0':
                 print(negative_text_color("This sheet could not be found!"))
+                press_enter()
     else:
         print(negative_text_color("No saved sheets"))
         press_enter()
