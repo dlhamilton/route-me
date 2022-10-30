@@ -604,6 +604,14 @@ Below are the test to check all validation and operation of the program.
         <td>Will ask the name of the node you want to start from</td>
         <td>Pass</td>
     </tr>
+    <tr>
+        <td>14</td>
+        <td>Graph menu validating</td>
+        <td>Input 10</td>
+        <td>Will start the process for creating the minimum spanning tree</td>
+        <td>Shows the results in a table</td>
+        <td>Pass</td>
+    </tr>
 </table>
 
 ***
@@ -1036,6 +1044,33 @@ Example:
         <td>Pass</td>
     </tr>
 </table>
+
+### Create minimum spanning tree testing
+<table>
+    <tr>
+        <th>Test Number</th>
+        <th>Test</th>
+        <th>Test data</th>
+        <th>Expected result</th>
+        <th>Actual result</th>
+        <th>Test result</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Creates Correct span</td>
+        <td>Input hard coded graph matrix</td>
+        <td>The span shoudl be correct</td>
+        <td>It showed teh corrct values and links for the spanning tree</td>
+        <td>Pass</td>
+    </tr>
+</table>
+
+<br>
+
+Example:
+
+![tfl plan](assets/media/)
+![Test result](assets/media/)
 -----
 
 ## User Story Testing

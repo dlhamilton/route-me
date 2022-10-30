@@ -465,22 +465,23 @@ Option 3 in the maze menu allows the user to solve a maze. They can use WASD to 
 
 ![Solve Maze](assets/media/solve_maze.png)
 
+### Minimum Spanning Tree
+Option 10 in the graph menu creates a spanning tree. A spanning tree means all nodes must be connected and they must be connected with the minimum weight link to make it a Minimum Spanning Tree.
+
+![Spanning Tree](assets/media/)
+
 ***
+
+## Refactor Improvements
+
+### Graph Structure Improvement
+In the orignal matrix storage for the grpah the non existant connectsion were storered by puting the value of 0 in the connection space. This caused an issue as some connections to a niode could have the value of 0. The code was editied and changed so that nodes that do not have links are now represnted using -1 as the value.
 
 ## Future features
 
-help function
-
-show names of nodes when asking for node names. use mod.
-
-None and zero.
-
-Different with and height for maze.
-
-Spanning tree
-
 key press
 
+Different width and height for maze.
 ***
 
 ## Class diagram

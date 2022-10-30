@@ -74,6 +74,16 @@ class GameGraph:
 
     save_graph:
         store the maze details to google sheets
+
+    min_spanning_tree:
+        will construct and print the minimum span using the graph array.
+
+    _get_min_distance(distances, processed):
+        find the minimum disatnce between all the nodes not processed
+
+     __show_span(previous):
+        will print out the spanning tree for the user
+
     '''
     def __init__(self, name):
         '''
@@ -111,10 +121,10 @@ class GameGraph:
             self.graph_node_names.append(name)
             temp_array = []
             for _ in self.graph_node_names:
-                temp_array.append(0)
+                temp_array.append(-1)
             self.graph_nodes.append(temp_array)
             for none in range(len(self.graph_nodes)-1):
-                self.graph_nodes[none].append(0)
+                self.graph_nodes[none].append(-1)
             print(positive_text_color("Node added!"))
         else:
             print(negative_text_color(f"{name} is already in the graph!"))
@@ -146,18 +156,25 @@ class GameGraph:
                         f"{self.graph_node_names[first_name_index]} "
                         f"to {self.graph_node_names[second_name_index]}"))
                     if mode == "Delete":
-                        link_weight = 0
+                        link_weight = -1
                     else:
                         link_weight = get_number_option("node weight", 0, 100)
                     self.graph_nodes[first_name_index][second_name_index] = \
                         link_weight
                     self.graph_nodes[second_name_index][first_name_index] = \
                         link_weight
-                    print(
-                        f"{positive_text_color('Link Change Complete - ')}"
-                        f"{self.graph_node_names[first_name_index]} to "
-                        f"{self.graph_node_names[second_name_index]} "
-                        f"weight {link_weight}")
+                    if link_weight != -1:
+                        print(
+                            f"{positive_text_color('Link Change Complete - ')}"
+                            f"{self.graph_node_names[first_name_index]} to "
+                            f"{self.graph_node_names[second_name_index]} "
+                            f"weight {link_weight}")
+                    else:
+                        print(
+                            f"{positive_text_color('Link Change Complete - ')}"
+                            f"{self.graph_node_names[first_name_index]} to "
+                            f"{self.graph_node_names[second_name_index]} "
+                            f"removed!")
                 else:
                     print(negative_text_color("Error: Cannot change link node "
                                               "to itself"))
@@ -207,7 +224,7 @@ class GameGraph:
 
         count = 0
         for node in self.graph_node_names:
-            links = list(filter(lambda number: number > 0,
+            links = list(filter(lambda number: number >= 0,
                          self.graph_nodes[count]))
             graph_table.add_row([count, node, len(links)])
             count += 1
@@ -238,15 +255,15 @@ class GameGraph:
         '''
         self.graph_node_names = ["Zero", "One", "Two", "Three", "Four", "Five",
                                  "six", "seven", "eight"]
-        self.graph_nodes = [[0, 4, 0, 0, 0, 0, 0, 8, 0],
-                            [4, 0, 8, 0, 0, 0, 0, 11, 0],
-                            [0, 8, 0, 7, 0, 4, 0, 0, 2],
-                            [0, 0, 7, 0, 9, 14, 0, 0, 0],
-                            [0, 0, 0, 9, 0, 10, 0, 0, 0],
-                            [0, 0, 4, 14, 10, 0, 2, 0, 0],
-                            [0, 0, 0, 0, 0, 2, 0, 1, 6],
-                            [8, 11, 0, 0, 0, 0, 1, 0, 7],
-                            [0, 0, 2, 0, 0, 0, 6, 7, 0]
+        self.graph_nodes = [[-1, 4, 0, -1, -1, -1, -1, 8, -1],
+                            [4, -1, 8, -1, -1, -1, -1, 11, -1],
+                            [0, 8, -1, 7, -1, 4, -1, -1, 2],
+                            [-1, -1, 7, -1, 9, 14, -1, -1, -1],
+                            [-1, -1, -1, 9, -1, 10, -1, -1, -1],
+                            [-1, -1, 4, 14, 10, -1, 2, -1, -1],
+                            [-1, -1, -1, -1, -1, 2, -1, 1, 6],
+                            [8, 11, -1, -1, -1, -1, 1, -1, 7],
+                            [-1, -1, 2, -1, -1, -1, 6, 7, -1]
                             ]
         print(positive_text_color("Data added!"))
 
@@ -293,7 +310,7 @@ class GameGraph:
         if node_name_index != -1:
             has_link = False
             for ind, node in enumerate(self.graph_nodes[node_name_index]):
-                if node != 0:
+                if node != -1:
                     has_link = True
                     nni = node_name_index
                     print(
@@ -346,7 +363,7 @@ class GameGraph:
                     visited[current_node] = True
 
                     for node in range(len(self.graph_node_names)):
-                        if self.graph_nodes[current_node][node] > 0 and \
+                        if self.graph_nodes[current_node][node] >= 0 and \
                             visited[node] is False and \
                             total_distance[node] > \
                                 total_distance[current_node] + \
@@ -457,7 +474,7 @@ class GameGraph:
             valid = True
             if self.loaded is True:
                 SHEET.del_worksheet(SHEET.worksheet(self.graph_name))
-            print(warning_text_color('Saving maze...(Please wait)'))
+            print(warning_text_color('Saving graph...(Please wait)'))
             try:
                 new_sheet = SHEET.add_worksheet(self.graph_name,
                                                 len(self.graph_node_names) + 1,
@@ -486,3 +503,96 @@ class GameGraph:
                                            self.graph_name)
                 print(positive_text_color("Graph saved!"))
                 self.loaded = True
+
+    def min_spanning_tree(self):
+        '''
+        will construct and print the minimum span using the graph array.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        '''
+        distances = [sys.maxsize] * len(self.graph_node_names)
+        previous = [None] * len(self.graph_node_names)
+        processed = [False] * len(self.graph_node_names)
+
+        distances[0] = 0
+        previous[0] = -1
+
+        for _ in range(len(self.graph_node_names)):
+            min_distance = self.__get_min_distance(distances, processed)
+
+            processed[min_distance] = True
+
+            for node_int in range(len(self.graph_node_names)):
+                if self.graph_nodes[min_distance][node_int] >= 0 and \
+                    processed[node_int] is False and \
+                        distances[node_int] > \
+                        self.graph_nodes[min_distance][node_int]:
+                    distances[node_int] = \
+                        self.graph_nodes[min_distance][node_int]
+                    previous[node_int] = min_distance
+        self.__show_span(previous)
+
+    def __get_min_distance(self, distances, processed):
+        '''
+        find the minimum disatnce between all the nodes that have not been
+        processed
+
+        Parameters
+        ----------
+        distances: int[]
+            the mininum distance value from the nodes
+
+        processed: boolean[]
+            if it has been proceesed in the spanning tree already
+
+        Returns
+        -------
+        min_index: int
+            the index position of the current shortest distance
+        '''
+        min = sys.maxsize
+
+        for node_int in range(len(self.graph_node_names)):
+            if distances[node_int] < min and \
+              processed[node_int] is False:
+                min = distances[node_int]
+                min_index = node_int
+
+        return min_index
+
+    def __show_span(self, previous):
+        '''
+        will print out the spanning tree for the user
+
+        Parameters
+        ----------
+        previous: int[]
+            the node that is previous to the node in taht postion in the
+            node_names array
+
+        Returns
+        -------
+        None
+        '''
+        clear_terminal()
+        print(heading_text_color("Minimum Spanning Tree"))
+
+        graph_table = PrettyTable([heading_text_color("From"),
+                                  heading_text_color("To"),
+                                  heading_text_color("Weight")])
+
+        for node_index in range(1, len(self.graph_node_names)):
+            node_from = self.graph_node_names[previous[node_index]]
+            node_to = self.graph_node_names[node_index]
+            node_weight = self.graph_nodes[node_index][previous[node_index]]
+
+            graph_table.add_row([warning_text_color(node_from),
+                                positive_text_color(node_to),
+                                highlight_text_color(node_weight)])
+        print(graph_table)

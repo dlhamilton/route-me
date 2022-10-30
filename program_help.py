@@ -202,4 +202,10 @@ def graph_menu_help():
           "node in the graph. It will tell you the steps to take inorder to " +
           "get there.")
     print()
+    print(heading_text_color("\033[4m" + "Option 10 - Minimum Spanning Tree" +
+          "\033[0m"))
+    print("This will create a minimum spanning tree. A spanning tree means " +
+          "all nodes must be connected and they must be connected with the " +
+          "minimum weight link to make it a Minimum Spanning Tree.")
+    print()
     show_help_footer()

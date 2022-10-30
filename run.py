@@ -95,6 +95,7 @@ def show_graph_menu():
     print("7) Fill With Sample Data")
     print("8) Show Connections for Node")
     print("9) Find Shortest Route")
+    print("10) Minimum Spanning Tree")
     print("0) Back to Main menu")
     print(heading_text_color("Press 'H' for help and to get more details"))
     print(f"{colored('============================','cyan')}")
@@ -166,7 +167,7 @@ def menu_option_2(the_graph=None):
     press_enter()
     clear_terminal()
     show_graph_menu()
-    graph_menu_option = get_number_option("graph menu", 0, 9)
+    graph_menu_option = get_number_option("graph menu", 0, 10)
     while graph_menu_option != 0:
         if graph_menu_option == 1:
             the_graph.add_node_to_graph()
@@ -187,12 +188,14 @@ def menu_option_2(the_graph=None):
             the_graph.show_connections()
         elif graph_menu_option == 9:
             the_graph.dijkstra_path()
+        elif graph_menu_option == 10:
+            the_graph.min_spanning_tree()
         elif graph_menu_option == 900:
             help_popup(3)
         press_enter()
         clear_terminal()
         show_graph_menu()
-        graph_menu_option = get_number_option("graph menu", 0, 9)
+        graph_menu_option = get_number_option("graph menu", 0, 10)
     the_graph = None
 
 
