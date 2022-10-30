@@ -125,7 +125,7 @@ class GameGraph:
         None
         '''
         clear_terminal()
-        print(heading_text_color("Adding a node"))
+        self.__method_heading("Adding a node")
         name = input("Please enter the name of the node:\n")
         name_in_array = self.__get_node_index(name)
         if name_in_array == -1:
@@ -160,7 +160,7 @@ class GameGraph:
         while check_one is False:
             check_one = True
             clear_terminal()
-            print(heading_text_color(f"{mode} the link between nodes"))
+            self.__method_heading(f"{mode} the link between nodes")
             first_name = input("Please enter the name of the first node:\n")
             first_ind = self.__get_node_index(first_name)
             if first_ind > -1:
@@ -194,8 +194,8 @@ class GameGraph:
                         check_two = False
                         press_enter()
                         clear_terminal()
-                        print(heading_text_color(f"{mode} the "
-                                                 "link between nodes"))
+                        self.__method_heading(f"{mode} the "
+                                              "link between nodes")
                         print(
                             f"First node is: "
                             f"{self.graph_node_names[first_ind]}")
@@ -244,7 +244,7 @@ class GameGraph:
         -------
         None
         '''
-        print(heading_text_color("Graph Details"))
+        self.__method_heading("Graph Details")
         print(highlight_text_color("Graph name: ") + self.graph_name)
         print()
         print(highlight_text_color("Node names:"))
@@ -312,7 +312,7 @@ class GameGraph:
         while check_one is False:
             check_one = True
             clear_terminal()
-            print(heading_text_color("Delete node"))
+            self.__method_heading("Delete node")
             node_name = input("Please enter the name of the node:\n")
             node_name_index = self.__get_node_index(node_name)
             if node_name_index > -1:
@@ -344,7 +344,7 @@ class GameGraph:
         while check_one is False:
             check_one = True
             clear_terminal()
-            print(heading_text_color("Show connected nodes"))
+            self.__method_heading("Show connected nodes")
             node_name = input("Please enter the name of the node:\n")
             node_name_index = self.__get_node_index(node_name)
             if node_name_index > -1:
@@ -382,7 +382,7 @@ class GameGraph:
         while check_one is False:
             check_one = True
             clear_terminal()
-            print(heading_text_color("Shortest route"))
+            self.__method_heading("Shortest route")
             start_name = input("Please enter the name of the start node:\n")
             start_name_index = self.__get_node_index(start_name)
             if start_name_index > -1:
@@ -428,7 +428,7 @@ class GameGraph:
                         check_two = False
                         press_enter()
                         clear_terminal()
-                        print(heading_text_color("Shortest route"))
+                        self.__method_heading("Shortest route")
                         print(
                             f"Start node is: "
                             f"{self.graph_node_names[start_name_index]}")
@@ -464,7 +464,7 @@ class GameGraph:
         None
         '''
         clear_terminal()
-        print(heading_text_color("Shortest route"))
+        self.__method_heading("Shortest route")
         if reachable is True:
             print(f"{self.graph_node_names[start_index]} to "
                   f"{self.graph_node_names[end_index]} has "
@@ -642,7 +642,7 @@ class GameGraph:
         None
         '''
         clear_terminal()
-        print(heading_text_color("Minimum Spanning Tree"))
+        self.__method_heading("Minimum Spanning Tree")
 
         graph_table = PrettyTable([heading_text_color("From"),
                                   heading_text_color("To"),
@@ -726,3 +726,10 @@ class GameGraph:
             f"{positive_text_color(self.graph_node_names[ind])} "
             f"-- weight: "
             f"{highlight_text_color(self.graph_nodes[nni][ind])}")
+
+    def __method_heading(self, text):
+        uline = ""
+        for _ in range(len(text)):
+            uline += "="
+        print(heading_text_color(text))
+        print(highlight_text_color(uline))
