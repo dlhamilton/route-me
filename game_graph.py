@@ -718,16 +718,22 @@ class GameGraph:
         None
         '''
         temp_arr = []
+        display_table = PrettyTable()
+        display_table.title = heading_text_color("All nodes in the graph")
+        display_table.header = False
         for cout, node_name in enumerate(self.graph_node_names, 1):
-            # print(node_name)
 
             temp_arr.append(node_name)
             if cout % 3 == 0:
-                print(temp_arr)
+                display_table.add_row(temp_arr)
                 temp_arr = []
 
-        if len(temp_arr) != 0:
-            print(temp_arr)
+        arr_size = len(temp_arr)
+        if arr_size != 0:
+            for _ in range(3-arr_size):
+                temp_arr.append("")
+            display_table.add_row(temp_arr)
+        print(display_table)
 
     def __show_complete_link_message(self, link_weight, first_ind, second_ind):
         '''

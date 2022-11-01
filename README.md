@@ -476,6 +476,11 @@ Option 10 in the graph menu creates a spanning tree. A spanning tree means all n
 #### The Expected Outcome
 ![Spanning Tree Expections](assets/media/spanning_ex_img.png)
 
+
+### Display Nodes
+When a user needs to type in a node name, they can type in '123' to see all the node names that are currently in the graph. They allow the user to see what names are in the graph and get the right spelling. 
+
+![Node name Display]()
 ***
 
 ## Refactor Improvements
@@ -532,6 +537,7 @@ Different width and height for maze.
 The google sheet has a required worksheet to store the names of the saved mazes and graphs. It will add worksheets when a new graphs or maze has been saved. The name of the google sheet is "route_me_data"
 
 <br>
+
 ![Sheets name](assets/media/sheet_name.png)
 
 ### "saves" worksheet
