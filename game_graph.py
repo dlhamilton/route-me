@@ -93,6 +93,11 @@ class GameGraph:
     __output_connections(nni, ind):
         will print out the connections of a certain node
 
+    __method_heading(text):
+        print the heading design for the graph methods
+
+    __node_name_instructions():
+        print the instructions for when a user enteres a node name
 
     '''
     def __init__(self, name):
@@ -124,21 +129,30 @@ class GameGraph:
         -------
         None
         '''
-        clear_terminal()
-        self.__method_heading("Adding a node")
-        name = input("Please enter the name of the node:\n")
-        name_in_array = self.__get_node_index(name)
-        if name_in_array == -1:
-            self.graph_node_names.append(name)
-            temp_array = []
-            for _ in self.graph_node_names:
-                temp_array.append(-1)
-            self.graph_nodes.append(temp_array)
-            for none in range(len(self.graph_nodes)-1):
-                self.graph_nodes[none].append(-1)
-            print(positive_text_color("Node added!"))
-        else:
-            print(negative_text_color(f"{name} is already in the graph!"))
+        check_one = False
+        while check_one is False:
+            check_one = True
+            clear_terminal()
+            self.__method_heading("Adding a node")
+            self.__node_name_instructions()
+            name = input("Please enter the name of the node:\n")
+            name_in_array = self.__get_node_index(name)
+            if name_in_array == -1:
+                self.graph_node_names.append(name)
+                temp_array = []
+                for _ in self.graph_node_names:
+                    temp_array.append(-1)
+                self.graph_nodes.append(temp_array)
+                for none in range(len(self.graph_nodes)-1):
+                    self.graph_nodes[none].append(-1)
+                print(positive_text_color("Node added!"))
+            elif name_in_array == -2:
+                check_one = False
+                press_enter()
+            elif name_in_array == -3:
+                print(highlight_text_color("Back to menu"))
+            else:
+                print(negative_text_color(f"{name} is already in the graph!"))
 
     def add_link_to_graph(self, mode):
         '''
@@ -161,11 +175,13 @@ class GameGraph:
             check_one = True
             clear_terminal()
             self.__method_heading(f"{mode} the link between nodes")
+            self.__node_name_instructions()
             first_name = input("Please enter the name of the first node:\n")
             first_ind = self.__get_node_index(first_name)
             if first_ind > -1:
                 while check_two is False:
                     check_two = True
+                    self.__node_name_instructions()
                     second_name = input("Please enter the name of "
                                         "the second node:\n")
                     second_ind = self.__get_node_index(second_name)
@@ -199,12 +215,16 @@ class GameGraph:
                         print(
                             f"First node is: "
                             f"{self.graph_node_names[first_ind]}")
+                    elif second_ind == -3:
+                        print(highlight_text_color("Back to menu"))
                     else:
                         print(negative_text_color("Error: Name not "
                                                   "found in graph"))
             elif first_ind == -2:
                 check_one = False
                 press_enter()
+            elif first_ind == -3:
+                print(highlight_text_color("Back to menu"))
             else:
                 print(negative_text_color("Error: Name not found in graph"))
 
@@ -212,7 +232,8 @@ class GameGraph:
         '''
         iterate through the array to see what the index is of the
         string that is passed to it. If the string is not in the array
-        it will return -1
+        it will return -1, will return -2 if the user wants to do a
+        name search, return -3 if the user enters 0 to go back.
 
         Parameters
         ----------
@@ -222,8 +243,12 @@ class GameGraph:
         Returns
         -------
         index of the node (-1 if not found)
+        index of the node (-2 if showing all nodes)
+        index of the node (-3 if exiting method)
         '''
-        if search_string != "123":
+        if search_string == "0":
+            return -3
+        elif search_string != "123":
             for name in self.graph_node_names:
                 if name.upper() == search_string.upper():
                     return self.graph_node_names.index(name)
@@ -313,6 +338,7 @@ class GameGraph:
             check_one = True
             clear_terminal()
             self.__method_heading("Delete node")
+            self.__node_name_instructions()
             node_name = input("Please enter the name of the node:\n")
             node_name_index = self.__get_node_index(node_name)
             if node_name_index > -1:
@@ -325,6 +351,8 @@ class GameGraph:
             elif node_name_index == -2:
                 check_one = False
                 press_enter()
+            elif node_name_index == -3:
+                print(highlight_text_color("Back to menu"))
             else:
                 print(negative_text_color("Error: Name not found in graph"))
 
@@ -345,6 +373,7 @@ class GameGraph:
             check_one = True
             clear_terminal()
             self.__method_heading("Show connected nodes")
+            self.__node_name_instructions()
             node_name = input("Please enter the name of the node:\n")
             node_name_index = self.__get_node_index(node_name)
             if node_name_index > -1:
@@ -361,6 +390,8 @@ class GameGraph:
             elif node_name_index == -2:
                 check_one = False
                 press_enter()
+            elif node_name_index == -3:
+                print(highlight_text_color("Back to menu"))
             else:
                 print(negative_text_color("Error: Name not found in graph"))
 
@@ -383,11 +414,13 @@ class GameGraph:
             check_one = True
             clear_terminal()
             self.__method_heading("Shortest route")
+            self.__node_name_instructions()
             start_name = input("Please enter the name of the start node:\n")
             start_name_index = self.__get_node_index(start_name)
             if start_name_index > -1:
                 while check_two is False:
                     check_two = True
+                    self.__node_name_instructions()
                     end_name = input("Please enter the name of the "
                                      "destination node:\n")
                     end_name_index = self.__get_node_index(end_name)
@@ -432,12 +465,16 @@ class GameGraph:
                         print(
                             f"Start node is: "
                             f"{self.graph_node_names[start_name_index]}")
+                    elif end_name_index == -3:
+                        print(highlight_text_color("Back to menu"))
                     else:
                         print(negative_text_color("Error: Name not found "
                                                   "in graph"))
             elif start_name_index == -2:
                 check_one = False
                 press_enter()
+            elif start_name_index == -3:
+                print(highlight_text_color("Back to menu"))
             else:
                 print(negative_text_color("Error: Name not found in graph"))
 
@@ -587,6 +624,9 @@ class GameGraph:
         for _ in range(len(self.graph_node_names)):
             min_distance = self.__get_min_distance(distances, processed)
 
+            if min_distance is None:
+                break
+
             processed[min_distance] = True
 
             for node_int in range(len(self.graph_node_names)):
@@ -597,7 +637,15 @@ class GameGraph:
                     distances[node_int] = \
                         self.graph_nodes[min_distance][node_int]
                     previous[node_int] = min_distance
-        self.__show_span(previous)
+
+        if min_distance is not None:
+            self.__show_span(previous)
+        else:
+            clear_terminal()
+            self.__method_heading("Minimum Spanning Tree")
+            print(negative_text_color("Error"))
+            print(warning_text_color("Not all nodes are connected"))
+            print(warning_text_color("Cannot make spanning tree"))
 
     def __get_min_distance(self, distances, processed):
         '''
@@ -618,13 +666,12 @@ class GameGraph:
             the index position of the current shortest distance
         '''
         min = sys.maxsize
-
+        min_index = None
         for node_int in range(len(self.graph_node_names)):
             if distances[node_int] < min and \
               processed[node_int] is False:
                 min = distances[node_int]
                 min_index = node_int
-
         return min_index
 
     def __show_span(self, previous):
@@ -670,8 +717,17 @@ class GameGraph:
         -------
         None
         '''
-        for node_name in self.graph_node_names:
-            print(node_name)
+        temp_arr = []
+        for cout, node_name in enumerate(self.graph_node_names, 1):
+            # print(node_name)
+
+            temp_arr.append(node_name)
+            if cout % 3 == 0:
+                print(temp_arr)
+                temp_arr = []
+
+        if len(temp_arr) != 0:
+            print(temp_arr)
 
     def __show_complete_link_message(self, link_weight, first_ind, second_ind):
         '''
@@ -728,8 +784,41 @@ class GameGraph:
             f"{highlight_text_color(self.graph_nodes[nni][ind])}")
 
     def __method_heading(self, text):
+        '''
+        print the heading design for the graph methods
+
+        Parameters
+        ----------
+        text:
+            the heading text
+
+        Returns
+        -------
+        None
+        '''
         uline = ""
         for _ in range(len(text)):
             uline += "="
         print(heading_text_color(text))
         print(highlight_text_color(uline))
+
+    def __node_name_instructions(self):
+        '''
+        print the instructions for when a user enteres a node name
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+        '''
+        print(
+            positive_text_color("Type 0 "),
+            " - ",
+            warning_text_color("to go back to menu"))
+        print(
+            positive_text_color("Type 123 "),
+            " - ",
+            warning_text_color("to see all node names"))

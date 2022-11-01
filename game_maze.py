@@ -857,7 +857,9 @@ class GameMaze:
                 clear_terminal()
                 self.draw_maze()
                 if current[0] == s_and_e[1][0] and current[1] == s_and_e[1][1]:
+                    print()
                     print(positive_text_color("Solved it"))
+                    print()
                     press_enter()
                     end_solver = True
         else:
