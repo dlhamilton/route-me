@@ -741,13 +741,13 @@ class GameGraph:
 
         Parameters
         ----------
-        link_weight:
+        link_weight: int
             the new weight of the link to decide what message to output
 
-        first_ind:
+        first_ind: int
             The index that the link starts at
 
-        second_ind:
+        second_ind: int
             The index that the link ends at
 
         Returns
@@ -773,10 +773,10 @@ class GameGraph:
 
         Parameters
         ----------
-        nni:
+        nni: int
             node name index, the inex of the niode being iterated
 
-        ind:
+        ind: int
             index of the node that is connected to nni
 
         Returns
@@ -795,7 +795,7 @@ class GameGraph:
 
         Parameters
         ----------
-        text:
+        text: str
             the heading text
 
         Returns

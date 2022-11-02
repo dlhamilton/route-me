@@ -4,6 +4,10 @@ Route me is a python termial program, which runs in the CI mock terminal on Hero
 <br>
 Users can create a graph and find the shortest route to their target. Users can also create a maze, they can choose to solve it them self or use the program to show them the correct path.
 
+Click here to use the program here: [Route Me](https://route-me-dh.herokuapp.com/)
+
+<br>
+
 ![Program Screen](assets/media/main_menu_img.png)
 
 ## About Route-Me
@@ -125,7 +129,7 @@ This will take you back to the main menu.
 ## User Story
 |Story No.|Story|
 | ------------- | ------------- |
-|1| As a user, <br> I want to be able to create a randomly genrated maze <br> so that I can get see how good i am at solving them. <br><br>I know I am done when a maze is shown in the console |
+|1| As a user, <br> I want to be able to create a randomly genrated maze <br> so that I can see how good i am at solving them. <br><br>I know I am done when a maze is shown in the console |
 |2|As a user, <br> I want to be able to choose the size of my maze <br> so that I can control the difficulty of the maze.<br><br>I know I am done when users can enter a size and a maze appears in theose dimensions.|
 |3|As a user, <br> I want to be able to solve the maze<br> so that I can get the path to solve the maze. <br><br> I know I am done when a path is shown on the maze.|
 |4|As a user,<br> I want to be able to save a maze <br> so that I can use it in another program or come back to it. <br> <br> I know I am done when google sheets can view a maze.|
@@ -135,6 +139,8 @@ This will take you back to the main menu.
 |8|As a user,<br> I want to be able to save a graph <br> so that I can use it in another program or come back to it. <br> <br> I know I am done when google sheets can view a maze.|
 |9|As a user,<br> I want to be able to load a graph <br> so that I can come back to it and edit it. <br> <br> I know I am done when a user can view a worksheet from google sheets.|
 |10|As a user,<br> I want to be able to edit a graph <br> so that I can change it to my prefernces. <br> <br> I know I am done when a user can add and delete nodes, they will also be able to add and delete connections.|
+|11|As a user,<br> I want to be able to create a Minimum Spanning Tree <br> so that I can connect all the nodes with the least amount of weight. <br> <br> I know I am done when a user can see all the connections in the Minimum Spanning Tree.|
+|12|As a user,<br> I want to be able to solve a maze by stepping though and solving it my self <br> so that I can see if I have the ability to solve a maze. <br> <br> I know I am done when a user can press directions and it travels through the maze.|
 
 ## Features
 
@@ -480,7 +486,8 @@ Option 10 in the graph menu creates a spanning tree. A spanning tree means all n
 ### Display Nodes
 When a user needs to type in a node name, they can type in '123' to see all the node names that are currently in the graph. They allow the user to see what names are in the graph and get the right spelling. 
 
-![Node name Display]()
+![Node name Display](assets/media/show_node_names.png)
+
 ***
 
 ## Refactor Improvements
@@ -493,9 +500,21 @@ In the orignal matrix storage for the grpah the non existant connectsion were st
 
 ## Future features
 
-key press
+### Key Press
+The game would be improved by having a key listerner that will allow the user to press a key to move around the maze rather than having to press enter after every command. This is something that could be added in the future to give the user a smoother interaction with maze solving. 
 
-Different width and height for maze.
+### Maze Shape
+Currently the maze for the program will need to be a square, the maze could be designed by having a different width and height. This could give the user more design possabilities to their maze. 
+
+### Maze Start & End
+The user may want to change where the start and end of the maze is. This will give the user more design possabilities to their maze.
+
+### Maze Create Custom Maze
+The user can create a maze using the google sheets maze. The program could be improved by allowing the user to create a maze within the program.
+
+### Graph Display
+The program could benefit from giving the user the option to see a drawn graph. This will be difficult to do in the terminal but something that can be added in the future to improve UX. It will show the user a visual display of the graph so they can get a better understanding of the spanning tree and shortest path.
+
 ***
 
 ## Class diagram
@@ -643,7 +662,7 @@ The program uses a Google Sheets to store saved graphs and mazes.
 4. You now need to change the name of the worksheet to 'saves'
 5. The google sheet is now complete
 
-Now you need to get the API credentials  from the [Google Cloud Platform](https://console.cloud.google.com/)
+Now you need to get the API credentials from the [Google Cloud Platform](https://console.cloud.google.com/)
 
 1. Create a new project and give it a name.
 2. Select APIs and services from the navigation pane. 
@@ -682,5 +701,8 @@ https://en.wikipedia.org/wiki/Maze_generation_algorithm
 
 This helped me to design my flow charts and class diagrams
 https://lucid.app/
+
+To show a table in the graph class to show the node details in a easier to read format.
+https://ptable.readthedocs.io/en/latest/tutorial.html
 
 -----

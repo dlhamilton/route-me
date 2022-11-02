@@ -1069,21 +1069,52 @@ Example:
 
 Example:
 
-![tfl plan](assets/media/)
-![Test result](assets/media/)
+![tfl plan](assets/media/tfl_map_img.png)
+![Test result](assets/media/spanning_tfl.png)
+
+### Show node names
+<table>
+    <tr>
+        <th>Test Number</th>
+        <th>Test</th>
+        <th>Test data</th>
+        <th>Expected result</th>
+        <th>Actual result</th>
+        <th>Test result</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Show node names</td>
+        <td>Input '123'</td>
+        <td>All the nodes show from the graph class</td>
+        <td>All the nodes in the graph are shown in a table</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Show node names</td>
+        <td>Input enter pressed</td>
+        <td>Should show the preious user input</td>
+        <td>Shows the input that the method was called from</td>
+        <td>Pass</td>
+    </tr>
+</table>
+
 -----
 
 ## User Story Testing
 
 |Story No.|Result|Story/ Evidence|
 | ------------- | ------------- | ------------- |
-|1|Test Pass| As a user, <br> I want to be able to create a randomly genrated maze <br> so that I can get see how good i am at solving them. <br><br>I know I am done when a maze is shown in the console <br><br>Evidence:<br>The user can open the high score modal and it loads the scores from local storage.<br> ![high_score](assets/media/chrome_images/game_highscore.webp)|
-|2|Test Pass|As a user, <br> I want to be able to choose the size of my maze <br> so that I can control the difficulty of the maze.<br><br>I know I am done when users can enter a size and a maze appears in theose dimensions.<br><br>Evidence:<br>The user can open the high score modal and it loads the scores from local storage.<br> ![high_score](assets/media/chrome_images/game_highscore.webp)|
-|3|Test Pass|As a user, <br> I want to be able to solve the maze<br> so that I can get the path to solve the maze. <br><br> I know I am done when a path is shown on the maze.<br><br>Evidence:<br>The user can open the high score modal and it loads the scores from local storage.<br> ![high_score](assets/media/chrome_images/game_highscore.webp)|
-|4|Test Pass|As a user,<br> I want to be able to save a maze <br> so that I can use it in another program or come back to it. <br> <br> I know I am done when google sheets can view a maze.<br><br>Evidence:<br>The user can open the high score modal and it loads the scores from local storage.<br> ![high_score](assets/media/chrome_images/game_highscore.webp)|
-|5|Test Pass|As a user,<br> I want to be able to load a maze <br> so that I can come back to it and edit it. <br> <br> I know I am done when a user can view a worksheet from google sheets.<br><br>Evidence:<br>The user can open the high score modal and it loads the scores from local storage.<br> ![high_score](assets/media/chrome_images/game_highscore.webp)|
-|6|Test Pass|As a user,<br> I want to be able to create a graph <br> so that I can plan a route. <br> <br> I know I am done when a user can view all the connetions in an array.<br><br>Evidence:<br>The user can open the high score modal and it loads the scores from local storage.<br> ![high_score](assets/media/chrome_images/game_highscore.webp)|
-|7|Test Pass|As a user,<br> I want to be able to find the shorest path between two nodes <br> so that I can find a quick route. <br> <br> I know I am done when a user can view all the steps to get from one node to another.<br><br>Evidence:<br>The user can open the high score modal and it loads the scores from local storage.<br> ![high_score](assets/media/chrome_images/game_highscore.webp)|
-|8|Test Pass|As a user,<br> I want to be able to save a graph <br> so that I can use it in another program or come back to it. <br> <br> I know I am done when google sheets can view a maze.<br><br>Evidence:<br>The user can open the high score modal and it loads the scores from local storage.<br> ![high_score](assets/media/chrome_images/game_highscore.webp)|
-|9|Test Pass|As a user,<br> I want to be able to load a graph <br> so that I can come back to it and edit it. <br> <br> I know I am done when a user can view a worksheet from google sheets.<br><br>Evidence:<br>The user can open the high score modal and it loads the scores from local storage.<br> ![high_score](assets/media/chrome_images/game_highscore.webp)|
-|10|Test Pass|As a user,<br> I want to be able to edit a graph <br> so that I can change it to my prefernces. <br> <br> I know I am done when a user can add and delete nodes, they will also be able to add and delete connections.<br><br>Evidence:<br>The user can open the high score modal and it loads the scores from local storage.<br> ![high_score](assets/media/chrome_images/game_highscore.webp)|
+|1|Test Pass| As a user, <br> I want to be able to create a randomly genrated maze <br> so that I can see how good i am at solving them. <br><br>I know I am done when a maze is shown in the console <br><br>Evidence:<br>The user can enter the name and size of the maze and it will show the maze.<br> ![maze test](assets/media/maze_menu_img.png)|
+|2|Test Pass|As a user, <br> I want to be able to choose the size of my maze <br> so that I can control the difficulty of the maze.<br><br>I know I am done when users can enter a size and a maze appears in theose dimensions.<br><br>Evidence:<br>The user can enter the name and size of the maze and it will show the maze with the correct size.<br> ![maze test](assets/media/maze_menu_img.png)|
+|3|Test Pass|As a user, <br> I want to be able to solve the maze<br> so that I can get the path to solve the maze. <br><br> I know I am done when a path is shown on the maze.<br><br>Evidence:<br>The user can chose option 1 in the maze menu which will show a path starting at the top of the maze and going down to the end.<br> ![solve maze test](assets/media/solve_maze_img.png)|
+|4|Test Pass|As a user,<br> I want to be able to save a maze <br> so that I can use it in another program or come back to it. <br> <br> I know I am done when google sheets can view a maze.<br><br>Evidence:<br>I can view the maze in google sheets and the user can view the saved maze in the program when they chose to load a maze.<br> ![save maze](assets/media/saving_maze_img.png) ![save maze sheets](assets/media/saved_maze.png)|
+|5|Test Pass|As a user,<br> I want to be able to load a maze <br> so that I can come back to it and edit it. <br> <br> I know I am done when a user can view a worksheet from google sheets.<br><br>Evidence:<br>The user can view all the mazes that are saved and can load it into the program.<br> ![high_score](assets/media/loading_maze_img.png)|
+|6|Test Pass|As a user,<br> I want to be able to create a graph <br> so that I can plan a route. <br> <br> I know I am done when a user can view all the connetions in an array.<br><br>Evidence:<br>The user can enter the name and it will create an empty graph.<br> ![create graph](assets/media/create_graph_img.png)|
+|7|Test Pass|As a user,<br> I want to be able to find the shorest path between two nodes <br> so that I can find a quick route. <br> <br> I know I am done when a user can view all the steps to get from one node to another.<br><br>Evidence:<br>The user can select option 9 in the graph menua nd it will ask for the start node and the end node. It will then route the path and display all the nodes that it will pass through and the weight between them.<br> ![route graph](assets/media/route_img.png)|
+|8|Test Pass|As a user,<br> I want to be able to save a graph <br> so that I can use it in another program or come back to it. <br> <br> I know I am done when google sheets can view a maze.<br><br>Evidence:<br>I can view the graph in google sheets and the user can view the saved graph in the program when they chose to load a graph.<br> ![graph saving](assets/media/save_graph_img.png) ![graph saved](assets/media/saved_graph.png)|
+|9|Test Pass|As a user,<br> I want to be able to load a graph <br> so that I can come back to it and edit it. <br> <br> I know I am done when a user can view a worksheet from google sheets.<br><br>Evidence:<br>The user can view all the graphs that are saved and can load it into the program.<br> ![load graph](assets/media/load_graph_img2.png)|
+|10|Test Pass|As a user,<br> I want to be able to edit a graph <br> so that I can change it to my prefernces. <br> <br> I know I am done when a user can add and delete nodes, they will also be able to add and delete connections.<br><br>Evidence:<br>The user can do different operations (CRUD) on the graph.<br> ![graph operations](assets/media/graph_menu_img.png)|
+|11|Test Pass|As a user,<br> I want to be able to create a Minimum Spanning Tree <br> so that I can connect all the nodes with the least amount of weight. <br> <br> I know I am done when a user can see all the connections in the Minimum Spanning Tree.<br><br>Evidence:<br>The user can select option 10 which creates a spanning tree.<br> ![spanning test](assets/media/spanning_img.png)|
+|12|Test Pass|As a user,<br> I want to be able to solve a maze by stepping though and solving it my self <br> so that I can see if I have the ability to solve a maze. <br> <br> I know I am done when a user can press directions and it travels through the maze.<br><br>Evidence:<br>The user can select option 3 in the maze menu which uses WASD on the keyboard to move a icon through the maze and leaves a trail as it goes through the maze.<br> ![maze solving test](assets/media/solve_maze.png)|
