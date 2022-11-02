@@ -539,23 +539,17 @@ The program could benefit from giving the user the option to see a drawn graph. 
 - program_help.py
 
 ### Libraries
-- cachetools==5.2.0
-- colorama==0.4.5
-- evdev==1.6.0
-- google-auth==2.13.0
-- google-auth-oauthlib==0.5.3
-- gspread==5.6.0
-- gspread-formatting==1.1.1
-- keyboard==0.13.5
-- oauthlib==3.2.2
-- prettytable==3.4.1
-- pyasn1==0.4.8
-- pyasn1-modules==0.2.8
-- pynput==1.7.6
-- python-xlib==0.31
-- requests-oauthlib==1.3.1
-- rsa==4.9
-- termcolor==2.0.1
+
+- colorama==0.4.5 - Producing colored terminal text and cursor positioning
+- google-auth==2.13.0 - Provides the ability to authenticate to Google APIs
+- google-auth-oauthlib==0.5.3 - Provides oauthlib integration with google-auth.
+- gspread==5.6.0 - a Python API for Google Sheets.
+- gspread-formatting==1.1.1 - Provides complete cell formatting for Google spreadsheets
+- oauthlib==3.2.2 - Implements the logic of OAuth1 or OAuth2 without assuming a specific HTTP request object or web framework.
+- prettytable==3.4.1 - Used to display tables in the terminal 
+- requests-oauthlib==1.3.1 - Provides first-class OAuth library support for Requests.
+- termcolor==2.0.1 - Color formatting for output in terminal
+- cachetools==5.2.0 - Used in other libs to provide various memoizing collections and decorators
 
 ***
 

@@ -1,7 +1,7 @@
 '''
 help section module for route me
 
-will help guide the user on how to use the program.
+will show help guides to the user and explain how to use the program.
 
 Classes:
 
