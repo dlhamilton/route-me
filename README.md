@@ -1,8 +1,8 @@
 # Route Me
 
-Route me is a python termial program, which runs in the CI mock terminal on Heroku.
+Route me is a python terminal program, which runs in the CI mock terminal on Heroku.
 <br>
-Users can create a graph and find the shortest route to their target. Users can also create a maze, they can choose to solve it them self or use the program to show them the correct path.
+Users can create a graph and find the shortest route to a target they can also work out the minimum spanning tree. Users can also create a maze, they can choose to solve it them self or use the program to show them the correct path.
 
 Click here to use the program here: [Route Me](https://route-me-dh.herokuapp.com/)
 
@@ -34,18 +34,18 @@ In this program you can:
 A Graph is a non-linear data structure consisting of vertices and edges. The vertices and edges are sometimes also referred to as nodes and links. links are lines or arcs that connect any two nodes in the graph. 
 <br>
 Each link/edge will have a weight, they can also have a direction. This could be the distance, cost, time taken to get from one node to another. Below are some graph examples to help understand graphs and also how this program can be used. 
-<br>
+<br><br>
 *Maps Navigation*<br>
 It can be used to find the quickest route to a destination. An example would be that Nodes would be junctions and the links/edges would be roads. The edges could have directions and the weights can be the time it takes to get to the next junction. This can then work out the quickest path too get from the start to the destination.
-<br>
+<br><br>
 *Social Media Links*<br>
 This could be used to store each user as a node and the links/edges would be the realtionship between users. This could then be able to see how many degrees of separation you have from certain users and then suggest other users to connect to based on the connections you currently have.
-<br>
+<br><br>
 *World Wide Web & Networks*<br>
 The web can be seen as a collection of documents connected with hyperlinks. A web page could be a node and a link/edge could be the hyperlinks.
 <br>
 You could also connect a network together, consisting of routers and computers. You could then work out the shortest path to send packets over a network. The nodes will be the routers and computers. The links will be the connections and the weight could be the time it takes the packet to travel. The other use could be to work out the minimum amount of connections needed to connect all the computers and routers in the network. 
-<br>
+<br><br>
 *Product Recommendations (Advertisting)*<br>
 This use for the graph could be used to recommend products to users. The nodes could be customers or products and the links are connections to these products. The graph could then find users with simliar node links and see what products are not in the users links and recommned these products to the user.
 
@@ -54,7 +54,7 @@ For example - User A could click on a link to a pair of shoes, they then click o
 User B could then view the same shoes as user A, the system will then recommend the hat as a link becuase a previous user looking at the same product clicked on it.  
 <br>
 It could also track adverts and recommened product clicks. The nodes can be products and the link is the hyperlink to another product that was shown on the webpage. The clicks can be tracked and the weight for each link will be how many times that linked was clicked from the previous page (node). This will allow a comapny to work out what products are getting a lot of attention and what items are working well as being advertised from one page to another.
-
+<br><br>
 *London Tube Map*<br>
 The london tube map can have the stations as nodes and the lines/ tracks as links/edges. You can then work out the quickest route from one stop to another. You could also work out alternative routes if a station is closed. an example of this is stored in Google sheets. Load in "tube_map" to use the zone 1 and 2 London tube map example. 
 
@@ -113,10 +113,17 @@ This will create a graph with test data in the nodes and connections.
 This will show all teh connections for one node. It will ask you to enter the name of the node.
 #### Option 9 - Find Shortest Route
 This will find the shortest path between two node. It will ask for the names of the start and end. Itw ill then find the route and list out the steps.
+#### Opion 10 - Minimum Spanning Tree
+This will create a link between all the nodes but will make sure it uses the minium amount of link weight to do it. 
 #### Option 0 - Back to menu
 This will take you back to the main menu.
 
 <br>
+
+### User Assistance
+- "h" - The user can type 'h' in any menu to get a definition or information about all of the options in the menu.
+- "123" - The user can type '123' in any graph option that requires the user to enter a nodes name. This will show all the names of the nodes that are currently in the graph. this will help the user remember the names that are in the graph. 
+
 
 ### Navigaton Flowchart
 
@@ -275,7 +282,7 @@ If option 1 is selected by the user it will show the matrix like below:
 Will ask the user to enter the name of the node they want to view. It will then show all the weights and connections for the node.
 ![Show Links](assets/media/show_connected_img.png)
 
-### Find the shorest path
+### Find the Shortest Path
 
 using the Dijkstras algorithm it will find the shortest path from a start location to the end. 
 
@@ -436,21 +443,21 @@ def __print_short_path(self, total_distance, previous_node, start_index,
 
 ![Graph shortest path](assets/media/route_img.png)
 
-### Quick fill the graph with sample data
+### Quick ffill Graph with sample data
 This will add sample data to the graph. 
 The sample data is shown below
 ```python
 self.graph_node_names = ["Zero", "One", "Two", "Three", "Four", "Five",
                                  "six", "seven", "eight"]
-        self.graph_nodes = [[0, 4, 0, 0, 0, 0, 0, 8, 0],
-                            [4, 0, 8, 0, 0, 0, 0, 11, 0],
-                            [0, 8, 0, 7, 0, 4, 0, 0, 2],
-                            [0, 0, 7, 0, 9, 14, 0, 0, 0],
-                            [0, 0, 0, 9, 0, 10, 0, 0, 0],
-                            [0, 0, 4, 14, 10, 0, 2, 0, 0],
-                            [0, 0, 0, 0, 0, 2, 0, 1, 6],
-                            [8, 11, 0, 0, 0, 0, 1, 0, 7],
-                            [0, 0, 2, 0, 0, 0, 6, 7, 0]
+        self.graph_nodes = [[-1, 4, 0, -1, -1, -1, -1, 8, -1],
+                            [4, -1, 8, -1, -1, -1, -1, 11, -1],
+                            [0, 8, -1, 7, -1, 4, -1, -1, 2],
+                            [-1, -1, 7, -1, 9, 14, -1, -1, -1],
+                            [-1, -1, -1, 9, -1, 10, -1, -1, -1],
+                            [-1, -1, 4, 14, 10, -1, 2, -1, -1],
+                            [-1, -1, -1, -1, -1, 2, -1, 1, 6],
+                            [8, 11, -1, -1, -1, -1, 1, -1, 7],
+                            [-1, -1, 2, -1, -1, -1, 6, 7, -1]
                             ]
 ```
 
@@ -580,7 +587,7 @@ Although Google Sheets enables the program to function and stores the dat that i
 ## Testing
 
 ### Manual Testing & User Story Testing
-[Click here](TESTING.md)
+[Click here](TESTING.md) to see the full testing page
 
 ### Validatior Testing
 The standard testing [PEP8 Online](http://pep8online.com/) is currently down so I used the PEP8 validator extension within gitpod. 
@@ -648,8 +655,7 @@ In my algorithm to find the shortest path I needed to set the weight between the
  9. Click on Deploy.
  10. The page will then provide the url to the python terminal.
 
- The live link can be found here - [Route Me](https://github.com/dlhamilton/route-me)
-
+ The live link can be found here - [Route Me](https://route-me-dh.herokuapp.com/)
 ### Google Sheet
 The program uses a Google Sheets to store saved graphs and mazes. 
 
@@ -684,25 +690,25 @@ Now you need to get the API credentials from the [Google Cloud Platform](https:/
 
 ## Credits / Acknowledgement 
 
-Code instutie for the deployment terminal
+Code instutie for the deployment terminal - 
 https://codeinstitute.net/
 
-Used to get the timing for the tube map graph data
+Used to get the timing for the tube map graph data - 
 http://www.london-tubemap.com/assets/tubemap_journey-times_2.pdf
 
-Used to build the title logo for Route-Me
+Used to build the title logo for Route-Me - 
 https://patorjk.com/software/taag/#p=display&f=Doom&t=Route-Me
 
-The algorithm to work out the shortest path
+The algorithm to work out the shortest path - 
 https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
 
-The algorithm to create the maze. The algorithm used was Prims
+The algorithm to create the maze. The algorithm used was Prims - 
 https://en.wikipedia.org/wiki/Maze_generation_algorithm
 
-This helped me to design my flow charts and class diagrams
+This helped me to design my flow charts and class diagrams - 
 https://lucid.app/
 
-To show a table in the graph class to show the node details in a easier to read format.
+To show a table in the graph class to show the node details in a easier to read format. - 
 https://ptable.readthedocs.io/en/latest/tutorial.html
 
 -----
