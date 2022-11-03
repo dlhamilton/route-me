@@ -832,7 +832,7 @@ class GameMaze:
             end_solver = False
             while end_solver is False:
                 print(heading_text_color("Controls: (W - Up, S - Down, D - "
-                      "Right, A - Left) then press Enter... Press 0 to Exit"))
+                      "Right, A - Left) then press Enter...\nPress 0 to Exit"))
                 command = input("Please enter the direction you want to go\n")
                 if command.upper() == "W":
                     print(warning_text_color("Moving Up..."))
