@@ -1,4 +1,4 @@
-'''
+"""
 utilites module for route me
 
 Classes:
@@ -25,7 +25,7 @@ Variables:
     GSPREAD_CLIENT
     SHEET
 
-'''
+"""
 import re
 from os import system, name
 import gspread
@@ -46,7 +46,7 @@ SHEET = GSPREAD_CLIENT.open('route_me_data')
 
 
 def positive_text_color(text):
-    '''
+    """
     green text style
 
     Parameters
@@ -58,12 +58,12 @@ def positive_text_color(text):
     -------
     coloured text: str
         the string with a new colour
-    '''
+    """
     return colored(text, 'green')
 
 
 def warning_text_color(text):
-    '''
+    """
     yellow text style
 
     Parameters
@@ -75,12 +75,12 @@ def warning_text_color(text):
     -------
     coloured text: str
         the string with a new colour
-    '''
+    """
     return colored(text, 'yellow')
 
 
 def negative_text_color(text):
-    '''
+    """
     red text style
 
     Parameters
@@ -92,12 +92,12 @@ def negative_text_color(text):
     -------
     coloured text: str
         the string with a new colour
-    '''
+    """
     return colored(text, 'red')
 
 
 def highlight_text_color(text):
-    '''
+    """
     cyan text style
 
     Parameters
@@ -109,12 +109,12 @@ def highlight_text_color(text):
     -------
     coloured text: str
         the string with a new colour
-    '''
+    """
     return colored(text, 'cyan')
 
 
 def heading_text_color(text):
-    '''
+    """
     magenta text style
 
     Parameters
@@ -126,12 +126,12 @@ def heading_text_color(text):
     -------
     coloured text: str
         the string with a new colour
-    '''
+    """
     return colored(text, 'magenta')
 
 
 def valid_user_input(text):
-    '''
+    """
     validate the user input to make sure it starts with a letter
 
     Parameters
@@ -142,7 +142,7 @@ def valid_user_input(text):
     Returns
     -------
     if the text meets al requirements returns true
-    '''
+    """
     if len(text) < 1:
         print(negative_text_color("Input is not long enough"))
         return False
@@ -154,7 +154,7 @@ def valid_user_input(text):
 
 
 def get_number_option(menu_name, start, end):
-    '''
+    """
     numerical menu
     get the user to enter a number and will validate their entry
 
@@ -171,8 +171,10 @@ def get_number_option(menu_name, start, end):
     -------
     menu option: int
         the menu number the user has selected
-    '''
+    """
     invalid_option = True
+    menu_option_int = None
+    menu_option = None
     while invalid_option:
         try:
             invalid_option = True
@@ -187,23 +189,23 @@ def get_number_option(menu_name, start, end):
                 print(negative_text_color(f"Not a valid number - Please enter"
                       f" a number between {start} and {end}"))
         else:
-            if menu_option_int >= start and menu_option_int <= end:
-                invalid_option = False
-            else:
+            if menu_option_int < start or menu_option_int > end:
                 print(negative_text_color(f'Number option not avaliable '
                       f'- Please enter a number between {start} and {end}'))
+            else:
+                invalid_option = False
     return menu_option_int
 
 
 def clear_terminal():
-    '''
+    """
     Clears terminal for better UX
-    '''
+    """
     system('cls' if name == 'nt' else 'clear')
 
 
 def press_enter():
-    '''
+    """
     Print "Press enter to continue."
-    '''
+    """
     input(colored("Press enter to continue.", 'yellow', 'on_white'))

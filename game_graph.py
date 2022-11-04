@@ -1,4 +1,4 @@
-'''
+"""
 game graph module for route me
 
 Classes:
@@ -13,7 +13,7 @@ Variables:
 
     None
 
-'''
+"""
 # Library for INT_MAX
 import sys
 import gspread
@@ -24,7 +24,7 @@ from util import (positive_text_color, warning_text_color, negative_text_color,
 
 
 class GameGraph:
-    '''
+    """
     Graph Class
     ...
 
@@ -70,16 +70,16 @@ class GameGraph:
         write out the instructions on how to follow the shortest path
 
     load_in_graph(name, node_names, matrix):
-        update the graph with the data from google sheets
+        update the graph with the data from Google sheets
 
     save_graph:
-        store the maze details to google sheets
+        store the maze details to Google sheets
 
     min_spanning_tree:
         will construct and print the minimum span using the graph array.
 
     __get_min_distance(distances, processed):
-        find the minimum disatnce between all the nodes not processed
+        find the minimum distance between all the nodes not processed
 
     __show_span(previous):
         will print out the spanning tree for the user
@@ -97,11 +97,11 @@ class GameGraph:
         print the heading design for the graph methods
 
     __node_name_instructions():
-        print the instructions for when a user enteres a node name
+        print the instructions for when a user enters a node name
 
-    '''
+    """
     def __init__(self, name):
-        '''
+        """
         Constructs all the necessary attributes for the graph object.
         ...
 
@@ -109,7 +109,7 @@ class GameGraph:
         ----------
             name : str
                 name of the maze
-        '''
+        """
         # instance attribute
         self.graph_name = name
         self.graph_nodes = []
@@ -117,7 +117,7 @@ class GameGraph:
         self.loaded = False
 
     def add_node_to_graph(self):
-        '''
+        """
         add node to the graph array and add a
         new array item to all items in the array
 
@@ -128,7 +128,7 @@ class GameGraph:
         Returns
         -------
         None
-        '''
+        """
         check_one = False
         while check_one is False:
             check_one = True
@@ -137,6 +137,13 @@ class GameGraph:
             self.__node_name_instructions()
             name = input("Please enter the name of the node:\n")
             name_in_array = self.__get_node_index(name)
+
+            if len(name) == 0:
+                name_in_array = -4
+            else:
+                if name[0] == " ":
+                    name_in_array = -4
+
             if name_in_array == -1:
                 self.graph_node_names.append(name)
                 temp_array = []
@@ -151,11 +158,13 @@ class GameGraph:
                 press_enter()
             elif name_in_array == -3:
                 print(highlight_text_color("Back to menu"))
+            elif name_in_array == -4:
+                print(negative_text_color("Invalid name!"))
             else:
                 print(negative_text_color(f"{name} is already in the graph!"))
 
     def add_link_to_graph(self, mode):
-        '''
+        """
         change the value in the node array to represent a new link
         between nodes
 
@@ -167,7 +176,7 @@ class GameGraph:
         Returns
         -------
         None
-        '''
+        """
         check_one = False
         check_two = False
 
@@ -229,7 +238,7 @@ class GameGraph:
                 print(negative_text_color("Error: Name not found in graph"))
 
     def __get_node_index(self, search_string):
-        '''
+        """
         iterate through the array to see what the index is of the
         string that is passed to it. If the string is not in the array
         it will return -1, will return -2 if the user wants to do a
@@ -245,7 +254,7 @@ class GameGraph:
         index of the node (-1 if not found)
         index of the node (-2 if showing all nodes)
         index of the node (-3 if exiting method)
-        '''
+        """
         if search_string == "0":
             return -3
         elif search_string != "123":
@@ -258,7 +267,7 @@ class GameGraph:
             return -2
 
     def show_graph_status(self):
-        '''
+        """
         output all the values linked to the graph
 
         Parameters
@@ -268,7 +277,7 @@ class GameGraph:
         Returns
         -------
         None
-        '''
+        """
         self.__method_heading("Graph Details")
         print(highlight_text_color("Graph name: ") + self.graph_name)
         print()
@@ -295,7 +304,7 @@ class GameGraph:
                 count = count + 1
 
     def quick_fill_graph(self):
-        '''
+        """
         put set values into the graph to allow the user to see an example
         graph
 
@@ -306,7 +315,7 @@ class GameGraph:
         Returns
         -------
         None
-        '''
+        """
         self.graph_node_names = ["Zero", "One", "Two", "Three", "Four", "Five",
                                  "six", "seven", "eight"]
         self.graph_nodes = [[-1, 4, 0, -1, -1, -1, -1, 8, -1],
@@ -322,7 +331,7 @@ class GameGraph:
         print(positive_text_color("Data added!"))
 
     def delete_node(self):
-        '''
+        """
         delete a node from the graph array
 
         Parameters
@@ -332,7 +341,7 @@ class GameGraph:
         Returns
         -------
         None
-        '''
+        """
         check_one = False
         while check_one is False:
             check_one = True
@@ -357,7 +366,7 @@ class GameGraph:
                 print(negative_text_color("Error: Name not found in graph"))
 
     def show_connections(self):
-        '''
+        """
         show all the connections for one of the nodes
 
         Parameters
@@ -367,7 +376,7 @@ class GameGraph:
         Returns
         -------
         None
-        '''
+        """
         check_one = False
         while check_one is False:
             check_one = True
@@ -396,7 +405,7 @@ class GameGraph:
                 print(negative_text_color("Error: Name not found in graph"))
 
     def dijkstra_path(self):
-        '''
+        """
         find the shortest path to a node
 
         Parameters
@@ -406,7 +415,7 @@ class GameGraph:
         Returns
         -------
         None
-        '''
+        """
         check_one = False
         check_two = False
 
@@ -433,7 +442,7 @@ class GameGraph:
 
                         for _ in range(len(self.graph_node_names)):
                             min_number = sys.maxsize
-
+                            min_index = None
                             for node in range(len(self.graph_node_names)):
                                 if total_distance[node] < min_number and \
                                         visited[node] is False:
@@ -480,14 +489,14 @@ class GameGraph:
 
     def __print_short_path(self, total_distance, previous_node, start_index,
                            end_index, reachable):
-        '''
+        """
         write out the instructions on how to follow the shortest path
 
         Parameters
         ----------
-        total_distance: int
+        total_distance: int[]
             the total distance of the path
-        previous_node: int
+        previous_node: int[]
             index of the node that was last visited
         start_index: int
             index of the start node
@@ -499,7 +508,7 @@ class GameGraph:
         Returns
         -------
         None
-        '''
+        """
         clear_terminal()
         self.__method_heading("Shortest route")
         if reachable is True:
@@ -534,30 +543,30 @@ class GameGraph:
         print()
 
     def load_in_graph(self, name, node_names, matrix):
-        '''
-        update the graph with the data that was loaded from google sheets
+        """
+        update the graph with the data that was loaded from Google sheets
 
         Parameters
         ----------
         name: str
             name of the graph
         node_names: str[]
-            name of all the nodes
+            name of all the node's
         matrix: int[]
             the array links of nodes
 
         Returns
         -------
         None
-        '''
+        """
         self.graph_name = name
         self.graph_node_names = node_names
         self.graph_nodes = matrix
         self.loaded = True
 
     def save_graph(self):
-        '''
-        store the maze details to google sheets
+        """
+        store the maze details to Google sheets
 
         Parameters
         ----------
@@ -566,7 +575,7 @@ class GameGraph:
         Returns
         -------
         None
-        '''
+        """
         valid = False
         while valid is False:
             valid = True
@@ -584,6 +593,7 @@ class GameGraph:
                     f"{self.graph_name}' already exists."))
                 valid = False
                 name_valid = False
+                new_name = None
                 while name_valid is False:
                     new_name = input("Please enter a new name for the" +
                                      " sheet \n")
@@ -603,7 +613,7 @@ class GameGraph:
                 self.loaded = True
 
     def min_spanning_tree(self):
-        '''
+        """
         will construct and print the minimum span using the graph array.
 
         Parameters
@@ -613,10 +623,11 @@ class GameGraph:
         Returns
         -------
         None
-        '''
+        """
         distances = [sys.maxsize] * len(self.graph_node_names)
         previous = [None] * len(self.graph_node_names)
         processed = [False] * len(self.graph_node_names)
+        min_distance = None
 
         distances[0] = 0
         previous[0] = -1
@@ -648,46 +659,46 @@ class GameGraph:
             print(warning_text_color("Cannot make spanning tree"))
 
     def __get_min_distance(self, distances, processed):
-        '''
-        find the minimum disatnce between all the nodes that have not been
+        """
+        find the minimum distance between all the nodes that have not been
         processed
 
         Parameters
         ----------
         distances: int[]
-            the mininum distance value from the nodes
+            the minimum distance value from the nodes
 
         processed: boolean[]
-            if it has been proceesed in the spanning tree already
+            if it has been processed in the spanning tree already
 
         Returns
         -------
         min_index: int
             the index position of the current shortest distance
-        '''
-        min = sys.maxsize
+        """
+        min_num = sys.maxsize
         min_index = None
         for node_int in range(len(self.graph_node_names)):
-            if distances[node_int] < min and \
+            if distances[node_int] < min_num and \
               processed[node_int] is False:
-                min = distances[node_int]
+                min_num = distances[node_int]
                 min_index = node_int
         return min_index
 
     def __show_span(self, previous):
-        '''
+        """
         will print out the spanning tree for the user
 
         Parameters
         ----------
         previous: int[]
-            the node that is previous to the node in taht postion in the
+            the node that is previous to the node in that position in the
             node_names array
 
         Returns
         -------
         None
-        '''
+        """
         clear_terminal()
         self.__method_heading("Minimum Spanning Tree")
 
@@ -706,7 +717,7 @@ class GameGraph:
         print(graph_table)
 
     def __show_all_node_names(self):
-        '''
+        """
         will print out the names of all the nodes
 
         Parameters
@@ -716,7 +727,7 @@ class GameGraph:
         Returns
         -------
         None
-        '''
+        """
         temp_arr = []
         display_table = PrettyTable()
         display_table.title = heading_text_color("All nodes in the graph")
@@ -736,7 +747,7 @@ class GameGraph:
         print(display_table)
 
     def __show_complete_link_message(self, link_weight, first_ind, second_ind):
-        '''
+        """
         will print out the confirmation message when a link has been edited
 
         Parameters
@@ -753,7 +764,7 @@ class GameGraph:
         Returns
         -------
         None
-        '''
+        """
         if link_weight != -1:
             print(
                 f"{positive_text_color('Link Change Complete - ')}"
@@ -768,13 +779,13 @@ class GameGraph:
                 f"removed!")
 
     def __output_connections(self, nni, ind):
-        '''
+        """
         will print out the connections of a certain node
 
         Parameters
         ----------
         nni: int
-            node name index, the inex of the niode being iterated
+            node name index, the index of the node being iterated
 
         ind: int
             index of the node that is connected to nni
@@ -782,7 +793,7 @@ class GameGraph:
         Returns
         -------
         None
-        '''
+        """
         print(
             f"{warning_text_color(self.graph_node_names[nni])} to "
             f"{positive_text_color(self.graph_node_names[ind])} "
@@ -790,7 +801,7 @@ class GameGraph:
             f"{highlight_text_color(self.graph_nodes[nni][ind])}")
 
     def __method_heading(self, text):
-        '''
+        """
         print the heading design for the graph methods
 
         Parameters
@@ -801,7 +812,7 @@ class GameGraph:
         Returns
         -------
         None
-        '''
+        """
         uline = ""
         for _ in range(len(text)):
             uline += "="
@@ -809,8 +820,8 @@ class GameGraph:
         print(highlight_text_color(uline))
 
     def __node_name_instructions(self):
-        '''
-        print the instructions for when a user enteres a node name
+        """
+        print the instructions for when a user enters a node name
 
         Parameters
         ----------
@@ -819,7 +830,7 @@ class GameGraph:
         Returns
         -------
         None
-        '''
+        """
         print(
             positive_text_color("Type 0 "),
             " - ",

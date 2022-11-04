@@ -1,4 +1,4 @@
-'''
+"""
 help section module for route me
 
 will show help guides to the user and explain how to use the program.
@@ -20,13 +20,13 @@ Variables:
 
     None
 
-'''
+"""
 from util import (warning_text_color, clear_terminal, highlight_text_color,
                   press_enter, heading_text_color, positive_text_color)
 
 
 def help_popup(menu_call):
-    '''
+    """
     shows the help details to help the user navigate the current menu they are
     on.
 
@@ -42,7 +42,7 @@ def help_popup(menu_call):
     Returns
     -------
     None
-    '''
+    """
     clear_terminal()
     show_help_heading()
 
@@ -52,32 +52,32 @@ def help_popup(menu_call):
         maze_menu_help()
     elif menu_call == 3:
         graph_menu_help()
-    show_help_footer
+    show_help_footer()
     if menu_call != 3:
         press_enter()
 
 
 def show_help_heading():
-    '''
+    """
     Will show the heading for the help
-    '''
+    """
     print(f"{highlight_text_color('===========================')}"
           f"{warning_text_color(' Help Information ')}"
           f"{highlight_text_color('===========================')}")
 
 
 def show_help_footer():
-    '''
+    """
     Will show the footing for the help
-    '''
+    """
     print(f"{highlight_text_color('=====================================')}"
           f"{highlight_text_color('===================================')}")
 
 
 def main_menu_help():
-    '''
+    """
     help information for the main menu
-    '''
+    """
     print(heading_text_color("\033[4mOption 1 - Create Maze\033[0m"))
     print("A maze is a path or collection of paths, typically from an\n"
           "entrance to a goal. This option will ask you to enter a name for\n"
@@ -123,9 +123,9 @@ def main_menu_help():
 
 
 def maze_menu_help():
-    '''
+    """
     help information for the maze menu
-    '''
+    """
     print(heading_text_color("\033[4mOption 1 - Solve /Unsolve Maze\033[0m"))
     print("This will show the solution to the maze or remove the solution\n"
           "from the maze")
@@ -143,9 +143,9 @@ def maze_menu_help():
 
 
 def graph_menu_help():
-    '''
+    """
     help information for the graph menu
-    '''
+    """
     print(heading_text_color("\033[4mOption 1 - Add Node\033[0m"))
     print("This will add a node to the graph. A graph node is also known\n"
           "as graph vertex. It is a point on which the graph is defined\n"
@@ -184,7 +184,7 @@ def graph_menu_help():
     print("This will add sample data to the graph.")
     print()
     print(heading_text_color("\033[4mOption 8 - Show Connections\033[0m"))
-    print("This wlll ask you to enter the name of the node you want to view.\n"
+    print("This will ask you to enter the name of the node you want to view.\n"
           " It will then show all the weights & connections for that node.\n")
     print()
     print(heading_text_color("\033[4mOption 9 - Find Shortest Route\033[0m"))
@@ -198,4 +198,3 @@ def graph_menu_help():
           "all nodes must be connected and they must be connected with the\n"
           "minimum weight link to make it a Minimum Spanning Tree.")
     print()
-    show_help_footer()

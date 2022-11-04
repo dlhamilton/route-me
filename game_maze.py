@@ -1,4 +1,4 @@
-'''
+"""
 game maze module for route me
 
 Classes:
@@ -13,7 +13,7 @@ Variables:
 
     None
 
-'''
+"""
 import random
 import gspread
 from colorama import init, Fore, Back
@@ -25,7 +25,7 @@ init(autoreset=True)
 
 
 class GameMaze:
-    '''
+    """
     Maze Class
     ...
 
@@ -34,14 +34,14 @@ class GameMaze:
     maze_name : str
         name of the maze
     walls : int[]
-        the array of wall in the maze
+        array of walls in the maze.
     maze : str[]
         the maze cells
     loaded : boolean
         has the maze been saved before
     solver_current
-        if the maze has been attempted to be solvved and where they
-        currenlty are in the maze
+        if the maze has been attempted to be solved and where they
+        currently are in the maze
     maze_size
         the size of the maze
 
@@ -54,7 +54,7 @@ class GameMaze:
         creates an array with a size of maze size
 
     __starting_maze_generation_position:
-        gets the starting posititon for maze creation
+        gets the starting position for maze creation
 
     __get_starting_walls(start_h, start_w):
         add the walls to the walls list
@@ -78,7 +78,7 @@ class GameMaze:
         create a wall above the current position
 
     __remove_complete_wall(rand_wall):
-        remove the wall from the not proccessed wall array
+        remove the wall from the not processed wall array
 
     draw_maze:
         draw the grid to the console
@@ -102,23 +102,23 @@ class GameMaze:
         recursive method to find a path to the exit
 
     __set_next_path(count, current):
-        set the next coordiante that the maze should try to go
+        set the next coordinate that the maze should try to go
 
     __remove_from_maze(maze_type):
         find the solution in the array and change to path
 
     save_maze:
-        store the maze details to google sheets
+        store the maze details to Google sheets
 
     load_in_maze(name, matrix, current):
-        update the graph with the data from google
+        update the graph with the data from Google
 
     user_solve_maze:
         using the WASD keys user can solve
 
     __set_user_path(direction, current):
         sets the game maze array path to the user move character
-    '''
+    """
     # class attribute
     __path = 'P'
     __wall = 'W'
@@ -127,29 +127,28 @@ class GameMaze:
     __user_move = "U"
 
     def __init__(self, maze_size, name):
-        '''
+        """
         Constructs all the necessary attributes for the maze object.
-        ...
 
         Parameters
         ----------
             name : str
                 name of the maze
-            maze_size : str
+            maze_size : int
                 size of the maze
-        '''
+        """
         # instance attribute
         self.maze_name = name
         self.walls = []
         self.maze = []
         self.loaded = False
         self.solver_current = None
-        self.maze_size = maze_size
+        self.maze_size = int(maze_size)
         self.__create_blank_maze()
         self.__random_maze_path_creator()
 
     def __random_maze_path_creator(self):
-        '''
+        """
         calls all the methods to create a maze
 
         Parameters
@@ -159,7 +158,7 @@ class GameMaze:
         Returns
         -------
         None
-        '''
+        """
         start_pos_h = \
             self.__starting_maze_generation_position()
         start_pos_w = \
@@ -192,8 +191,8 @@ class GameMaze:
             self.maze.append(row)
 
     def __starting_maze_generation_position(self):
-        '''
-        Gets the starting posititon for maze creation but stays away
+        """
+        Gets the starting position for maze creation but stays away
         from the edge of the maze
 
         selects a random number between 0 and maze size - 1
@@ -206,7 +205,7 @@ class GameMaze:
         -------
         starting_pos: int
             returns an int between 1 and maze size - 2
-        '''
+        """
         starting_pos = int(random.random() * self.maze_size)
         if starting_pos == 0:
             starting_pos += 1
@@ -215,7 +214,7 @@ class GameMaze:
         return starting_pos
 
     def __get_starting_walls(self, start_h, start_w):
-        '''
+        """
         add the walls surrounding the starting path to the walls list
 
         Parameters
@@ -228,14 +227,14 @@ class GameMaze:
         Returns
         -------
         None
-        '''
+        """
         self.walls.append([start_h-1, start_w])
         self.walls.append([start_h, start_w-1])
         self.walls.append([start_h, start_w+1])
         self.walls.append([start_h+1, start_w])
 
     def __set_starting_walls(self, start_h, start_w):
-        '''
+        """
         set the display of the maze to show the walls
 
         Parameters
@@ -248,14 +247,14 @@ class GameMaze:
         Returns
         -------
         None
-        '''
+        """
         self.maze[start_h-1][start_w] = self.__wall
         self.maze[start_h][start_w-1] = self.__wall
         self.maze[start_h][start_w+1] = self.__wall
         self.maze[start_h+1][start_w] = self.__wall
 
     def __make_maze_walls(self):
-        '''
+        """
         Prims Algorithm
         While there are walls in the list:
         Pick a random wall from the list. If only one of the two cells that
@@ -271,8 +270,7 @@ class GameMaze:
         Returns
         -------
         None
-        '''
-        surrounding_cell_count = 0
+        """
         while self.walls:
             # Pick a random wall
             rand_wall = self.walls[int(random.random()*len(self.walls))-1]
@@ -354,7 +352,7 @@ class GameMaze:
             continue
 
     def __set_left_wall(self, rand_wall):
-        '''
+        """
         create a wall to the left of the current position
         if it is not part of the path
 
@@ -366,7 +364,7 @@ class GameMaze:
         Returns
         -------
         None
-        '''
+        """
         if rand_wall[1] != 0:
             if (self.maze[rand_wall[0]][rand_wall[1]-1] !=
                self.__path):
@@ -378,7 +376,7 @@ class GameMaze:
                         append([rand_wall[0], rand_wall[1]-1])
 
     def __set_right_wall(self, rand_wall):
-        '''
+        """
         Will create a wall to the right of the current position
         if it is not part of the path
 
@@ -390,7 +388,7 @@ class GameMaze:
         Returns
         -------
         None
-        '''
+        """
         if rand_wall[1] != self.maze_size-1:
             if (self.maze[rand_wall[0]][rand_wall[1]+1]
                != self.__path):
@@ -402,7 +400,7 @@ class GameMaze:
                     append([rand_wall[0], rand_wall[1]+1])
 
     def __set_bottom_wall(self, rand_wall):
-        '''
+        """
         Will create a wall under the current position
         if it is not part of the path
 
@@ -414,7 +412,7 @@ class GameMaze:
         Returns
         -------
         None
-        '''
+        """
         if rand_wall[0] != self.maze_size-1:
             if (self.maze[rand_wall[0]+1][rand_wall[1]]
                != self.__path):
@@ -426,7 +424,7 @@ class GameMaze:
                     append([rand_wall[0]+1, rand_wall[1]])
 
     def __set_top_wall(self, rand_wall):
-        '''
+        """
         Will create a wall above the current position
         if it is not part of the path
 
@@ -438,7 +436,7 @@ class GameMaze:
         Returns
         -------
         None
-        '''
+        """
         if rand_wall[0] != 0:
             if (self.maze[rand_wall[0]-1][rand_wall[1]] !=
                self.__path):
@@ -450,8 +448,8 @@ class GameMaze:
                     append([rand_wall[0]-1, rand_wall[1]])
 
     def __remove_complete_wall(self, rand_wall):
-        '''
-        remove the wall from the not proccessed wall array
+        """
+        remove the wall from the not processed wall array
 
         Parameters
         ----------
@@ -461,14 +459,14 @@ class GameMaze:
         Returns
         -------
         None
-        '''
+        """
         for single_wall in self.walls:
             if single_wall[0] == rand_wall[0] and single_wall[1] \
                    == rand_wall[1]:
                 self.walls.remove(single_wall)
 
     def draw_maze(self):
-        '''
+        """
         draw the grid to the console
 
         Parameters
@@ -478,7 +476,7 @@ class GameMaze:
         Returns
         -------
         None
-        '''
+        """
         for height in range(0, self.maze_size):
             for width in range(0, self.maze_size):
                 if self.maze[height][width] == self.__path:
@@ -502,7 +500,7 @@ class GameMaze:
             print()
 
     def __surrounding_cells(self, rand_wall):
-        '''
+        """
         count all paths surrounding the wall
 
         Parameters
@@ -514,7 +512,7 @@ class GameMaze:
         -------
         s_cells: int
             total of surrounding paths
-        '''
+        """
         s_cells = 0
         if self.maze[rand_wall[0]-1][rand_wall[1]] == self.__path:
             s_cells += 1
@@ -527,7 +525,7 @@ class GameMaze:
         return s_cells
 
     def __fill_open_maze_walls(self):
-        '''
+        """
         fill the open maze items will the wall icons
 
         Parameters
@@ -537,14 +535,14 @@ class GameMaze:
         Returns
         -------
         None
-        '''
+        """
         for height in range(0, self.maze_size):
             for width in range(0, self.maze_size):
                 if self.maze[height][width] == self.__open:
                     self.maze[height][width] = self.__wall
 
     def __create_ins_and_outs(self):
-        '''
+        """
         set the entrance and exit of the maze
 
         Parameters
@@ -554,7 +552,7 @@ class GameMaze:
         Returns
         -------
         None
-        '''
+        """
         for width in range(0, self.maze_size):
             if self.maze[1][width] == self.__path:
                 self.maze[0][width] = self.__path
@@ -566,7 +564,7 @@ class GameMaze:
                 break
 
     def solve_maze(self):
-        '''
+        """
         will find the path to get to the end of the maze and set to path
 
         Parameters
@@ -576,7 +574,7 @@ class GameMaze:
         Returns
         -------
         None
-        '''
+        """
         s_and_e = self.__get_start_and_end()
         path = []
 
@@ -593,8 +591,8 @@ class GameMaze:
             self.solver_current = None
 
     def __get_start_and_end(self):
-        '''
-        will find the start and end coordinates so it will start the user
+        """
+        will find the start and end coordinates ,so it will start the user
         at the right place in the maze
 
         Parameters
@@ -604,13 +602,12 @@ class GameMaze:
         Returns
         -------
         start_end: int[]
-            start coodinates in index 0
+            start coordinates in index 0
             end coordinates in index 1
 
         0 if the maze has already been solved
         1 if it cannot find a start and end point
-        '''
-        the_coord = ()
+        """
         start_end = []
         for count in range(2):
             if count == 0:
@@ -632,7 +629,7 @@ class GameMaze:
         return start_end
 
     def __create_path(self, path, current, last, goal):
-        '''
+        """
         recursive method to find a path to the exit point in the
         maze returning the path it took.
 
@@ -651,9 +648,10 @@ class GameMaze:
         -------
         path: int[]
             steps to the exit
-        '''
+        """
         new_path = []
-
+        current_coord = None
+        maze_edge = None
         if current == goal:
             path.append(current)
             return path
@@ -684,8 +682,8 @@ class GameMaze:
         return new_path
 
     def __set_next_path(self, count, current):
-        '''
-        set the next coordiante that the maze should try to go
+        """
+        set the next coordinates that the maze should try to go
 
         Parameters
         ----------
@@ -701,9 +699,8 @@ class GameMaze:
         Returns
         -------
         temp_path: int[]
-            next positon to go int he maze
-        '''
-        temp_path = ()
+            next position to go in the maze
+        """
         if count == 0:
             temp_path = (current[0]-1, current[1])
         elif count == 1:
@@ -715,8 +712,8 @@ class GameMaze:
         return temp_path
 
     def __remove_from_maze(self, maze_type):
-        '''
-        find the solution/usermove in the array and change the
+        """
+        find the 'solution'/'user move' in the array and change the
         character into the path
 
         Parameters
@@ -727,15 +724,15 @@ class GameMaze:
         Returns
         -------
         None
-        '''
+        """
         for height in range(0, self.maze_size):
             for width in range(0, self.maze_size):
                 if self.maze[height][width] == maze_type:
                     self.maze[height][width] = self.__path
 
     def save_maze(self):
-        '''
-        store the maze details to google sheets
+        """
+        store the maze details to Google sheets
 
         Parameters
         ----------
@@ -744,7 +741,7 @@ class GameMaze:
         Returns
         -------
         None
-        '''
+        """
         valid = False
         while valid is False:
             valid = True
@@ -761,6 +758,7 @@ class GameMaze:
                     f"{self.maze_name}' already exists."))
                 valid = False
                 name_valid = False
+                new_name = None
                 while name_valid is False:
                     new_name = input("Please enter a new name for the" +
                                      " sheet \n")
@@ -781,8 +779,8 @@ class GameMaze:
                 self.loaded = True
 
     def load_in_maze(self, name, matrix, current):
-        '''
-        update the graph with the data that was loaded from google sheets
+        """
+        update the graph with the data that was loaded from Google sheets
 
         Parameters
         ----------
@@ -791,13 +789,13 @@ class GameMaze:
         matrix: int[]
             the maze array
         current: int[]
-            current postion the solver is at
-            None if has not been attempted
+            current position the solver is at
+            Nothing is passed if the maze has not been attempted
 
         Returns
         -------
         None
-        '''
+        """
         self.maze_name = name
         self.maze = matrix
         self.maze_size = len(matrix[0])
@@ -805,7 +803,7 @@ class GameMaze:
         self.solver_current = current
 
     def user_solve_maze(self):
-        '''
+        """
         using the WASD keys user can solve the maze by drawing a path
 
         Parameters
@@ -815,7 +813,7 @@ class GameMaze:
         Returns
         -------
         None
-        '''
+        """
         print()
         # s_and_e - start and end coordinates array
         s_and_e = self.__get_start_and_end()
@@ -868,7 +866,7 @@ class GameMaze:
                 press_enter()
 
     def __set_user_path(self, direction, current):
-        '''
+        """
         sets the game maze array path to the user move character.
         If the user selects a direction that is blocked by a wall then
         it will give an error message
@@ -883,8 +881,13 @@ class GameMaze:
         Returns
         -------
         current: int[]
-            the new position in the maze or the orginal
-        '''
+            the new position in the maze or the original
+        """
+        text_direction = None
+        edge_coord = None
+        edge_coord_limit = None
+        new_x = None
+        new_y = None
         if direction == "W":
             text_direction = "up"
             edge_coord = current[0]

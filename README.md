@@ -88,7 +88,7 @@ This will terminate the program.
 #### Option 1 - Solve /Unsolve Maze
 This will show the path to get from the start of the maze to the other. If they maze has already been solved it will remove the path.
 #### Option 2 - Save Maze
-This will save the maze to a google sheets file.
+This will save the maze to a Google sheets file.
 #### Option 0 - Back to Main Menu
 This will take you back to the main menu.
 
@@ -104,7 +104,7 @@ This will delete a link between two nodes. It will ask for the name of the start
 #### Option 4 - Delete Node
 This will remove a node from the graph and all its connections, It will ask for the name of the node to remove. 
 #### Option 5 - Save Graph
-This will save the graph to a google sheets file.
+This will save the graph to a Google sheets file.
 #### Option 6 - Show Graph Details
 This will show the name of the graph, the name of the nodes and all the connections in the graph matrix. 
 #### Option 7 - Fill With Sample Data
@@ -139,12 +139,12 @@ This will take you back to the main menu.
 |1| As a user, <br> I want to be able to create a randomly genrated maze <br> so that I can see how good i am at solving them. <br><br>I know I am done when a maze is shown in the console |
 |2|As a user, <br> I want to be able to choose the size of my maze <br> so that I can control the difficulty of the maze.<br><br>I know I am done when users can enter a size and a maze appears in theose dimensions.|
 |3|As a user, <br> I want to be able to solve the maze<br> so that I can get the path to solve the maze. <br><br> I know I am done when a path is shown on the maze.|
-|4|As a user,<br> I want to be able to save a maze <br> so that I can use it in another program or come back to it. <br> <br> I know I am done when google sheets can view a maze.|
-|5|As a user,<br> I want to be able to load a maze <br> so that I can come back to it and edit it. <br> <br> I know I am done when a user can view a worksheet from google sheets.|
+|4|As a user,<br> I want to be able to save a maze <br> so that I can use it in another program or come back to it. <br> <br> I know I am done when Google sheets can view a maze.|
+|5|As a user,<br> I want to be able to load a maze <br> so that I can come back to it and edit it. <br> <br> I know I am done when a user can view a worksheet from Google sheets.|
 |6|As a user,<br> I want to be able to create a graph <br> so that I can plan a route. <br> <br> I know I am done when a user can view all the connetions in an array.|
 |7|As a user,<br> I want to be able to find the shorest path between two nodes <br> so that I can find a quick route. <br> <br> I know I am done when a user can view all the steps to get from one node to another.|
-|8|As a user,<br> I want to be able to save a graph <br> so that I can use it in another program or come back to it. <br> <br> I know I am done when google sheets can view a maze.|
-|9|As a user,<br> I want to be able to load a graph <br> so that I can come back to it and edit it. <br> <br> I know I am done when a user can view a worksheet from google sheets.|
+|8|As a user,<br> I want to be able to save a graph <br> so that I can use it in another program or come back to it. <br> <br> I know I am done when Google sheets can view a maze.|
+|9|As a user,<br> I want to be able to load a graph <br> so that I can come back to it and edit it. <br> <br> I know I am done when a user can view a worksheet from Google sheets.|
 |10|As a user,<br> I want to be able to edit a graph <br> so that I can change it to my prefernces. <br> <br> I know I am done when a user can add and delete nodes, they will also be able to add and delete connections.|
 |11|As a user,<br> I want to be able to create a Minimum Spanning Tree <br> so that I can connect all the nodes with the least amount of weight. <br> <br> I know I am done when a user can see all the connections in the Minimum Spanning Tree.|
 |12|As a user,<br> I want to be able to solve a maze by stepping though and solving it my self <br> so that I can see if I have the ability to solve a maze. <br> <br> I know I am done when a user can press directions and it travels through the maze.|
@@ -186,7 +186,7 @@ Option 1 in the maze menu will work out the path to complete the maze. It uses a
 
 ```python
 def __create_path(self, path, current, last, goal):
-        '''
+        """
         recursive method to find a path to the exit point in the
         maze returning the path it took.
 
@@ -205,7 +205,7 @@ def __create_path(self, path, current, last, goal):
         -------
         path: int[]
             steps to the exit
-        '''
+        """
         new_path = []
 
         if current == goal:
@@ -241,7 +241,7 @@ def __create_path(self, path, current, last, goal):
 ![Solve Maze](assets/media/solve_maze_img.png)
 
 ### Save a maze
-Option 2 of the menu will save the maze to google sheets. It takes the name of the maze and create a new worksheet with the same name then will pass the array maze data to the sheets. 
+Option 2 of the menu will save the maze to Google sheets. It takes the name of the maze and create a new worksheet with the same name then will pass the array maze data to the sheets. 
 
 ![Save Maze](assets/media/saving_maze_img.png)
 
@@ -327,7 +327,7 @@ These can be seen in the GameGraph class in methods "dijkstra_path" and "__print
 
 ```python
     def dijkstra_path(self):
-        '''
+        """
         find the shortest path to a node
 
         Parameters
@@ -337,7 +337,7 @@ These can be seen in the GameGraph class in methods "dijkstra_path" and "__print
         Returns
         -------
         None
-        '''
+        """
         start_name = input("Please enter the name of the start node:\n")
         start_name_index = self.__get_node_index(start_name)
         if start_name_index != -1:
@@ -387,7 +387,7 @@ These can be seen in the GameGraph class in methods "dijkstra_path" and "__print
 ```python
 def __print_short_path(self, total_distance, previous_node, start_index,
                            end_index, reachable):
-        '''
+        """
         write out the instructions on how to follow the shortest path
 
         Parameters
@@ -406,7 +406,7 @@ def __print_short_path(self, total_distance, previous_node, start_index,
         Returns
         -------
         None
-        '''
+        """
         clear_terminal()
         print(heading_text_color("Quickest route"))
         if reachable is True:
@@ -464,7 +464,7 @@ self.graph_node_names = ["Zero", "One", "Two", "Three", "Four", "Five",
 ![Quick fill Graph](assets/media/fill_graph_img.png)
 
 ### Save a graph
-Option 5 of the menu will save the graph to google sheets. It takes the name of the graph and creates a new worksheet with the same name then will pass the array graph data to the sheets. If the user has attemped to solve the maze it will also pass the current coordinate of where the user is up to.
+Option 5 of the menu will save the graph to Google sheets. It takes the name of the graph and creates a new worksheet with the same name then will pass the array graph data to the sheets. If the user has attemped to solve the maze it will also pass the current coordinate of where the user is up to.
 
 ![Save Graph](assets/media/save_graph_img.png)
 
@@ -517,7 +517,7 @@ Currently the maze for the program will need to be a square, the maze could be d
 The user may want to change where the start and end of the maze is. This will give the user more design possabilities to their maze.
 
 ### Maze Create Custom Maze
-The user can create a maze using the google sheets maze. The program could be improved by allowing the user to create a maze within the program.
+The user can create a maze using the Google sheets maze. The program could be improved by allowing the user to create a maze within the program.
 
 ### Graph Display
 The program could benefit from giving the user the option to see a drawn graph. This will be difficult to do in the terminal but something that can be added in the future to improve UX. It will show the user a visual display of the graph so they can get a better understanding of the spanning tree and shortest path.

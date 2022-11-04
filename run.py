@@ -1,4 +1,4 @@
-'''
+"""
 route-me
 
 This program is designed to help you find the quickest way from a
@@ -28,7 +28,7 @@ Variables:
 
     None
 
-'''
+"""
 from termcolor import colored
 from colorama import init, Fore, Back
 from game_graph import GameGraph
@@ -42,9 +42,9 @@ init(autoreset=True)
 
 
 def show_menu():
-    '''
+    """
     show the main menu to the console
-    '''
+    """
     print(f"{colored('---------', 'cyan')} Menu "
           f"{colored('---------', 'cyan')} ")
     print(warning_text_color(
@@ -60,9 +60,9 @@ def show_menu():
 
 
 def show_maze_menu():
-    '''
+    """
     show the menu for the maze to the console
-    '''
+    """
     print()
     print(f"{colored('-------', 'cyan')} Maze Menu "
           f"{colored('-------', 'cyan')}")
@@ -78,9 +78,9 @@ def show_maze_menu():
 
 
 def show_graph_menu():
-    '''
+    """
     show the menu for the graph to the console
-    '''
+    """
     print(f"{colored('--------', 'cyan')} Graph Menu "
           f"{colored('--------', 'cyan')}")
     print(warning_text_color(
@@ -102,7 +102,7 @@ def show_graph_menu():
 
 
 def menu_option_1(the_maze=None):
-    '''
+    """
     get the user input and perform the method the user selects for the maze
 
     Parameters
@@ -113,9 +113,9 @@ def menu_option_1(the_maze=None):
     Returns
     -------
     None
-    '''
+    """
+    maze_name = "Untitled Maze"
     if the_maze is None:
-        the_maze = None
         name_valid = False
         while name_valid is False:
             maze_name = input("Please enter the name of the maze:\n")
@@ -141,11 +141,10 @@ def menu_option_1(the_maze=None):
         the_maze.draw_maze()
         show_maze_menu()
         maze_menu_option = get_number_option("maze menu", 0, 3)
-    the_maze = None
 
 
 def menu_option_2(the_graph=None):
-    '''
+    """
     get the user input and perform the method the user selects for the graph
 
     Parameters
@@ -156,7 +155,8 @@ def menu_option_2(the_graph=None):
     Returns
     -------
     None
-    '''
+    """
+    graph_name = "Untitled Graph"
     if the_graph is None:
         name_valid = False
         while name_valid is False:
@@ -196,13 +196,12 @@ def menu_option_2(the_graph=None):
         clear_terminal()
         show_graph_menu()
         graph_menu_option = get_number_option("graph menu", 0, 10)
-    the_graph = None
 
 
 def show_app_title():
-    '''
+    """
     show the Title logo for the route me app
-    '''
+    """
     print(Fore.GREEN + Back.WHITE + "=================")
     print(Fore.BLUE + Back.WHITE + "+-+-+-+-+-+-+-+-+")
     print(Fore.RED + Back.WHITE + "|R|o|u|t|e|-|M|e|")
@@ -212,7 +211,7 @@ def show_app_title():
 
 
 def get_saved_file_names(save_type):
-    '''
+    """
     show the user all the graphs and mazes that are saved and will
     allow the user to enter the worksheets name to load it
 
@@ -225,8 +224,8 @@ def get_saved_file_names(save_type):
     Returns
     -------
     None
-    '''
-    print(warning_text_color("loading avaliable files..."))
+    """
+    print(warning_text_color("loading available files..."))
     saved_sheets = SHEET.worksheet('saves')
     saved_names = saved_sheets.col_values(save_type)
     clear_terminal()
@@ -265,7 +264,7 @@ def get_saved_file_names(save_type):
 
 
 def load_graph(sheet_name):
-    '''
+    """
     loads the data from the sheet and will create a new instance of graph
     with the data
 
@@ -276,15 +275,15 @@ def load_graph(sheet_name):
 
     Returns
     -------
-    None
-    '''
+    the_graph: graph object
+        the graph that has been loaded from Google sheets
+    """
     temp_graph = SHEET.worksheet(sheet_name)
     temp_graph_name = sheet_name
     temp_graph_node_names = temp_graph.row_values(1)
     temp_graph_node = temp_graph.get_all_values()
     temp_graph_node.pop(0)
     int_temp_graph_node = []
-    the_graph = None
 
     for row in temp_graph_node:
         int_row = [int(num) for num in row]
@@ -293,12 +292,11 @@ def load_graph(sheet_name):
     the_graph = GameGraph(temp_graph_name)
     the_graph.load_in_graph(temp_graph_name, temp_graph_node_names,
                             int_temp_graph_node)
-
     return the_graph
 
 
 def load_maze(sheet_name):
-    '''
+    """
     loads the data from the sheet and will create a new instance of maze
     with the data
 
@@ -310,12 +308,11 @@ def load_maze(sheet_name):
     Returns
     -------
     the_maze: maze object
-        the maze that has been loaded from google sheets
-    '''
-    the_maze = None
+        the maze that has been loaded from Google sheets
+    """
     temp_maze = SHEET.worksheet(sheet_name).get_all_values()
     temp_maze_name = sheet_name
-    temp_maze_size = len(temp_maze[0])
+    temp_maze_size = int(len(temp_maze[0]))
     current = None
 
     the_maze = GameMaze(temp_maze_size, temp_maze_name)
@@ -328,9 +325,9 @@ def load_maze(sheet_name):
 
 
 def exit_message():
-    '''
+    """
     Message shown to the user when they end the program
-    '''
+    """
     clear_terminal()
     print()
     print(highlight_text_color("Thanks for using Route-Me"))
@@ -340,9 +337,9 @@ def exit_message():
 
 
 def main():
-    '''
+    """
     Main, the program start
-    '''
+    """
     menu_option = None
     while menu_option != 0:
         if menu_option == 1:
