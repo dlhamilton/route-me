@@ -473,6 +473,16 @@ Option 4 in the main menu will show all the available sheets that can be loaded.
 
 ![Load graph2](assets/media/load_graph_img2.png)
 
+### Delete a graph
+Option 6 in the main menu will show all the available sheets that are stored. The user will then be able to enter the sheet name. Then the graph will be deleted from Google sheets.
+
+![Delete graph](assets/media/)
+
+### Delete a maze
+Option 5 in the main menu will show all the available sheets that are stored. The user will then be able to enter the sheet name. Then the maze will be deleted from Google sheets.
+
+![Delete maze](assets/media/)
+
 ### Live solving for maze
 Option 3 in the maze menu allows the user to solve a maze. They can use WASD to control the direction and draw a path in the maze. 
 

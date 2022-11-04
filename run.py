@@ -18,7 +18,7 @@ Functions:
     menu_option_1(object = None)
     menu_option_2(object = None)
     show_app_title()
-    get_saved_file_names(int)
+    get_saved_file_names(int, str)
     load_graph(str) -> object
     load_maze(str) -> object
     exit_message()
@@ -54,6 +54,8 @@ def show_menu():
     print("2) Create Graph")
     print("3) Load Maze from file")
     print("4) Load Graph from file")
+    print("5) Delete Maze from file")
+    print("6) Delete Graph from file")
     print("0) Exit")
     print(heading_text_color("Press 'H' for help and to get more details"))
     print(f"{colored('========================','cyan')}")
@@ -210,10 +212,11 @@ def show_app_title():
     print()
 
 
-def get_saved_file_names(save_type):
+def get_saved_file_names(save_type, file_op):
     """
     show the user all the graphs and mazes that are saved and will
-    allow the user to enter the worksheets name to load it
+    allow the user to enter the worksheets name to load it or delete
+    it
 
     Parameters
     ----------
@@ -221,6 +224,9 @@ def get_saved_file_names(save_type):
         1 - is to load a maze
         2 - is to load a graph
 
+    file_op: str
+        delete - delete from Google sheets
+        load - load from Google sheets
     Returns
     -------
     None
@@ -230,21 +236,25 @@ def get_saved_file_names(save_type):
     saved_names = saved_sheets.col_values(save_type)
     clear_terminal()
     if len(saved_names) != 0:
-        print(heading_text_color("Load in file"))
+        print(heading_text_color(f"{file_op.capitalize()} File"))
         print(warning_text_color(
-            "Type the name of the file you want to load, then click enter.."))
+            f"Type the name of the file you want "
+            f"to {file_op}, then click enter.."))
         print(warning_text_color("Press '0' to go back"))
         print()
-        print("Files available to load:")
+        print(f"Files available to {file_op}:")
         print(highlight_text_color("========================"))
         for name in saved_names:
             print(name)
         print(highlight_text_color("========================"))
         print()
-        file_name_enetered = input("Please enter the file name you want " +
-                                   "to open (case sensitive) \n")
+        file_name_enetered = input(f"Please enter the file name you want " +
+                                   f"to {file_op} (case sensitive) \n")
         if file_name_enetered in saved_names:
-            if save_type == 1:
+            if file_op == "delete":
+                delete_file(saved_names, file_name_enetered, save_type)
+                press_enter()
+            elif save_type == 1:
                 print(warning_text_color("Maze loading..."))
                 loaded_maze = load_maze(file_name_enetered)
                 print(positive_text_color("Maze loaded!"))
@@ -324,6 +334,52 @@ def load_maze(sheet_name):
     return the_maze
 
 
+def delete_file(saved_names, file_name_enetered, save_type):
+    """
+    this removes the worksheet from the sheets file and will remove
+    the worksheet name from the saves worksheet.
+
+    Parameters
+    ----------
+    save_type: int
+        1 - is to load a maze. The column in sheets
+        2 - is to load a graph. The column in sheets
+
+    saved_names: str[]
+        the name of all the saved sheets
+
+    file_name_enetered: str
+        the file name that the user wants to delete
+
+    Returns
+    -------
+    None
+    """
+    clear_terminal()
+    print(heading_text_color("Delete File"))
+    print(warning_text_color("Deleting please wait..."))
+
+    saved_names.remove(file_name_enetered)
+
+    removed_worksheet = SHEET.worksheet(file_name_enetered)
+    SHEET.del_worksheet(removed_worksheet)
+
+    saved_sheets = SHEET.worksheet('saves')
+    if save_type == 1:
+        col_letter = "A"
+        saved_sheets.batch_clear(['A1:A'+str(1+len(saved_names))])
+    else:
+        col_letter = "B"
+        saved_sheets.batch_clear(['B1:B'+str(1+len(saved_names))])
+
+    for file_name in saved_names:
+        saves_worksheet_len = len(saved_sheets.col_values(save_type))
+
+        saved_sheets.update(col_letter + str(saves_worksheet_len+1), file_name)
+
+    print(positive_text_color("Deleted!"))
+
+
 def exit_message():
     """
     Message shown to the user when they end the program
@@ -347,16 +403,20 @@ def main():
         elif menu_option == 2:
             menu_option_2(None)
         elif menu_option == 3:
-            get_saved_file_names(1)
+            get_saved_file_names(1, "load")
         elif menu_option == 4:
-            get_saved_file_names(2)
+            get_saved_file_names(2, "load")
+        elif menu_option == 5:
+            get_saved_file_names(1, "delete")
+        elif menu_option == 6:
+            get_saved_file_names(2, "delete")
         elif menu_option == 900:
             help_popup(1)
         clear_terminal()
         show_app_title()
         print("Welcome to Route-me the best way to find the quickest route.\n")
         show_menu()
-        menu_option = get_number_option("menu", 0, 4)
+        menu_option = get_number_option("menu", 0, 6)
     exit_message()
 
 

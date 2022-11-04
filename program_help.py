@@ -120,6 +120,14 @@ def main_menu_help():
           "You can type in the name of the graph you want to load in and use\n"
           "in the program.")
     print()
+    print(heading_text_color("\033[4mOption 5 - Delete Maze\033[0m"))
+    print("This will show you the mazes that have been previously saved.\n"
+          "You can type in the name of the maze you want to delete.")
+    print()
+    print(heading_text_color("\033[4mOption 6 - Delete Graph\033[0m"))
+    print("This will show you the graphs that have been previously saved.\n"
+          "You can type in the name of the graph you want to delete.")
+    print()
 
 
 def maze_menu_help():

@@ -96,6 +96,22 @@ Below are the test to check all validation and operation of the program.
         <td>shows the user all the saved graphs</td>
         <td>Pass</td>
     </tr>
+    <tr>
+        <td>11</td>
+        <td>Main Menu Validation</td>
+        <td>Input 5</td>
+        <td>Starts to remove a maze from Google sheets</td>
+        <td>shows the user all the saved mazes</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>12</td>
+        <td>Main Menu Validation</td>
+        <td>Input 6</td>
+        <td>Starts to remove a graph from Google sheets</td>
+        <td>shows the user all the saved graphs</td>
+        <td>Pass</td>
+    </tr>
 <table>
 
 ***
@@ -995,8 +1011,8 @@ Example:
         <td>2</td>
         <td>Saved graphs name validation</td>
         <td>name in Google sheets</td>
-        <td>Loads the maze in</td>
-        <td>Maze data is loaded from Google sheets and maze menu is shown</td>
+        <td>Loads the graph in</td>
+        <td>Graph data is loaded from Google sheets and graph menu is shown</td>
         <td>Pass</td>
     </tr>
     <tr>
@@ -1096,6 +1112,78 @@ Example:
         <td>Input enter pressed</td>
         <td>Should show the preious user input</td>
         <td>Shows the input that the method was called from</td>
+        <td>Pass</td>
+    </tr>
+</table>
+
+### Delete graph testing
+<table>
+    <tr>
+        <th>Test Number</th>
+        <th>Test</th>
+        <th>Test data</th>
+        <th>Expected result</th>
+        <th>Actual result</th>
+        <th>Test result</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Shows saved graphs</td>
+        <td>n/a</td>
+        <td>shows all the graphs from Google sheets</td>
+        <td>Shows the saved graphs and ask the user to enter the sheet name they want to delete</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Deletes the graph</td>
+        <td>Name in Google sheets</td>
+        <td>Removes the sheet from Google sheets</td>
+        <td>Graph data is removed from Google sheets</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>Saved graphs name validation</td>
+        <td>name not in Google sheets</td>
+        <td>Error message</td>
+        <td>Error message and goes back to the main menu</td>
+        <td>Pass</td>
+    </tr>
+</table>
+
+### Delete maze testing
+<table>
+    <tr>
+        <th>Test Number</th>
+        <th>Test</th>
+        <th>Test data</th>
+        <th>Expected result</th>
+        <th>Actual result</th>
+        <th>Test result</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>Shows saved mazes</td>
+        <td>n/a</td>
+        <td>shows all the graphs from Google sheets</td>
+        <td>Shows the saved mazes and ask the user to enter the sheet name they want to delete</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Deletes the mazes</td>
+        <td>Name in Google sheets</td>
+        <td>Removes the sheet from Google sheets</td>
+        <td>Maze data is removed from Google sheets</td>
+        <td>Pass</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>Saved mazes name validation</td>
+        <td>name not in Google sheets</td>
+        <td>Error message</td>
+        <td>Error message and goes back to the main menu</td>
         <td>Pass</td>
     </tr>
 </table>
