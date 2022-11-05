@@ -1,5 +1,5 @@
 """
-utilites module for route me
+utilities module for route me
 
 Classes:
 
@@ -190,7 +190,7 @@ def get_number_option(menu_name, start, end):
                       f" a number between {start} and {end}"))
         else:
             if menu_option_int < start or menu_option_int > end:
-                print(negative_text_color(f'Number option not avaliable '
+                print(negative_text_color(f'Number option not available '
                       f'- Please enter a number between {start} and {end}'))
             else:
                 invalid_option = False

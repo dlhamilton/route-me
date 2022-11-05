@@ -476,12 +476,12 @@ Option 4 in the main menu will show all the available sheets that can be loaded.
 ### Delete a graph
 Option 6 in the main menu will show all the available sheets that are stored. The user will then be able to enter the sheet name. Then the graph will be deleted from Google sheets.
 
-![Delete graph](assets/media/)
+![Delete graph](assets/media/delete_file.png)
 
 ### Delete a maze
 Option 5 in the main menu will show all the available sheets that are stored. The user will then be able to enter the sheet name. Then the maze will be deleted from Google sheets.
 
-![Delete maze](assets/media/)
+![Delete maze](assets/media/delete_file.png)
 
 ### Live solving for maze
 Option 3 in the maze menu allows the user to solve a maze. They can use WASD to control the direction and draw a path in the maze. 
@@ -599,6 +599,41 @@ There are 0 critical error.
 The 3 warnings shown are related to .gitpod.yml. These warnings are from the template files from Code Institute.
 
 ![Validator Results](assets/media/pep8_img.png)
+
+<br>
+<br>
+To make sure my project was PEP8 valid, I also put my code into Pycharm to get the warnings and errors checked. The results are below.
+<br>
+
+#### run.py
+No errors, No warnings, 2 typo light warnings
+<br>
+
+![Validator Results](assets/media/run_valid.png)
+
+#### util.py
+No errors, No warnings
+<br>
+
+![Validator Results](assets/media/util_valid.png)
+
+#### program_help.py
+No errors, No warnings, 1 typo light warnings
+<br>
+
+![Validator Results](assets/media/program_help_valid.png)
+
+#### game_maze.py
+No errors, No warnings
+<br>
+
+![Validator Results](assets/media/game_maze_valid.png)
+
+#### game_graph.py
+No errors, 2 warnings which seems to be a pycharm issue. see link: https://stackoverflow.com/questions/69989521/unexpected-types-int-int-possible-types-supportsindex-none-slice-i
+<br>
+
+![Validator Results](assets/media/game_graph_valid.png)
 
 -----
 
