@@ -10,6 +10,61 @@ Click here to use the program here: [Route Me](https://route-me-dh.herokuapp.com
 
 ![Program Screen](assets/media/main_menu_img.png)
 
+***
+
+## Contents
+* [About Route-Me](#about-route-me)
+    * [What is a Maze](#what-is-a-maze)
+    * [What is a Graph](#what-is-a-maze)
+* [How To Use It](#how-to-use-it)
+    * [Main menu](#main-menu)
+    * [Create Maze](#create-maze)
+    * [Create Graph](#create-graph)
+    * [User Assistance](#user-assistance)
+    * [Navigation Flowchart](#navigaton-flowchart)
+* [User Story](#user-story)
+* [Features](#features)
+    * [Menus](#menus)
+    * [Help Messages](#help-messages)
+    * [Create Maze](#create-mazes)
+    * [Solve Maze](#solve-maze-unsolve-maze)
+    * [Save Maze](#save-a-maze)
+    * [Load Maze](#load-a-maze)
+    * [Create Graphs](#create-graphs)
+    * [Add Node](#add-node)
+    * [Add/ Edit Link](#addedit-link)
+    * [Delete Node](#delete-node)
+    * [Delete Link](#delete-link)
+    * [Show Graph](#show-graph)
+    * [Show Connection](#show-connections-for-one-node)
+    * [Shortest Path](#find-the-shortest-path)
+    * [Quick Fill](#quick-fill-graph-with-sample-data)
+    * [Save Graph](#save-a-graph)
+    * [Load Graph](#load-a-graph)
+    * [Delete a Graph](#delete-a-graph)
+    * [Delete a Maze](#delete-a-maze)
+    * [Live Solving](#live-solving-for-maze)
+    * [Minimum Spanning Tree](#minimum-spanning-tree)
+    * [Display Nodes](#display-nodes)
+* [Refactor Improvements](#refactor-improvements)
+* [Future Features](#future-features)
+* [Class Diagram](#class-diagram)
+* [Modules and Libraries](#modules-and-libraries)
+* [Data Modeling](#data-modeling)
+* [Testing](#testing)
+    * [Manual Testing](#manual-testing--user-story-testing)
+    * [User Story Testing](#manual-testing--user-story-testing)
+    * [Validator](#validatior-testing)
+* [Solved Bugs](#solved-bugs)
+* [Deployment](#deployment)
+    * [Cloning & Forking](#cloning--forking)
+    * [Local Deployment](#local-deployment)
+    * [Remote Deployment](#remote-deployment)
+    * [Google Sheets](#google-sheet)
+* [Credits / Acknowledgements](#credits--acknowledgement)
+
+***
+
 ## About Route-Me
 
 ### What is a maze?
@@ -75,10 +130,14 @@ This will create a empty graph. It will ask for a name for your graph.
 Will the take you to the create graph menu (option 2).
 #### Option 3 - Load Maze
 This will show a list of all saved mazes and ask you to enter the name of the maze you want to load.
-Will the tak you to the create maze menu (option 1).
+Will the take you to the create maze menu (option 1).
 #### Option 4 - Load Graph
 This will show a list of all saved graphs and ask you to enter the name of the graph you want to load.
-Will the tak you to the create graph menu (option 2).
+Will the take you to the create graph menu (option 2).
+#### Option 5 - Delete Maze
+This will show a list of all saved graphs and ask you to enter the name of the graph you want to delete.
+#### Option 6 - Delete Graph
+This will show a list of all saved graphs and ask you to enter the name of the graph you want to delete.
 #### Option 0 - Exit
 This will terminate the program.
 
@@ -167,7 +226,7 @@ On the menu you can press 'h' which will show the help message to give more info
 ![Graph menu](assets/media/help_img_2.png)
 ![Graph menu](assets/media/help_img_3.png)
 
-### Create Maze
+### Create Mazes
 The user can give the maze a name and then set the size of the maze. Once a name that starts with a letter has been entered and a maze size between 10 and 40 has been entered it will create the maze. the maze is created using a random prims algorithm.
 
 **Prims Algorithm**
@@ -250,7 +309,7 @@ Option 3 in the main menu will show all the available sheets that can be loaded.
  
 ![Load Maze](assets/media/loading_maze_img.png)
 
-### Create Graph
+### Create Graphs
 Once a name that starts with a letter has been entered it will create the graph.
 
 ![Graph menu](assets/media/create_graph_img.png)
@@ -443,7 +502,7 @@ def __print_short_path(self, total_distance, previous_node, start_index,
 
 ![Graph shortest path](assets/media/route_img.png)
 
-### Quick ffill Graph with sample data
+### Quick fill Graph with sample data
 This will add sample data to the graph. 
 The sample data is shown below
 ```python
@@ -571,7 +630,7 @@ The google sheet has a required worksheet to store the names of the saved mazes 
 ![Sheets name](assets/media/sheet_name.png)
 
 ### "saves" worksheet
-saves is a worksheet that stores the names of the mazes and graphs. When the user wants to load in a sheet it will read in the names. Column A contains all the maze names and column b has all the graph names. This is appened to when a user saves a new file. 
+saves is a worksheet that stores the names of the mazes and graphs. When the user wants to load in a sheet it will read in the names. Column A contains all the maze names and column b has all the graph names. This is appened to when a user saves a new file. <br>
 ![saves worsheet](assets/media/sheet_saves.png)
 
 ### Maze worksheet
